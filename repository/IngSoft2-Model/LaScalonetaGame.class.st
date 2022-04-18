@@ -83,5 +83,8 @@ LaScalonetaGame >> rollDiceCupFor: aPlayer [
 
 	rollingResult := diceCollection roll.
 	
+	self movePlayer: aPlayer withRollingResult: rollingResult.
+	
+	(self positionOf: aPlayer) tileNumber >= (board tiles) size ifTrue: [ status := true ]
 
 ]
