@@ -108,6 +108,31 @@ LaScalonetaGameTest >> testLaScalonetaGameMustHaveAtLeastOnePlayer [
 ]
 
 { #category : #tests }
+LaScalonetaGameTest >> testPlayerMovesThreeTilesFowardWhenRollingResultEqualsToThree [
+
+	| aGame aTile1 aTile2 aTile3 aTile4 aBoard aDie1 aDiceCup |
+
+	aTile1 := Tile new.
+	aTile2 := Tile new.
+	aTile3 := Tile new.
+	aTile4 := Tile new.
+	aBoard := Board withTiles: { aTile1. aTile2. aTile3. aTile4 }.
+	
+	aDie1 := LoadedDie with: 3.
+	aDiceCup := DiceCup withAll: { aDie1 }.
+
+	aGame := LaScalonetaGame 
+				withBoard: aBoard
+				diceCollection: aDiceCup
+				players: ( {'Jorge'. 'Julian'} ).
+				
+	aGame rollDiceCupFor: 'Jorge'. 	
+
+	self assert: ( aGame positionOf: 'Jorge' ) tileNumber equals: 4.	
+				
+]
+
+{ #category : #tests }
 LaScalonetaGameTest >> testPlayerStartsAtTileNumberOne [
 
 	| aGame aTile1 aTile2 aTile3 aBoard aDie1 aDiceCup |
@@ -127,4 +152,38 @@ LaScalonetaGameTest >> testPlayerStartsAtTileNumberOne [
 
 	self assert: ( aGame positionOf: 'Jorge' ) tileNumber equals: 1.
 	self assert: ( aGame positionOf: 'Julian' ) tileNumber equals: 1
+]
+
+{ #category : #tests }
+LaScalonetaGameTest >> testPlayingAfterWinningIsNotAllowed [
+
+	| aGame aTile1 aTile2 aTile3 aBoard aDie1 aDiceCup |
+
+	aTile1 := Tile new.
+	aTile2 := Tile new.
+	aTile3 := Tile new.
+	aBoard := Board withTiles: { aTile1. aTile2. aTile3 }.
+	
+	aDie1 := LoadedDie with: 2.
+	aDiceCup := DiceCup withAll: { aDie1 }.
+
+	aGame := LaScalonetaGame 
+				withBoard: aBoard
+				diceCollection: aDiceCup
+				players: ( {'Jorge'. 'Julian'} ).
+				
+	self deny: (aGame hasEnded).
+	self assert: ( aGame positionOf: 'Jorge' ) tileNumber equals: 1.	
+	self assert: ( aGame positionOf: 'Julian' ) tileNumber equals: 1.	
+			
+	aGame rollDiceCupFor: 'Jorge'. 	
+		
+	self assert: (aGame hasEnded).
+	self assert: ( aGame positionOf: 'Jorge' ) tileNumber equals: 3.	
+	self assert: ( aGame positionOf: 'Julian' ) tileNumber equals: 1.
+	
+	self
+		should: [aGame rollDiceCupFor: 'Jorge']
+		raise: Error
+		withMessage: 'La Scaloneta Game has already ended!'
 ]
