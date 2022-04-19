@@ -80,11 +80,16 @@ LaScalonetaGame >> positionOf: aPlayer [
 LaScalonetaGame >> rollDiceCupFor: aPlayer [
 
 	| rollingResult |
+	
+	status ifFalse:  [ 
+		
+							rollingResult := diceCollection roll.
+	
+							self movePlayer: aPlayer withRollingResult: rollingResult.
+	
+							(self positionOf: aPlayer) tileNumber >= (board tiles) size ifTrue: [ status := true ] ]
+		
+			ifTrue: [ Error signal: 'La Scaloneta Game has already ended!' ]
 
-	rollingResult := diceCollection roll.
-	
-	self movePlayer: aPlayer withRollingResult: rollingResult.
-	
-	(self positionOf: aPlayer) tileNumber >= (board tiles) size ifTrue: [ status := true ]
 
 ]
