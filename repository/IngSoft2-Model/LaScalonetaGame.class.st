@@ -35,6 +35,12 @@ LaScalonetaGame >> addPosition: aPlayerPosition [
 	playerPositions add: aPlayerPosition
 ]
 
+{ #category : #accessing }
+LaScalonetaGame >> board [
+	^board
+
+]
+
 { #category : #testing }
 LaScalonetaGame >> hasEnded [
 
@@ -60,6 +66,12 @@ LaScalonetaGame >> movePlayer: aPlayer withRollingResult: aResult [
 	newPosition := self positionForPlayer: ( self positionOf: aPlayer ) whenRollingResult: aResult.
 
 	self addPosition: newPosition
+]
+
+{ #category : #accessing }
+LaScalonetaGame >> players [
+	^players
+
 ]
 
 { #category : #initialization }
@@ -91,5 +103,11 @@ LaScalonetaGame >> rollDiceCupFor: aPlayer [
 		
 			ifTrue: [ Error signal: 'La Scaloneta Game has already ended!' ]
 
+
+]
+
+{ #category : #accessing }
+LaScalonetaGame >> winner [
+	^players select: [ :player | (self positionOf: player)tileNumber >= (board tiles)size ].
 
 ]
