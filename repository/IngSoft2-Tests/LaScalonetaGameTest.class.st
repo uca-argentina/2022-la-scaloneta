@@ -190,6 +190,27 @@ LaScalonetaGameTest >> testGameHasNotEndedAsNoPlayerReachedTheEnd [
 ]
 
 { #category : #tests }
+LaScalonetaGameTest >> testJorgeAndJulianArePlayersOfLaScalonetaGame [
+
+	| aGame aTile1 aTile2 aTile3 aBoard aDie1 aDiceCup |
+
+	aTile1 := Tile new.
+	aTile2 := Tile new.
+	aTile3 := Tile new.
+	aBoard := Board withTiles: { aTile1. aTile2. aTile3 }.
+	
+	aDie1 := LoadedDie with: 2.
+	aDiceCup := DiceCup withAll: { aDie1 }.
+
+	aGame := LaScalonetaGame 
+				withBoard: aBoard
+				diceCollection: aDiceCup
+				players: ( {'Jorge'. 'Julian'} ).
+	
+	self assert: (aGame players hasEqualElements: {'Jorge'. 'Julian'})
+]
+
+{ #category : #tests }
 LaScalonetaGameTest >> testJorgeIsNotTheWinnerOfLaScalonetaGameWhenJulianReachesTheEndFirst [
 
 	 |aGame aTile1 aTile2 aTile3 aTile4 aBoard aDie1 aDiceCup| 

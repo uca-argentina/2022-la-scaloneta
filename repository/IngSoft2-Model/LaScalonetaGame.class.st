@@ -36,13 +36,6 @@ LaScalonetaGame >> addPosition: aPlayerPosition [
 	playerPositions add: aPlayerPosition
 ]
 
-{ #category : #accessing }
-LaScalonetaGame >> board [
-
-	^ board
-
-]
-
 { #category : #testing }
 LaScalonetaGame >> hasEnded [
 
