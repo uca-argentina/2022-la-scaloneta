@@ -72,8 +72,8 @@ LaScalonetaGame >> itsMyTurn: aPlayer [
 LaScalonetaGame >> movePlayer: aPlayer withRollingResult: aResult [
 
 	self addPosition: ( SpaceShipPosition
-											ofPlayer: ( (self positionOf: aPlayer) player )
-											tileNumber: ( ((self positionOf: aPlayer) tileNumber) + aResult )
+									ofPlayer: ( (self positionOf: aPlayer) player )
+									tileNumber: ( ((self positionOf: aPlayer) tileNumber) + aResult )
 							)
 ]
 
@@ -133,6 +133,7 @@ LaScalonetaGame >> rollDiceCupFor: aPlayer [
 
 { #category : #accessing }
 LaScalonetaGame >> winner [
-	^players select: [ :player | (self positionOf: player)tileNumber >= (board tiles)size ].
+
+	^ players select: [ :player | (self positionOf: player)tileNumber >= (board tiles)size ].
 
 ]
