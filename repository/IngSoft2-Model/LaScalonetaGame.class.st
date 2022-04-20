@@ -7,9 +7,7 @@ Class {
 		'players',
 		'status',
 		'playerPositions',
-		'playersPositions',
-		'aGame',
-		'everyPlayerPosition'
+		'playerTurn'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -40,7 +38,8 @@ LaScalonetaGame >> addPosition: aPlayerPosition [
 
 { #category : #accessing }
 LaScalonetaGame >> board [
-	^board
+
+	^ board
 
 ]
 
@@ -58,7 +57,15 @@ LaScalonetaGame >> initializeWithBoard: aBoard diceCollection: aDiceCollection p
 	players := aPlayers.
 	status := false.
 	playerPositions := ( players collect: [ :player | SpaceShipPosition startingOfPlayer: player ] ) asOrderedCollection.
+	playerTurn := (players at: 1)
+]
 
+{ #category : #playing }
+LaScalonetaGame >> itsMyTurn: aPlayer [
+
+	(playerTurn = aPlayer) ifTrue: [ ^ true ]
+	
+								  ifFalse: [ ^ false ]
 ]
 
 { #category : #playing }
@@ -71,9 +78,24 @@ LaScalonetaGame >> movePlayer: aPlayer withRollingResult: aResult [
 	self addPosition: newPosition
 ]
 
+{ #category : #playing }
+LaScalonetaGame >> nextPlayerTurn: aPlayer [
+
+	players := (players reject: [ :each | each = aPlayer ]) , { aPlayer }.
+
+	playerTurn := (players at: 1)
+]
+
+{ #category : #accessing }
+LaScalonetaGame >> playerTurn [
+	
+	^ playerTurn
+]
+
 { #category : #accessing }
 LaScalonetaGame >> players [
-	^players
+
+	^ players
 
 ]
 
@@ -98,11 +120,20 @@ LaScalonetaGame >> rollDiceCupFor: aPlayer [
 	
 	status ifFalse:  [ 
 		
-							rollingResult := diceCollection roll.
+						(self itsMyTurn: aPlayer) ifTrue: [ 
+							
+							 						rollingResult := diceCollection roll.
 	
-							self movePlayer: aPlayer withRollingResult: rollingResult.
+													self movePlayer: aPlayer withRollingResult: rollingResult.
 	
-							(self positionOf: aPlayer) tileNumber >= (board tiles) size ifTrue: [ status := true ] ]
+													(self positionOf: aPlayer) tileNumber >= (board tiles) size ifTrue: [ status := true ].
+													
+													(self nextPlayerTurn: aPlayer).
+							
+						] 
+					
+						ifFalse: [ Error signal: 'Its not your turn!' ]
+			]
 		
 			ifTrue: [ Error signal: 'La Scaloneta Game has already ended!' ]
 
