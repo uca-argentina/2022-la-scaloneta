@@ -14,6 +14,38 @@ LaScalonetaGameTest >> should: block raise: expectedErrorClass withMessage: expe
 		description: 'Test did not fail as expected'
 ]
 
+{ #category : #running }
+LaScalonetaGameTest >> testFinalPositionOfPlayersCorrespondsWithTheActualFinalPositions [
+
+	| aGame aTile1 aTile2 aTile3 aTile4 aTile5 aBoard aDie1 aDiceCup|
+	
+	aTile1 := Tile new.
+	aTile2 := Tile new.
+	aTile3 := Tile new.
+	aTile4 := Tile new.
+	aTile5 := Tile new.
+	aBoard := Board withTiles: { aTile1. aTile2. aTile3. aTile4. aTile5  }.
+	
+	aDie1 := LoadedDie with: 1.
+	aDiceCup := DiceCup withAll: { aDie1 }.
+	
+	aGame := LaScalonetaGame 
+				withBoard: aBoard
+				diceCollection: aDiceCup
+				players: ( {'Jorge'. 'Julian'. 'Chango'} ).
+	
+	aGame rollDiceCupFor: 'Jorge'.
+	aGame rollDiceCupFor: 'Julian'.
+	aGame rollDiceCupFor: 'Jorge'.
+	aGame rollDiceCupFor: 'Jorge'.
+	aGame rollDiceCupFor: 'Jorge'.
+	
+	self assert: (aGame hasEnded).
+	self assert: ( aGame positionOf: 'Jorge' ) tileNumber equals: 5.
+	self assert: ( aGame positionOf: 'Julian' ) tileNumber equals: 2.
+	self assert: ( aGame positionOf: 'Chango' ) tileNumber equals: 1.
+]
+
 { #category : #tests }
 LaScalonetaGameTest >> testGameHasEndedAsOnePlayerReachedTheEnd [
 
@@ -33,20 +65,17 @@ LaScalonetaGameTest >> testGameHasEndedAsOnePlayerReachedTheEnd [
 				players: ( {'Jorge'. 'Julian'} ).
 				
 	self deny: (aGame hasEnded).
-	self assert: ( aGame positionOf: 'Jorge' ) tileNumber equals: 1.	
-	self assert: ( aGame positionOf: 'Julian' ) tileNumber equals: 1.	
+
 			
 	aGame rollDiceCupFor: 'Jorge'. 	
 		
 	self deny: (aGame hasEnded).
-	self assert: ( aGame positionOf: 'Jorge' ) tileNumber equals: 2.
-	self assert: ( aGame positionOf: 'Julian' ) tileNumber equals: 1.
+
 	
 	aGame rollDiceCupFor: 'Jorge'.
 	
 	self assert: (aGame hasEnded).
-	self assert: ( aGame positionOf: 'Jorge' ) tileNumber equals: 3.
-	self assert: ( aGame positionOf: 'Julian' ) tileNumber equals: 1.
+	
 	
 
 ]

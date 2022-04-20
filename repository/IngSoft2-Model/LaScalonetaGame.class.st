@@ -6,7 +6,10 @@ Class {
 		'diceCollection',
 		'players',
 		'status',
-		'playerPositions'
+		'playerPositions',
+		'playersPositions',
+		'aGame',
+		'everyPlayerPosition'
 	],
 	#category : #'IngSoft2-Model'
 }
