@@ -17,14 +17,13 @@ LaScalonetaGameTest >> should: block raise: expectedErrorClass withMessage: expe
 { #category : #running }
 LaScalonetaGameTest >> testFinalPositionOfPlayersCorrespondsWithTheActualFinalPositions [
 
-	| aGame aTile1 aTile2 aTile3 aTile4 aTile5 aBoard aDie1 aDiceCup|
+	| aGame aTile1 aTile2 aTile3 aBoard aDie1 aDiceCup|
 	
 	aTile1 := Tile new.
 	aTile2 := Tile new.
 	aTile3 := Tile new.
-	aTile4 := Tile new.
-	aTile5 := Tile new.
-	aBoard := Board withTiles: { aTile1. aTile2. aTile3. aTile4. aTile5  }.
+	
+	aBoard := Board withTiles: { aTile1. aTile2. aTile3. }.
 	
 	aDie1 := LoadedDie with: 1.
 	aDiceCup := DiceCup withAll: { aDie1 }.
@@ -36,14 +35,14 @@ LaScalonetaGameTest >> testFinalPositionOfPlayersCorrespondsWithTheActualFinalPo
 	
 	aGame rollDiceCupFor: 'Jorge'.
 	aGame rollDiceCupFor: 'Julian'.
+	aGame rollDiceCupFor: 'Chango'.
 	aGame rollDiceCupFor: 'Jorge'.
-	aGame rollDiceCupFor: 'Jorge'.
-	aGame rollDiceCupFor: 'Jorge'.
+
 	
 	self assert: (aGame hasEnded).
-	self assert: ( aGame positionOf: 'Jorge' ) tileNumber equals: 5.
+	self assert: ( aGame positionOf: 'Jorge' ) tileNumber equals: 3.
 	self assert: ( aGame positionOf: 'Julian' ) tileNumber equals: 2.
-	self assert: ( aGame positionOf: 'Chango' ) tileNumber equals: 1.
+	self assert: ( aGame positionOf: 'Chango' ) tileNumber equals: 2.
 ]
 
 { #category : #tests }
@@ -67,7 +66,8 @@ LaScalonetaGameTest >> testGameHasEndedAsOnePlayerReachedTheEnd [
 	self deny: (aGame hasEnded).
 
 			
-	aGame rollDiceCupFor: 'Jorge'. 	
+	aGame rollDiceCupFor: 'Jorge'.
+	aGame rollDiceCupFor: 'Julian'. 	
 		
 	self deny: (aGame hasEnded).
 
@@ -129,7 +129,8 @@ LaScalonetaGameTest >> testJorgeIsNotTheWinnerOfLaScalonetaGameWhenJulianReaches
     aGame := LaScalonetaGame 
                 withBoard: aBoard
                 diceCollection: aDiceCup
-                players: ( {'Jorge'. 'Julian'} ).
+                players: ( {'Julian'. 'Jorge'} ).
+
 	 aGame rollDiceCupFor: 'Julian'.
 	
 	 self deny: ((aGame winner) includes:'Jorge')
@@ -172,6 +173,53 @@ LaScalonetaGameTest >> testJorgeWinsLaScalonetaGameWhenJorgeReachesTheEndFirst [
 	
 	
 
+]
+
+{ #category : #tests }
+LaScalonetaGameTest >> testJulianCanNotRollTheDiceWhenIsNotHisTurn [
+
+	| aGame aTile1 aTile2 aTile3 aBoard aDie1 aDiceCup |
+
+	aTile1 := Tile new.
+	aTile2 := Tile new.
+	aTile3 := Tile new.
+	aBoard := Board withTiles: { aTile1. aTile2. aTile3 }.
+	
+	aDie1 := LoadedDie with: 2.
+	aDiceCup := DiceCup withAll: { aDie1 }.
+
+	aGame := LaScalonetaGame 
+				withBoard: aBoard
+				diceCollection: aDiceCup
+				players: ( {'Jorge'. 'Julian'} ).
+				
+	self
+		should: [aGame rollDiceCupFor: 'Julian']
+		raise: Error
+		withMessage: 'Its not your turn!'
+]
+
+{ #category : #tests }
+LaScalonetaGameTest >> testJulianCanRollTheDiceAfterJorge [
+
+	| aGame aTile1 aTile2 aTile3 aBoard aDie1 aDiceCup |
+
+	aTile1 := Tile new.
+	aTile2 := Tile new.
+	aTile3 := Tile new.
+	aBoard := Board withTiles: { aTile1. aTile2. aTile3 }.
+	
+	aDie1 := LoadedDie with: 2.
+	aDiceCup := DiceCup withAll: { aDie1 }.
+
+	aGame := LaScalonetaGame 
+				withBoard: aBoard
+				diceCollection: aDiceCup
+				players: ( {'Jorge'. 'Julian'} ).
+	
+	aGame rollDiceCupFor: 'Jorge'.
+	
+	self assert: ( aGame playerTurn hasEqualElements: 'Julian')
 ]
 
 { #category : #tests }
