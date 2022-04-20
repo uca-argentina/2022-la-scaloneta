@@ -35,11 +35,16 @@ LaScalonetaGameTest >> testAfterLastPlayersTurnItsPlayer1TurnAgain [
 	aGame rollDiceCupFor: 'Player2'.
 	aGame rollDiceCupFor: 'LastPlayer'.
 	
-	self assert: ( aGame playerTurn hasEqualElements: 'Player1')
+	self assert: ( aGame positionOf: 'Player1' ) tileNumber equals: 2.
+	self assert: ( aGame positionOf: 'Player2' ) tileNumber equals: 2.
+	self assert: ( aGame positionOf: 'LastPlayer' ) tileNumber equals: 2.
+	self assert: ( aGame playerTurn hasEqualElements: 'Player1').
+	self assert: ( aGame itsMyTurn: 'Player1' )
 ]
 
 { #category : #running }
 LaScalonetaGameTest >> testAfterPlayer1ItsNotPlayer3Turn [
+
 	| aGame aTile1 aTile2 aTile3 aBoard aDie1 aDiceCup |
 
 	aTile1 := Tile new.
@@ -57,7 +62,9 @@ LaScalonetaGameTest >> testAfterPlayer1ItsNotPlayer3Turn [
 	
 	aGame rollDiceCupFor: 'Player1'.
 	
-	self deny: ( aGame playerTurn hasEqualElements: 'Player3')
+	self assert: ( aGame positionOf: 'Player1' ) tileNumber equals: 2.
+	self deny: ( aGame playerTurn hasEqualElements: 'Player3').
+	self assert: ( aGame itsMyTurn: 'Player2' )
 ]
 
 { #category : #running }
@@ -79,7 +86,9 @@ LaScalonetaGameTest >> testAfterPlayer1ItsPlayer2Turn [
 	
 	aGame rollDiceCupFor: 'Player1'.
 	
-	self assert: ( aGame playerTurn hasEqualElements: 'Player2')
+	self assert: ( aGame positionOf: 'Player1' ) tileNumber equals: 2.
+	self assert: ( aGame playerTurn hasEqualElements: 'Player2').
+	self deny: ( aGame itsMyTurn: 'Player3' )
 ]
 
 { #category : #running }
