@@ -84,6 +84,68 @@ LaScalonetaGameTest >> testGameHasNotEndedAsNoPlayerReachedTheEnd [
 ]
 
 { #category : #tests }
+LaScalonetaGameTest >> testJorgeIsNotTheWinnerOfLaScalonetaGameWhenJulianReachesTheEndFirst [
+
+	 |aGame aTile1 aTile2 aTile3 aTile4 aBoard aDie1 aDiceCup| 
+	
+	 aTile1 := Tile new.
+    aTile2 := Tile new.
+    aTile3 := Tile new.
+    aTile4 := Tile new.
+    aBoard := Board withTiles: { aTile1. aTile2. aTile3. aTile4 }.
+
+    aDie1 := LoadedDie with: 3.
+    aDiceCup := DiceCup withAll: { aDie1 }.
+
+    aGame := LaScalonetaGame 
+                withBoard: aBoard
+                diceCollection: aDiceCup
+                players: ( {'Jorge'. 'Julian'} ).
+	 aGame rollDiceCupFor: 'Julian'.
+	
+	 self deny: ((aGame winner) includes:'Jorge')
+	
+	
+	
+	
+	
+	
+	
+
+]
+
+{ #category : #tests }
+LaScalonetaGameTest >> testJorgeWinsLaScalonetaGameWhenJorgeReachesTheEndFirst [
+
+	 |aGame aTile1 aTile2 aTile3 aTile4 aBoard aDie1 aDiceCup| 
+	
+	 aTile1 := Tile new.
+    aTile2 := Tile new.
+    aTile3 := Tile new.
+    aTile4 := Tile new.
+    aBoard := Board withTiles: { aTile1. aTile2. aTile3. aTile4 }.
+
+    aDie1 := LoadedDie with: 3.
+    aDiceCup := DiceCup withAll: { aDie1 }.
+
+    aGame := LaScalonetaGame 
+                withBoard: aBoard
+                diceCollection: aDiceCup
+                players: ( {'Jorge'. 'Julian'} ).
+	 aGame rollDiceCupFor: 'Jorge'.
+	
+	 self assert: ((aGame winner) includes:'Jorge')
+	
+	
+	
+	
+	
+	
+	
+
+]
+
+{ #category : #tests }
 LaScalonetaGameTest >> testLaScalonetaGameMustHaveAtLeastOnePlayer [
 
 	| aTile1 aTile2 aTile3 aBoard aDie1 aDiceCup |
