@@ -15,6 +15,74 @@ LaScalonetaGameTest >> should: block raise: expectedErrorClass withMessage: expe
 ]
 
 { #category : #running }
+LaScalonetaGameTest >> testAfterLastPlayersTurnItsPlayer1TurnAgain [
+	| aGame aTile1 aTile2 aTile3 aBoard aDie1 aDiceCup |
+
+	aTile1 := Tile new.
+	aTile2 := Tile new.
+	aTile3 := Tile new.
+	aBoard := Board withTiles: { aTile1. aTile2. aTile3 }.
+	
+	aDie1 := LoadedDie with: 1.
+	aDiceCup := DiceCup withAll: { aDie1 }.
+
+	aGame := LaScalonetaGame 
+				withBoard: aBoard
+				diceCollection: aDiceCup
+				players: ( {'Player1'. 'Player2'. 'LastPlayer'} ).
+	
+	aGame rollDiceCupFor: 'Player1'.
+	aGame rollDiceCupFor: 'Player2'.
+	aGame rollDiceCupFor: 'LastPlayer'.
+	
+	self assert: ( aGame playerTurn hasEqualElements: 'Player1')
+]
+
+{ #category : #running }
+LaScalonetaGameTest >> testAfterPlayer1ItsNotPlayer3Turn [
+	| aGame aTile1 aTile2 aTile3 aBoard aDie1 aDiceCup |
+
+	aTile1 := Tile new.
+	aTile2 := Tile new.
+	aTile3 := Tile new.
+	aBoard := Board withTiles: { aTile1. aTile2. aTile3 }.
+	
+	aDie1 := LoadedDie with: 1.
+	aDiceCup := DiceCup withAll: { aDie1 }.
+
+	aGame := LaScalonetaGame 
+				withBoard: aBoard
+				diceCollection: aDiceCup
+				players: ( {'Player1'. 'Player2'. 'Player3'} ).
+	
+	aGame rollDiceCupFor: 'Player1'.
+	
+	self deny: ( aGame playerTurn hasEqualElements: 'Player3')
+]
+
+{ #category : #running }
+LaScalonetaGameTest >> testAfterPlayer1ItsPlayer2Turn [
+	| aGame aTile1 aTile2 aTile3 aBoard aDie1 aDiceCup |
+
+	aTile1 := Tile new.
+	aTile2 := Tile new.
+	aTile3 := Tile new.
+	aBoard := Board withTiles: { aTile1. aTile2. aTile3 }.
+	
+	aDie1 := LoadedDie with: 1.
+	aDiceCup := DiceCup withAll: { aDie1 }.
+
+	aGame := LaScalonetaGame 
+				withBoard: aBoard
+				diceCollection: aDiceCup
+				players: ( {'Player1'. 'Player2'. 'Player3'} ).
+	
+	aGame rollDiceCupFor: 'Player1'.
+	
+	self assert: ( aGame playerTurn hasEqualElements: 'Player2')
+]
+
+{ #category : #running }
 LaScalonetaGameTest >> testFinalPositionOfPlayersCorrespondsWithTheActualFinalPositions [
 
 	| aGame aTile1 aTile2 aTile3 aBoard aDie1 aDiceCup|
@@ -244,6 +312,26 @@ LaScalonetaGameTest >> testLaScalonetaGameMustHaveAtLeastOnePlayer [
 		raise: Error
 		withMessage: 'La Scaloneta Game must have at least one player'
 
+]
+
+{ #category : #running }
+LaScalonetaGameTest >> testPlayer1StartsTheGame [
+	| aGame aTile1 aTile2 aTile3 aBoard aDie1 aDiceCup |
+
+	aTile1 := Tile new.
+	aTile2 := Tile new.
+	aTile3 := Tile new.
+	aBoard := Board withTiles: { aTile1. aTile2. aTile3 }.
+	
+	aDie1 := LoadedDie with: 2.
+	aDiceCup := DiceCup withAll: { aDie1 }.
+
+	aGame := LaScalonetaGame 
+				withBoard: aBoard
+				diceCollection: aDiceCup
+				players: ( {'Player1'. 'Player2'. 'Player3'} ).
+	
+	self assert: ( aGame playerTurn hasEqualElements: 'Player1')
 ]
 
 { #category : #tests }
