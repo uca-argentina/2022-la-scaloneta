@@ -71,11 +71,10 @@ LaScalonetaGame >> itsMyTurn: aPlayer [
 { #category : #playing }
 LaScalonetaGame >> movePlayer: aPlayer withRollingResult: aResult [
 
-	| newPosition |
-
-	newPosition := self positionForPlayer: ( self positionOf: aPlayer ) whenRollingResult: aResult.
-
-	self addPosition: newPosition
+	self addPosition: ( SpaceShipPosition
+											ofPlayer: ( (self positionOf: aPlayer) player )
+											tileNumber: ( ((self positionOf: aPlayer) tileNumber) + aResult )
+							)
 ]
 
 { #category : #playing }
@@ -97,14 +96,6 @@ LaScalonetaGame >> players [
 
 	^ players
 
-]
-
-{ #category : #initialization }
-LaScalonetaGame >> positionForPlayer: aPlayerPosition whenRollingResult: aResult [
-
-	^ SpaceShipPosition
-		ofPlayer: aPlayerPosition player
-		tileNumber: aPlayerPosition tileNumber + aResult
 ]
 
 { #category : #accessing }
