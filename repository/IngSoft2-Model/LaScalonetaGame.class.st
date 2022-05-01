@@ -19,7 +19,7 @@ LaScalonetaGame class >> assertValidNumberOfPlayers: aPlayers [
 ]
 
 { #category : #'instance creation' }
-LaScalonetaGame class >> withBoard: aBoard diceCollection: aDiceCollection players: aPlayers [
+LaScalonetaGame class >> playedBy: aPlayers on: aBoard rolling: aDiceCollection [ 
 
 	self assertValidNumberOfPlayers: aPlayers.
 
@@ -27,6 +27,7 @@ LaScalonetaGame class >> withBoard: aBoard diceCollection: aDiceCollection playe
 				initializeWithBoard: aBoard
 				diceCollection: aDiceCollection
 				players: aPlayers
+
 				
 ]
 
@@ -50,7 +51,7 @@ LaScalonetaGame >> initializeWithBoard: aBoard diceCollection: aDiceCollection p
 	players := aPlayers.
 	status := false.
 	playerPositions := ( players collect: [ :player | SpaceShipPosition startingOfPlayer: player ] ) asOrderedCollection.
-	playerTurn := (players at: 1)
+	playerTurn := (players first)
 ]
 
 { #category : #playing }
@@ -127,6 +128,6 @@ LaScalonetaGame >> rollDiceCupFor: aPlayer [
 { #category : #accessing }
 LaScalonetaGame >> winner [
 
-	^ players select: [ :player | (self positionOf: player)tileNumber >= (board tiles)size ].
+	^ (players select: [ :player | (self positionOf: player)tileNumber >= (board tiles)size ]) last.
 
 ]
