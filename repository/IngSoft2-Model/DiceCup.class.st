@@ -10,7 +10,7 @@ Class {
 { #category : #asserting }
 DiceCup class >> assertValid: aDiceCollection [
 
-	aDiceCollection size < 1 ifTrue: [ Error signal: 'Number of dice should be 1 or more' ]
+	aDiceCollection size < 1 ifTrue: [ Error signal: 'A DiceCup should have at least one die.' ]
 ]
 
 { #category : #'instance creation' }

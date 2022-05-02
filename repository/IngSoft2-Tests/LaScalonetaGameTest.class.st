@@ -138,7 +138,8 @@ LaScalonetaGameTest >> testGameHasEndedAsOnePlayerReachedTheEnd [
 	
 	aGame rollDiceCupFor: 'Jorge'.
 	
-	self assert: (aGame hasEnded).
+	self assert: aGame hasEnded.
+	self assert: ((aGame positionOf: 'Jorge') tileNumber) equals: aBoard tiles size
 	
 	
 
@@ -396,4 +397,29 @@ LaScalonetaGameTest >> testPlayingAfterWinningIsNotAllowed [
 		should: [aGame rollDiceCupFor: 'Jorge']
 		raise: Error
 		withMessage: 'La Scaloneta Game has already ended!'
+]
+
+{ #category : #tests }
+LaScalonetaGameTest >> testThereIsNoWinnerAsTheGameHasNotEnded [
+
+	| aGame aBoard aDie1 aDiceCup |
+
+	aBoard := Board withTiles: { 'aTile1'. 'aTile2'. 'aTile3'. 'aTile4' }.
+
+    aDie1 := LoadedDie with: 1.
+    aDiceCup := DiceCup withAll: { aDie1 }.
+
+	aGame := LaScalonetaGame 
+				playedBy: ( {'Julian'. 'Jorge'} )
+				on: aBoard
+				rolling: aDiceCup.
+
+	 aGame rollDiceCupFor: 'Julian'.
+	
+self
+		should: [ 
+				aGame winner
+				]
+		raise: Error
+		withMessage: 'There is no winner as the game has not ended yet.'
 ]

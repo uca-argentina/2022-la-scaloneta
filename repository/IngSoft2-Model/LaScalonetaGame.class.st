@@ -5,7 +5,7 @@ Class {
 		'board',
 		'diceCollection',
 		'players',
-		'status',
+		'hasEnded',
 		'playerPositions',
 		'playerTurn'
 	],
@@ -40,7 +40,7 @@ LaScalonetaGame >> addPosition: aPlayerPosition [
 { #category : #testing }
 LaScalonetaGame >> hasEnded [
 
-	^ status
+	^ hasEnded 
 ]
 
 { #category : #initialization }
@@ -49,7 +49,7 @@ LaScalonetaGame >> initializeWithBoard: aBoard diceCollection: aDiceCollection p
 	board := aBoard.
 	diceCollection := aDiceCollection.
 	players := aPlayers.
-	status := false.
+	hasEnded := false.
 	playerPositions := ( players collect: [ :player | SpaceShipPosition startingOfPlayer: player ] ) asOrderedCollection.
 	playerTurn := (players first)
 ]
@@ -64,10 +64,15 @@ LaScalonetaGame >> itsMyTurn: aPlayer [
 
 { #category : #playing }
 LaScalonetaGame >> movePlayer: aPlayer withRollingResult: aResult [
-
+	|aNewPosition|
+	
+	aNewPosition:= ( (self positionOf: aPlayer) tileNumber) + aResult.
+	aNewPosition > (board size) ifTrue: [ aNewPosition := board size ].
+	
 	self addPosition: ( SpaceShipPosition
+	
 									ofPlayer: ( (self positionOf: aPlayer) player )
-									tileNumber: ( ((self positionOf: aPlayer) tileNumber) + aResult )
+									tileNumber: aNewPosition
 							)
 ]
 
@@ -103,7 +108,7 @@ LaScalonetaGame >> rollDiceCupFor: aPlayer [
 
 	| rollingResult |
 	
-	status ifFalse:  [ 
+	hasEnded  ifFalse:  [ 
 		
 						(self itsMyTurn: aPlayer) ifTrue: [ 
 							
@@ -111,7 +116,7 @@ LaScalonetaGame >> rollDiceCupFor: aPlayer [
 	
 													self movePlayer: aPlayer withRollingResult: rollingResult.
 	
-													(self positionOf: aPlayer) tileNumber >= (board tiles) size ifTrue: [ status := true ].
+													(self positionOf: aPlayer) tileNumber >= (board tiles) size ifTrue: [ hasEnded := true ].
 													
 													(self nextPlayerTurn: aPlayer).
 							
@@ -127,7 +132,7 @@ LaScalonetaGame >> rollDiceCupFor: aPlayer [
 
 { #category : #accessing }
 LaScalonetaGame >> winner [
-
-	^ (players select: [ :player | (self positionOf: player)tileNumber >= (board tiles)size ]) last.
-
+	| aWinner |
+	aWinner:= (players select: [ :player | (self positionOf: player)tileNumber >= (board tiles)size ]).
+	aWinner size < 1 ifTrue: [ Error signal: 'There is no winner as the game has not ended yet.' ]
 ]
