@@ -141,7 +141,6 @@ LaScalonetaGameTest >> testGameHasEndedAsOnePlayerReachedTheEnd [
 	self assert: aGame hasEnded.
 	self assert: ((aGame positionOf: 'Jorge') tileNumber) equals: aBoard tiles size
 	
-	
 
 ]
 

@@ -67,7 +67,7 @@ LaScalonetaGame >> movePlayer: aPlayer withRollingResult: aResult [
 	|aNewPosition|
 	
 	aNewPosition:= ( (self positionOf: aPlayer) tileNumber) + aResult.
-	aNewPosition > (board size) ifTrue: [ aNewPosition := board size ].
+	aNewPosition > (board tiles)size ifTrue: [ aNewPosition := (board tiles)size ].
 	
 	self addPosition: ( SpaceShipPosition
 	
