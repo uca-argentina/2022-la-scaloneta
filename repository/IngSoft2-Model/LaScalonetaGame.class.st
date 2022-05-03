@@ -135,4 +135,6 @@ LaScalonetaGame >> winner [
 	| aWinner |
 	aWinner:= (players select: [ :player | (self positionOf: player)tileNumber >= (board tiles)size ]).
 	aWinner size < 1 ifTrue: [ Error signal: 'There is no winner as the game has not ended yet.' ]
+	ifFalse: [^ aWinner last ]
+	
 ]
