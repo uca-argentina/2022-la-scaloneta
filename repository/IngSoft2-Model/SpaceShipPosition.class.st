@@ -16,9 +16,9 @@ SpaceShipPosition class >> ofPlayer: aPlayer tileNumber: aTileNumber [
 ]
 
 { #category : #'instance creation' }
-SpaceShipPosition class >> startingOfPlayer: aPlayer [ 
+SpaceShipPosition class >> startingOfPlayer: aPlayer forBoard: aBoard [
 
-	^ self ofPlayer: aPlayer tileNumber: 1
+	^ self ofPlayer: aPlayer tileNumber: (aBoard firstPosition)
 
 ]
 

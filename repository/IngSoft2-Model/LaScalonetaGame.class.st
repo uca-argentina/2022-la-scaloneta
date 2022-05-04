@@ -37,6 +37,24 @@ LaScalonetaGame >> addPosition: aPlayerPosition [
 	playerPositions add: aPlayerPosition
 ]
 
+{ #category : #asserting }
+LaScalonetaGame >> assertGameHasNotEnded [
+
+	(self hasEnded) ifTrue: [ Error signal: 'La Scaloneta Game has already ended!' ]
+]
+
+{ #category : #asserting }
+LaScalonetaGame >> assertItsMyTurn: aPlayer [
+
+	(self itsMyTurn: aPlayer) ifFalse: [ Error signal: 'Its not your turn!' ]
+]
+
+{ #category : #accessing }
+LaScalonetaGame >> board [ 
+
+	^ board
+]
+
 { #category : #testing }
 LaScalonetaGame >> hasEnded [
 
@@ -50,7 +68,7 @@ LaScalonetaGame >> initializeWithBoard: aBoard diceCollection: aDiceCollection p
 	diceCollection := aDiceCollection.
 	players := aPlayers.
 	hasEnded := false.
-	playerPositions := ( players collect: [ :player | SpaceShipPosition startingOfPlayer: player ] ) asOrderedCollection.
+	playerPositions := ( players collect: [ :player | (SpaceShipPosition startingOfPlayer: player forBoard: board) ] ) asOrderedCollection.
 	playerTurn := (players first)
 ]
 
@@ -58,22 +76,20 @@ LaScalonetaGame >> initializeWithBoard: aBoard diceCollection: aDiceCollection p
 LaScalonetaGame >> itsMyTurn: aPlayer [
 
 	(playerTurn = aPlayer) ifTrue: [ ^ true ]
-	
-								  ifFalse: [ ^ false ]
+	                       ifFalse: [ ^ false ]
 ]
 
-{ #category : #playing }
+{ #category : #private }
 LaScalonetaGame >> movePlayer: aPlayer withRollingResult: aResult [
-	|aNewPosition|
+
+	| aNewPosition |
 	
-	aNewPosition:= ( (self positionOf: aPlayer) tileNumber) + aResult.
-	aNewPosition > (board tiles)size ifTrue: [ aNewPosition := (board tiles)size ].
+	aNewPosition :=  ((self positionOf: aPlayer) tileNumber) + aResult min: (self board) lastPosition.
 	
-	self addPosition: ( SpaceShipPosition
-	
-									ofPlayer: ( (self positionOf: aPlayer) player )
-									tileNumber: aNewPosition
-							)
+ 	self addPosition: ( SpaceShipPosition
+								ofPlayer: ( (self positionOf: aPlayer) player )
+								tileNumber: aNewPosition
+							) 
 ]
 
 { #category : #playing }
@@ -81,7 +97,7 @@ LaScalonetaGame >> nextPlayerTurn: aPlayer [
 
 	players := (players reject: [ :each | each = aPlayer ]) , { aPlayer }.
 
-	playerTurn := (players at: 1)
+	playerTurn := (players first)
 ]
 
 { #category : #accessing }
@@ -103,38 +119,35 @@ LaScalonetaGame >> positionOf: aPlayer [
 	^ (playerPositions select: [ :position | position player = aPlayer ]) last
 ]
 
-{ #category : #playing }
+{ #category : #private }
 LaScalonetaGame >> rollDiceCupFor: aPlayer [
 
 	| rollingResult |
 	
-	hasEnded  ifFalse:  [ 
-		
-						(self itsMyTurn: aPlayer) ifTrue: [ 
-							
-							 						rollingResult := diceCollection roll.
+	self assertItsMyTurn: aPlayer.
+	self assertGameHasNotEnded.
 	
-													self movePlayer: aPlayer withRollingResult: rollingResult.
+	rollingResult := diceCollection roll.
 	
-													(self positionOf: aPlayer) tileNumber >= (board tiles) size ifTrue: [ hasEnded := true ].
+	self movePlayer: aPlayer withRollingResult: rollingResult.
+	
+	(board isTheLastOnePosition:( (self positionOf: aPlayer) tileNumber ) ) ifTrue: [ hasEnded := true ].
 													
-													(self nextPlayerTurn: aPlayer).
+	(self nextPlayerTurn: aPlayer).
 							
-						] 
-					
-						ifFalse: [ Error signal: 'Its not your turn!' ]
-			]
-		
-			ifTrue: [ Error signal: 'La Scaloneta Game has already ended!' ]
 
 
 ]
 
 { #category : #accessing }
 LaScalonetaGame >> winner [
+
 	| aWinner |
-	aWinner:= (players select: [ :player | (self positionOf: player)tileNumber >= (board tiles)size ]).
+	
+	aWinner:= (players select: [ :player | (self positionOf: player)tileNumber >= (self board lastPosition) ]).
+	
 	aWinner size < 1 ifTrue: [ Error signal: 'There is no winner as the game has not ended yet.' ]
+	
 	ifFalse: [^ aWinner last ]
 	
 ]
