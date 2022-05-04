@@ -20,10 +20,28 @@ Board class >> withTiles: aTileCollection [
 	^ self new initializeWithTiles: aTileCollection 
 ]
 
+{ #category : #accessing }
+Board >> firstPosition [
+	^ 1
+]
+
 { #category : #initialization }
 Board >> initializeWithTiles: aTileCollection [
 
 	tiles := aTileCollection
+]
+
+{ #category : #asserting }
+Board >> isTheLastOnePosition: aPosition [
+
+	( self lastPosition = aPosition ) ifTrue:[ ^ true ]
+									         ifFalse: [ ^ false ]
+]
+
+{ #category : #accessing }
+Board >> lastPosition [ 
+
+	^ tiles size
 ]
 
 { #category : #accessing }
