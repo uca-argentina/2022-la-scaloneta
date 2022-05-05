@@ -4,37 +4,37 @@ Class {
 	#instVars : [
 		'board',
 		'diceCollection',
-		'players',
+		'spaceShips',
 		'hasEnded',
-		'playerPositions',
-		'playerTurn'
+		'spaceShipPositions',
+		'spaceShipTurn'
 	],
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #asserting }
-LaScalonetaGame class >> assertValidNumberOfPlayers: aPlayers [
+LaScalonetaGame class >> assertValidNumberOfSpaceShips: aSpaceShipsCollection [
 
-		aPlayers isEmpty ifTrue: [ Error signal: 'La Scaloneta Game must have at least one player' ]
+		aSpaceShipsCollection isEmpty ifTrue: [ Error signal: 'La Scaloneta Game must have at least one spaceship!' ]
 ]
 
 { #category : #'instance creation' }
-LaScalonetaGame class >> playedBy: aPlayers on: aBoard rolling: aDiceCollection [ 
+LaScalonetaGame class >> playedBy: aSpaceShips on: aBoard rolling: aDiceCollection [ 
 
-	self assertValidNumberOfPlayers: aPlayers.
+	self assertValidNumberOfSpaceShips: aSpaceShips.
 
 	^ self new
 				initializeWithBoard: aBoard
 				diceCollection: aDiceCollection
-				players: aPlayers
+				spaceShips: aSpaceShips
 
 				
 ]
 
 { #category : #adding }
-LaScalonetaGame >> addPosition: aPlayerPosition [
+LaScalonetaGame >> addPosition: aSpaceShipPosition [
 
-	playerPositions add: aPlayerPosition
+	spaceShipPositions add: aSpaceShipPosition
 ]
 
 { #category : #asserting }
@@ -62,61 +62,48 @@ LaScalonetaGame >> hasEnded [
 ]
 
 { #category : #initialization }
-LaScalonetaGame >> initializeWithBoard: aBoard diceCollection: aDiceCollection players: aPlayers [
+LaScalonetaGame >> initializeWithBoard: aBoard diceCollection: aDiceCollection spaceShips: aSpaceShip [
 
 	board := aBoard.
 	diceCollection := aDiceCollection.
-	players := aPlayers.
+	spaceShips := aSpaceShip.
 	hasEnded := false.
-	playerPositions := ( players collect: [ :player | (SpaceShipPosition startingOfPlayer: player forBoard: board) ] ) asOrderedCollection.
-	playerTurn := (players first)
+	spaceShipPositions := ( spaceShips collect: [ :player | (SpaceShipPosition startingOfSpaceShip: player forBoard: board) ] ) asOrderedCollection.
+	spaceShipTurn := (spaceShips first)
 ]
 
 { #category : #playing }
-LaScalonetaGame >> itsMyTurn: aPlayer [
+LaScalonetaGame >> itsMyTurn: aSpaceShip [
 
-	(playerTurn = aPlayer) ifTrue: [ ^ true ]
+	(spaceShipTurn = aSpaceShip) ifTrue: [ ^ true ]
 	                       ifFalse: [ ^ false ]
 ]
 
 { #category : #private }
-LaScalonetaGame >> movePlayer: aPlayer withRollingResult: aResult [
+LaScalonetaGame >> movePlayer: aSpaceShip withRollingResult: aResult [
 
 	| aNewPosition |
 	
-	aNewPosition :=  ((self positionOf: aPlayer) tileNumber) + aResult min: (self board) lastPosition.
+	aNewPosition :=  ((self positionOf: aSpaceShip) tileNumber) + aResult min: (self board) lastPosition.
 	
  	self addPosition: ( SpaceShipPosition
-								ofPlayer: ( (self positionOf: aPlayer) player )
+								ofSpaceShip: ( (self positionOf: aSpaceShip) spaceShip )
 								tileNumber: aNewPosition
 							) 
 ]
 
 { #category : #playing }
-LaScalonetaGame >> nextPlayerTurn: aPlayer [
+LaScalonetaGame >> nextSpaceShipTurn: aSpaceShip [
 
-	players := (players reject: [ :each | each = aPlayer ]) , { aPlayer }.
+	spaceShips := (spaceShips reject: [ :each | each = aSpaceShip ]) , { aSpaceShip }.
 
-	playerTurn := (players first)
+	spaceShipTurn := (spaceShips  first)
 ]
 
 { #category : #accessing }
-LaScalonetaGame >> playerTurn [
-	
-	^ playerTurn
-]
+LaScalonetaGame >> positionOf: aSpaceShip [
 
-{ #category : #accessing }
-LaScalonetaGame >> players [
-
-	^ players
-
-]
-
-{ #category : #accessing }
-LaScalonetaGame >> positionOf: aPlayer [
-
-	^ (playerPositions select: [ :position | position player = aPlayer ]) last
+	^ (spaceShipPositions select: [ :position | position spaceShip = aSpaceShip ]) last
 ]
 
 { #category : #private }
@@ -133,9 +120,22 @@ LaScalonetaGame >> rollDiceCupFor: aPlayer [
 	
 	(board isTheLastOnePosition:( (self positionOf: aPlayer) tileNumber ) ) ifTrue: [ hasEnded := true ].
 													
-	(self nextPlayerTurn: aPlayer).
+	(self nextSpaceShipTurn: aPlayer).
 							
 
+
+]
+
+{ #category : #accessing }
+LaScalonetaGame >> spaceShipTurn [
+	
+	^ spaceShipTurn
+]
+
+{ #category : #accessing }
+LaScalonetaGame >> spaceShips [
+
+	^ spaceShips
 
 ]
 
@@ -144,7 +144,7 @@ LaScalonetaGame >> winner [
 
 	| aWinner |
 	
-	aWinner:= (players select: [ :player | (self positionOf: player)tileNumber >= (self board lastPosition) ]).
+	aWinner:= (spaceShips select: [ :spaceShip | (self positionOf: spaceShip)tileNumber >= (self board lastPosition) ]).
 	
 	aWinner size < 1 ifTrue: [ Error signal: 'There is no winner as the game has not ended yet.' ]
 	
