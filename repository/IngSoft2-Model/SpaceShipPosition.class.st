@@ -2,37 +2,37 @@ Class {
 	#name : #SpaceShipPosition,
 	#superclass : #Object,
 	#instVars : [
-		'player',
+		'spaceShip',
 		'tileNumber'
 	],
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #'instance creation' }
-SpaceShipPosition class >> ofPlayer: aPlayer tileNumber: aTileNumber [ 
+SpaceShipPosition class >> ofSpaceShip: aSpaceSip tileNumber: aTileNumber [ 
 
-	^ self new initializeOfPlayer: aPlayer tileNumber: aTileNumber
+	^ self new initializeOfSpaceShip: aSpaceSip tileNumber: aTileNumber
 
 ]
 
 { #category : #'instance creation' }
-SpaceShipPosition class >> startingOfPlayer: aPlayer forBoard: aBoard [
+SpaceShipPosition class >> startingOfSpaceShip: aSpaceShip forBoard: aBoard [
 
-	^ self ofPlayer: aPlayer tileNumber: (aBoard firstPosition)
+	^ self ofSpaceShip: aSpaceShip tileNumber: (aBoard firstPosition)
 
 ]
 
 { #category : #initialization }
-SpaceShipPosition >> initializeOfPlayer: aPlayer tileNumber: aTileNumber [
+SpaceShipPosition >> initializeOfSpaceShip: aSpaceShip tileNumber: aTileNumber [
 
-	player := aPlayer.
+	spaceShip := aSpaceShip.
 	tileNumber := aTileNumber
 ]
 
 { #category : #accessing }
-SpaceShipPosition >> player [
+SpaceShipPosition >> spaceShip [
 
-	^ player
+	^ spaceShip
 ]
 
 { #category : #accessing }

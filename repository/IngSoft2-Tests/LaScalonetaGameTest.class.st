@@ -53,7 +53,7 @@ LaScalonetaGameTest >> testAfterLastPlayersTurnItsPlayer1TurnAgain [
 	self assert: ( aGame positionOf: 'Player1' ) tileNumber equals: 2.
 	self assert: ( aGame positionOf: 'Player2' ) tileNumber equals: 2.
 	self assert: ( aGame positionOf: 'LastPlayer' ) tileNumber equals: 2.
-	self assert:  aGame playerTurn equals: 'Player1'.
+	self assert:  aGame spaceShipTurn equals: 'Player1'.
 	self assert: ( aGame itsMyTurn: 'Player1' )
 ]
 
@@ -75,7 +75,7 @@ LaScalonetaGameTest >> testAfterPlayer1ItsNotPlayer3Turn [
 	aGame rollDiceCupFor: 'Player1'.
 	
 	self assert: ( aGame positionOf: 'Player1' ) tileNumber equals: 2.
-	self deny:  aGame playerTurn equals: 'Player3'.
+	self deny:  aGame spaceShipTurn equals: 'Player3'.
 	self assert: ( aGame itsMyTurn: 'Player2' )
 ]
 
@@ -97,7 +97,7 @@ LaScalonetaGameTest >> testAfterPlayer1ItsPlayer2Turn [
 	aGame rollDiceCupFor: 'Player1'.
 	
 	self assert: ( aGame positionOf: 'Player1' ) tileNumber equals: 2.
-	self assert:  aGame playerTurn equals: 'Player2'.
+	self assert:  aGame spaceShipTurn equals: 'Player2'.
 	self deny: ( aGame itsMyTurn: 'Player3' )
 ]
 
@@ -176,7 +176,7 @@ LaScalonetaGameTest >> testJorgeAndJulianArePlayersOfLaScalonetaGame [
 
 	aGame := self initializeLaScalonetaGame.
 				
-	self assert: aGame players equals: {'Jorge'. 'Julian'}
+	self assert: aGame spaceShips equals: {'Jorge'. 'Julian'}
 ]
 
 { #category : #tests }
@@ -214,7 +214,7 @@ LaScalonetaGameTest >> testJorgeStartsTheGameAsHeIsTheFirstPlayerInThePlayersCol
 
 	aGame := self initializeLaScalonetaGame.
 	
-	self assert: aGame playerTurn equals: 'Jorge'
+	self assert: aGame spaceShipTurn equals: 'Jorge'
 ]
 
 { #category : #tests }
@@ -267,7 +267,7 @@ LaScalonetaGameTest >> testJulianCanRollTheDiceAfterJorge [
 	
 	aGame rollDiceCupFor: 'Jorge'.
 	
-	self assert: aGame playerTurn equals: 'Julian'
+	self assert: aGame spaceShipTurn equals: 'Julian'
 ]
 
 { #category : #tests }
@@ -287,7 +287,7 @@ LaScalonetaGameTest >> testLaScalonetaGameMustHaveAtLeastOnePlayer [
 				rolling: aDiceCup.
 			]
 		raise: Error
-		withMessage: 'La Scaloneta Game must have at least one player'
+		withMessage: 'La Scaloneta Game must have at least one spaceship!'
 
 ]
 

@@ -22,6 +22,7 @@ Board class >> withTiles: aTileCollection [
 
 { #category : #accessing }
 Board >> firstPosition [
+
 	^ 1
 ]
 
