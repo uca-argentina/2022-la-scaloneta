@@ -100,6 +100,12 @@ LaScalonetaGame >> nextSpaceShipTurn: aSpaceShip [
 	spaceShipTurn := (spaceShips  first)
 ]
 
+{ #category : #playing }
+LaScalonetaGame >> playNextTurn [
+
+	self rollDiceCupFor: (self spaceShipTurn)
+]
+
 { #category : #accessing }
 LaScalonetaGame >> positionOf: aSpaceShip [
 
