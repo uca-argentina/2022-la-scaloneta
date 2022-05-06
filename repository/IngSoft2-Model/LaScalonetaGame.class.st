@@ -7,10 +7,17 @@ Class {
 		'spaceShips',
 		'hasEnded',
 		'spaceShipPositions',
-		'spaceShipTurn'
+		'spaceShipTurn',
+		'laps'
 	],
 	#category : #'IngSoft2-Model'
 }
+
+{ #category : #asserting }
+LaScalonetaGame class >> assertValidNumberOfLaps: aLaps [
+
+		(aLaps <= 1) ifTrue: [ Error signal: 'La Scaloneta Game must have two or more laps!' ]
+]
 
 { #category : #asserting }
 LaScalonetaGame class >> assertValidNumberOfSpaceShips: aSpaceShipsCollection [
@@ -19,14 +26,16 @@ LaScalonetaGame class >> assertValidNumberOfSpaceShips: aSpaceShipsCollection [
 ]
 
 { #category : #'instance creation' }
-LaScalonetaGame class >> playedBy: aSpaceShips on: aBoard rolling: aDiceCollection [ 
+LaScalonetaGame class >> playedBy: aSpaceShips on: aBoard rolling: aDiceCollection numberOfLaps: aLaps [
 
 	self assertValidNumberOfSpaceShips: aSpaceShips.
+	self assertValidNumberOfLaps: aLaps.
 
 	^ self new
 				initializeWithBoard: aBoard
 				diceCollection: aDiceCollection
 				spaceShips: aSpaceShips
+				numberOfLaps: aLaps
 
 				
 ]
@@ -62,14 +71,15 @@ LaScalonetaGame >> hasEnded [
 ]
 
 { #category : #initialization }
-LaScalonetaGame >> initializeWithBoard: aBoard diceCollection: aDiceCollection spaceShips: aSpaceShip [
+LaScalonetaGame >> initializeWithBoard: aBoard diceCollection: aDiceCollection spaceShips: aSpaceShip numberOfLaps: aLaps [
 
 	board := aBoard.
 	diceCollection := aDiceCollection.
 	spaceShips := aSpaceShip.
 	hasEnded := false.
-	spaceShipPositions := ( spaceShips collect: [ :player | (SpaceShipPosition startingOfSpaceShip: player forBoard: board) ] ) asOrderedCollection.
-	spaceShipTurn := (spaceShips first)
+	spaceShipPositions := ( spaceShips collect: [ :player | (SpaceShipPosition startingOfSpaceShip: player forBoard: board lap: 1) ] ) asOrderedCollection.
+	spaceShipTurn := (spaceShips first).
+	laps := aLaps
 ]
 
 { #category : #playing }
@@ -77,6 +87,12 @@ LaScalonetaGame >> itsMyTurn: aSpaceShip [
 
 	(spaceShipTurn = aSpaceShip) ifTrue: [ ^ true ]
 	                       ifFalse: [ ^ false ]
+]
+
+{ #category : #accessing }
+LaScalonetaGame >> lap [
+
+	^ laps
 ]
 
 { #category : #private }
@@ -89,6 +105,7 @@ LaScalonetaGame >> movePlayer: aSpaceShip withRollingResult: aResult [
  	self addPosition: ( SpaceShipPosition
 								ofSpaceShip: ( (self positionOf: aSpaceShip) spaceShip )
 								tileNumber: aNewPosition
+								lap: ( (self positionOf: aSpaceShip) lap)
 							) 
 ]
 

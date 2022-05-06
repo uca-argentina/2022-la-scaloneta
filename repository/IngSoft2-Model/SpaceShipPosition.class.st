@@ -3,30 +3,38 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'spaceShip',
-		'tileNumber'
+		'tileNumber',
+		'lap'
 	],
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #'instance creation' }
-SpaceShipPosition class >> ofSpaceShip: aSpaceSip tileNumber: aTileNumber [ 
+SpaceShipPosition class >> ofSpaceShip: aSpaceSip tileNumber: aTileNumber lap: aLap [
 
-	^ self new initializeOfSpaceShip: aSpaceSip tileNumber: aTileNumber
+	^ self new initializeOfSpaceShip: aSpaceSip tileNumber: aTileNumber lap: aLap
 
 ]
 
 { #category : #'instance creation' }
-SpaceShipPosition class >> startingOfSpaceShip: aSpaceShip forBoard: aBoard [
+SpaceShipPosition class >> startingOfSpaceShip: aSpaceShip forBoard: aBoard lap: aLap [
 
-	^ self ofSpaceShip: aSpaceShip tileNumber: (aBoard firstPosition)
+	^ self ofSpaceShip: aSpaceShip tileNumber: (aBoard firstPosition) lap: aLap
 
 ]
 
 { #category : #initialization }
-SpaceShipPosition >> initializeOfSpaceShip: aSpaceShip tileNumber: aTileNumber [
+SpaceShipPosition >> initializeOfSpaceShip: aSpaceShip tileNumber: aTileNumber lap: aLap [
 
 	spaceShip := aSpaceShip.
-	tileNumber := aTileNumber
+	tileNumber := aTileNumber.
+	lap := aLap
+]
+
+{ #category : #accessing }
+SpaceShipPosition >> lap [ 
+	
+	^ lap
 ]
 
 { #category : #accessing }

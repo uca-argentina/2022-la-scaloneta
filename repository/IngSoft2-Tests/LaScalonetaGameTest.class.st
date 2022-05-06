@@ -17,7 +17,8 @@ LaScalonetaGameTest >> initializeLaScalonetaGame [
 	aGame := LaScalonetaGame
 		         playedBy: { 'Jorge'. 'Julian' }
 		         on: aBoard
-		         rolling: aDiceCup.
+		         rolling: aDiceCup
+					numberOfLaps: 2.
 	^ aGame
 ]
 
@@ -44,7 +45,8 @@ LaScalonetaGameTest >> testFinalPositionOfPlayersCorrespondsWithTheActualFinalPo
 	aGame := LaScalonetaGame 
 				playedBy: ( {'Jorge'. 'Julian'. 'Chango'} )
 				on: aBoard
-				rolling: aDiceCup.
+				rolling: aDiceCup
+				numberOfLaps: 2.
 
 	aGame playNextTurn. 
 	aGame playNextTurn. 
@@ -121,7 +123,8 @@ LaScalonetaGameTest >> testJorgeIsNotTheWinnerOfLaScalonetaGameWhenJulianReaches
 	aGame := LaScalonetaGame 
 				playedBy: ( {'Julian'. 'Jorge'} )
 				on: aBoard
-				rolling: aDiceCup.
+				rolling: aDiceCup
+				numberOfLaps: 2.
 
 	 aGame playNextTurn. 
 	
@@ -149,7 +152,8 @@ LaScalonetaGameTest >> testJorgeWinsLaScalonetaGameWhenJorgeReachesTheEndFirst [
 	aGame := LaScalonetaGame 
 				playedBy: ( {'Jorge'. 'Julian'} )
 				on: aBoard
-				rolling: aDiceCup.
+				rolling: aDiceCup
+				numberOfLaps: 2.
 
 	 aGame playNextTurn.
 	
@@ -178,10 +182,32 @@ LaScalonetaGameTest >> testLaScalonetaGameMustHaveAtLeastOnePlayer [
 		should: [ LaScalonetaGame 
 				playedBy: ( {} )
 				on: aBoard
-				rolling: aDiceCup.
+				rolling: aDiceCup
+				numberOfLaps: 2.
 			]
 		raise: Error
 		withMessage: 'La Scaloneta Game must have at least one spaceship!'
+
+]
+
+{ #category : #tests }
+LaScalonetaGameTest >> testLaScalonetaGameMustHaveTwoOrMoreLaps [
+	| aBoard aDie1 aDiceCup |
+
+	aBoard := Board withTiles: { 'aTile1'. 'aTile2'. 'aTile3' }.
+	
+	aDie1 := LoadedDie with: 1.
+	aDiceCup := DiceCup withAll: { aDie1 }.
+
+	self
+		should: [ LaScalonetaGame 
+				playedBy: ( {'Player1'. 'Player2'} )
+				on: aBoard
+				rolling: aDiceCup
+				numberOfLaps: 1.
+			]
+		raise: Error
+		withMessage: 'La Scaloneta Game must have two or more laps!'
 
 ]
 
@@ -198,12 +224,24 @@ LaScalonetaGameTest >> testPlayerMovesThreeTilesFowardWhenRollingResultEqualsToT
 	aGame := LaScalonetaGame 
 				playedBy: ( {'Jorge'. 'Julian'} )
 				on: aBoard
-				rolling: aDiceCup.
+				rolling: aDiceCup
+				numberOfLaps: 2.
 				
 	aGame playNextTurn.  	
 
 	self assert: ( aGame positionOf: 'Jorge' ) tileNumber equals: 4.	
 				
+]
+
+{ #category : #tests }
+LaScalonetaGameTest >> testPlayerStartsAtLapOne [
+
+	| aGame |
+
+	aGame := self initializeLaScalonetaGame.
+
+	self assert: ( aGame positionOf: 'Jorge' ) lap equals: 1.
+	self assert: ( aGame positionOf: 'Julian' ) lap equals: 1
 ]
 
 { #category : #tests }
@@ -230,7 +268,8 @@ LaScalonetaGameTest >> testPlayingAfterWinningIsNotAllowed [
 	aGame := LaScalonetaGame 
 				playedBy: ( {'Jorge'. 'Julian'} )
 				on: aBoard
-				rolling: aDiceCup.
+				rolling: aDiceCup
+				numberOfLaps: 2.
 				
 	self deny: (aGame hasEnded).
 	self assert: ( aGame positionOf: 'Jorge' ) tileNumber equals: 1.	
