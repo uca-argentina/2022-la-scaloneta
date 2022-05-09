@@ -32,7 +32,7 @@ SpaceShipPosition >> initializeOfSpaceShip: aSpaceShip tileNumber: aTileNumber l
 ]
 
 { #category : #accessing }
-SpaceShipPosition >> lap [ 
+SpaceShipPosition >> lap [
 	
 	^ lap
 ]
