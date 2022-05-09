@@ -90,7 +90,7 @@ LaScalonetaGame >> itsMyTurn: aSpaceShip [
 ]
 
 { #category : #accessing }
-LaScalonetaGame >> lap [
+LaScalonetaGame >> laps [
 
 	^ laps
 ]
@@ -98,14 +98,22 @@ LaScalonetaGame >> lap [
 { #category : #private }
 LaScalonetaGame >> movePlayer: aSpaceShip withRollingResult: aResult [
 
-	| aNewPosition |
+	| quantityOfSquaresAdvanced auxLap newLap newPosition |
 	
-	aNewPosition :=  ((self positionOf: aSpaceShip) tileNumber) + aResult min: (self board) lastPosition.
+	quantityOfSquaresAdvanced  :=  (((self positionOf: aSpaceShip) lap - 1) * (self board tiles size)) + aResult + (self positionOf: aSpaceShip) tileNumber.
+	
+	auxLap := ((quantityOfSquaresAdvanced - 1)  // (self board tiles size) + 1).
+	
+	newLap := auxLap min: (self laps).
+	
+	newPosition := quantityOfSquaresAdvanced % (self board tiles size).
+	
+	(newPosition = 0 | (auxLap > (self laps))) ifTrue: [ newPosition := (self board tiles size) ].
 	
  	self addPosition: ( SpaceShipPosition
 								ofSpaceShip: ( (self positionOf: aSpaceShip) spaceShip )
-								tileNumber: aNewPosition
-								lap: ( (self positionOf: aSpaceShip) lap)
+								tileNumber: newPosition
+								lap: newLap
 							) 
 ]
 
@@ -141,9 +149,9 @@ LaScalonetaGame >> rollDiceCupFor: aPlayer [
 	
 	self movePlayer: aPlayer withRollingResult: rollingResult.
 	
-	(board isTheLastOnePosition:( (self positionOf: aPlayer) tileNumber ) ) ifTrue: [ hasEnded := true ].
+	(board isTheLastOnePosition:( (self positionOf: aPlayer) tileNumber )) & ((self positionOf: aPlayer) lap = (self laps)) ifTrue: [ hasEnded := true ].
 													
-	(self nextSpaceShipTurn: aPlayer).
+	self nextSpaceShipTurn: aPlayer.
 							
 
 

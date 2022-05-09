@@ -35,48 +35,60 @@ LaScalonetaGameTest >> should: block raise: expectedErrorClass withMessage: expe
 { #category : #running }
 LaScalonetaGameTest >> testFinalPositionOfPlayersCorrespondsWithTheActualFinalPositions [
 
-	| aGame aBoard aDie1 aDiceCup |
-
+	| aGame aDiceCup aBoard aDie1 |
+	
 	aBoard := Board withTiles: { 'aTile1'. 'aTile2'. 'aTile3' }.
-	
-	aDie1 := LoadedDie with: 1.
+
+	aDie1 := LoadedDie with: 3.
 	aDiceCup := DiceCup withAll: { aDie1 }.
+
+	aGame := LaScalonetaGame
+		         playedBy: { 'Jorge'. 'Julian' }
+		         on: aBoard
+		         rolling: aDiceCup
+					numberOfLaps: 2.
+
+	aGame playNextTurn. 
+	aGame playNextTurn. 
 	
-	aGame := LaScalonetaGame 
-				playedBy: ( {'Jorge'. 'Julian'. 'Chango'} )
-				on: aBoard
-				rolling: aDiceCup
-				numberOfLaps: 2.
+	self assert: ( aGame positionOf: 'Jorge' ) tileNumber equals: 1.
+	self assert: ( aGame positionOf: 'Julian' ) tileNumber equals: 1.
+	self assert: ( aGame positionOf: 'Jorge' ) lap equals: 2.
+	self assert: ( aGame positionOf: 'Julian' ) lap equals: 2.
 
 	aGame playNextTurn. 
-	aGame playNextTurn. 
-	aGame playNextTurn. 
-	aGame playNextTurn. 
 
-	self assert: (aGame hasEnded).
 	self assert: ( aGame positionOf: 'Jorge' ) tileNumber equals: 3.
-	self assert: ( aGame positionOf: 'Julian' ) tileNumber equals: 2.
-	self assert: ( aGame positionOf: 'Chango' ) tileNumber equals: 2.
+	self assert: ( aGame positionOf: 'Julian' ) tileNumber equals: 1.
+	self assert: ( aGame positionOf: 'Jorge' ) lap equals: 2.
+	self assert: ( aGame positionOf: 'Julian' ) lap equals: 2.
+	
+	self assert: aGame hasEnded
+
 ]
 
 { #category : #tests }
 LaScalonetaGameTest >> testGameHasEndedAsOnePlayerReachedTheEnd [
 
-	| aGame |
+	| aGame aDiceCup aBoard aDie1 |
+	
+	aBoard := Board withTiles: { 'aTile1'. 'aTile2'. 'aTile3' }.
 
-	aGame := self initializeLaScalonetaGame.
+	aDie1 := LoadedDie with: 3.
+	aDiceCup := DiceCup withAll: { aDie1 }.
+
+	aGame := LaScalonetaGame
+		         playedBy: { 'Jorge'. 'Julian' }
+		         on: aBoard
+		         rolling: aDiceCup
+					numberOfLaps: 2.
 
 	self deny: (aGame hasEnded).
-
+	
+	aGame playNextTurn. 
+	aGame playNextTurn. 	
+	aGame playNextTurn.
 			
-	aGame playNextTurn. 
-	aGame playNextTurn. 
-		
-	self deny: (aGame hasEnded).
-
-	
-	aGame playNextTurn. 
-	
 	self assert: aGame hasEnded.
 	self assert: ((aGame positionOf: 'Jorge') tileNumber) equals: aGame board tiles size
 	
@@ -262,7 +274,7 @@ LaScalonetaGameTest >> testPlayingAfterWinningIsNotAllowed [
 
 	aBoard := Board withTiles: { 'aTile1'. 'aTile2'. 'aTile3' }.
 	
-	aDie1 := LoadedDie with: 2.
+	aDie1 := LoadedDie with: 3.
 	aDiceCup := DiceCup withAll: { aDie1 }.
 
 	aGame := LaScalonetaGame 
@@ -277,9 +289,13 @@ LaScalonetaGameTest >> testPlayingAfterWinningIsNotAllowed [
 			
 	aGame playNextTurn. 	
 		
-	self assert: (aGame hasEnded).
-	self assert: ( aGame positionOf: 'Jorge' ) tileNumber equals: 3.	
+	self assert: ( aGame positionOf: 'Jorge' ) tileNumber equals: 1.	
 	self assert: ( aGame positionOf: 'Julian' ) tileNumber equals: 1.
+	
+	aGame playNextTurn. 
+	aGame playNextTurn. 
+	
+	self assert: (aGame hasEnded).
 	
 	self
 		should: [aGame playNextTurn]
