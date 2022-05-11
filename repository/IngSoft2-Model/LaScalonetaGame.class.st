@@ -46,6 +46,13 @@ LaScalonetaGame >> addPosition: aSpaceShipPosition [
 	spaceShipPositions add: aSpaceShipPosition
 ]
 
+{ #category : #private }
+LaScalonetaGame >> applyEffect: aPlayer [
+
+	(self board tiles at:
+	      (self positionOf: aPlayer) tileNumber ) moveSpaceShip: aPlayer for: self. 
+]
+
 { #category : #asserting }
 LaScalonetaGame >> assertGameHasNotEnded [
 
@@ -148,6 +155,7 @@ LaScalonetaGame >> rollDiceCupFor: aPlayer [
 	rollingResult := diceCollection roll.
 	
 	self movePlayer: aPlayer withRollingResult: rollingResult.
+	self applyEffect: aPlayer.
 	
 	(board isTheLastOnePosition:( (self positionOf: aPlayer) tileNumber )) & ((self positionOf: aPlayer) lap = (self laps)) ifTrue: [ hasEnded := true ].
 													

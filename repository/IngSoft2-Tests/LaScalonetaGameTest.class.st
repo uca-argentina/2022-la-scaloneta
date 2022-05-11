@@ -152,6 +152,35 @@ LaScalonetaGameTest >> testJorgeIsNotTheWinnerOfLaScalonetaGameWhenJulianReaches
 ]
 
 { #category : #tests }
+LaScalonetaGameTest >> testJorgeMovesBack4TilesWhenLandingOnAWormholeEffect [
+
+	| aGame aBoard aDie1 aDiceCup |
+
+	aBoard := Board withTiles: { 'aTile1'. 'aTile2'. 'aTile3'. 'aTile4'. WormHoleEffect new. 'aTile6' }.
+
+    aDie1 := LoadedDie with: 4.
+    aDiceCup := DiceCup withAll: { aDie1 }.
+
+	aGame := LaScalonetaGame 
+				playedBy: ( {'Jorge'} )
+				on: aBoard
+				rolling: aDiceCup
+				numberOfLaps: 2.
+
+	 aGame playNextTurn. 
+	
+	 self assert: (aGame positionOf: 'Jorge') tileNumber equals: 1.
+	
+	
+	
+	
+	
+	
+	
+
+]
+
+{ #category : #tests }
 LaScalonetaGameTest >> testJorgeWinsLaScalonetaGameWhenJorgeReachesTheEndFirst [
 
 	| aGame aBoard aDie1 aDiceCup |
