@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #private }
-WormHoleEffect >> moveSpaceShip: aSpaceShip for: aGame [
+WormHoleEffect >> moveSpaceShip: aSpaceShips for: aGame [
 		
-		^ aGame movePlayer: aSpaceShip  withRollingResult: -4
+		^ aGame movePlayer: aSpaceShips first  withRollingResult: -4
 ]

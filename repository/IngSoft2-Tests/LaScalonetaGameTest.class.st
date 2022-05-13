@@ -261,6 +261,35 @@ LaScalonetaGameTest >> testJorgeWinsLaScalonetaGameWhenJorgeReachesTheEndFirst [
 ]
 
 { #category : #tests }
+LaScalonetaGameTest >> testJulianMovesBack3PositionsWhenJorgeLandsOnAMoonWalkEffect [
+
+	| aGame aBoard aDie1 aDiceCup |
+
+	aBoard := Board withTiles: { NoEffect new. SpeedUpEffect new. NoEffect new. NoEffect new. NoEffect new. NoEffect new }.
+
+    aDie1 := LoadedDie with: 1.
+    aDiceCup := DiceCup withAll: { aDie1 }.
+
+	aGame := LaScalonetaGame 
+				playedBy: ( {'Jorge'} )
+				on: aBoard
+				rolling: aDiceCup
+				numberOfLaps: 2.
+
+	 aGame playNextTurn. 
+	
+	 self assert: (aGame positionOf: 'Jorge') tileNumber equals: 6.
+	
+	
+	
+	
+	
+	
+	
+
+]
+
+{ #category : #tests }
 LaScalonetaGameTest >> testLaScalonetaGameMustHaveAtLeastOnePlayer [
 
 	| aBoard aDie1 aDiceCup |

@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #private }
-NoEffect >> moveSpaceShip: aSpaceShip for: aGame [
+NoEffect >> moveSpaceShip: aSpaceShips for: aGame [
 		
-		^ aGame movePlayer: aSpaceShip withRollingResult: 0
+		^ aGame movePlayer: aSpaceShips first withRollingResult: 0
 ]
