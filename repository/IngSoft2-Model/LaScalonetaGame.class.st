@@ -124,6 +124,16 @@ LaScalonetaGame >> movePlayer: aSpaceShip withRollingResult: aResult [
 							) 
 ]
 
+{ #category : #private }
+LaScalonetaGame >> movePlayerToFirstPositionOnSameLap: aSpaceShip [ 
+
+ 	self addPosition: ( SpaceShipPosition
+								ofSpaceShip: ( (self positionOf: aSpaceShip) spaceShip )
+								tileNumber: board firstPosition 
+								lap: (self positionOf: aSpaceShip ) lap
+							) 
+]
+
 { #category : #playing }
 LaScalonetaGame >> nextSpaceShipTurn: aSpaceShip [
 

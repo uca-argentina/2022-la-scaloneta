@@ -32,6 +32,43 @@ LaScalonetaGameTest >> should: block raise: expectedErrorClass withMessage: expe
 		description: 'Test did not fail as expected'
 ]
 
+{ #category : #tests }
+LaScalonetaGameTest >> testEveryoneGoesBackToTile1WhenJorgeLandsOnAnAtomicBombEffect [
+
+	| aGame aBoard aDie1 aDiceCup |
+
+	aBoard := Board withTiles: { NoEffect new. AtomicBombEffect new. NoEffect new. NoEffect new. NoEffect new  }.
+
+   aDie1 := LoadedDie with: 2.
+
+   aDiceCup := DiceCup withAll: { aDie1 }.
+
+	aGame := LaScalonetaGame 
+				playedBy: ( {'Jorge'. 'Julian'} )
+				on: aBoard
+				rolling: aDiceCup
+				numberOfLaps: 2.
+				
+	 aGame playNextTurn.
+	 aGame playNextTurn.
+	 aGame playNextTurn.
+	 aGame playNextTurn.
+	 aGame playNextTurn.
+	
+	 self assert: (aGame positionOf:'Julian')tileNumber equals: 1.
+	 self assert: (aGame positionOf:'Julian')lap equals: 1.
+	 self assert: (aGame positionOf:'Julian')tileNumber equals: 1.
+	 self assert: (aGame positionOf:'Jorge')lap equals: 2.
+	
+	
+	
+	
+	
+	
+	
+
+]
+
 { #category : #running }
 LaScalonetaGameTest >> testFinalPositionOfPlayersCorrespondsWithTheActualFinalPositions [
 
@@ -261,24 +298,65 @@ LaScalonetaGameTest >> testJorgeWinsLaScalonetaGameWhenJorgeReachesTheEndFirst [
 ]
 
 { #category : #tests }
+LaScalonetaGameTest >> testJulianMovesBack2PositionsAndBacksAlapWhenJorgeLandsOnAMoonWalkEffect [
+
+	| aGame aBoard aDie1 aDiceCup |
+
+	aBoard := Board withTiles: { MoonWalkEffect withN: -2. NoEffect new. NoEffect new. NoEffect new }.
+
+   aDie1 := LoadedDie with: 2.
+
+   aDiceCup := DiceCup withAll: { aDie1 }.
+
+	aGame := LaScalonetaGame 
+				playedBy: ( {'Jorge'. 'Julian'} )
+				on: aBoard
+				rolling: aDiceCup
+				numberOfLaps: 2.
+				
+	 aGame playNextTurn.
+	 aGame playNextTurn.
+	 aGame playNextTurn.
+	
+	 self assert: (aGame positionOf:'Julian')tileNumber equals: 1.
+	 self assert: (aGame positionOf:'Julian')lap equals: 1.
+	 self assert: (aGame positionOf:'Julian')tileNumber equals: 1.
+	 self assert: (aGame positionOf:'Jorge')lap equals: 2.
+	
+	
+	
+	
+	
+	
+	
+
+]
+
+{ #category : #tests }
 LaScalonetaGameTest >> testJulianMovesBack3PositionsWhenJorgeLandsOnAMoonWalkEffect [
 
 	| aGame aBoard aDie1 aDiceCup |
 
-	aBoard := Board withTiles: { NoEffect new. SpeedUpEffect new. NoEffect new. NoEffect new. NoEffect new. NoEffect new }.
+	aBoard := Board withTiles: { MoonWalkEffect withN: -2. NoEffect new. NoEffect new. NoEffect new }.
 
-    aDie1 := LoadedDie with: 1.
-    aDiceCup := DiceCup withAll: { aDie1 }.
+   aDie1 := LoadedDie with: 2.
+
+   aDiceCup := DiceCup withAll: { aDie1 }.
 
 	aGame := LaScalonetaGame 
-				playedBy: ( {'Jorge'} )
+				playedBy: ( {'Jorge'. 'Julian'} )
 				on: aBoard
 				rolling: aDiceCup
 				numberOfLaps: 2.
-
-	 aGame playNextTurn. 
+				
+	 aGame playNextTurn.
+	 aGame playNextTurn.
+	 aGame playNextTurn.
 	
-	 self assert: (aGame positionOf: 'Jorge') tileNumber equals: 6.
+	 self assert: (aGame positionOf:'Julian')tileNumber equals: 1.
+	 self assert: (aGame positionOf:'Julian')lap equals: 1.
+	 self assert: (aGame positionOf:'Julian')tileNumber equals: 1.
+	 self assert: (aGame positionOf:'Jorge')lap equals: 2.
 	
 	
 	
