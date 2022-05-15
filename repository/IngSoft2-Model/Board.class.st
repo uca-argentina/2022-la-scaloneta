@@ -2,7 +2,8 @@ Class {
 	#name : #Board,
 	#superclass : #Object,
 	#instVars : [
-		'tiles'
+		'tiles',
+		'parsecs'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -14,10 +15,10 @@ Board class >> assertValid: aTileCollection [
 ]
 
 { #category : #'instance creation' }
-Board class >> withTiles: aTileCollection [
+Board class >> withTiles: aTileCollection andParsecs: aParsecs [
 
 	self assertValid: aTileCollection.
-	^ self new initializeWithTiles: aTileCollection 
+	^ self new initializeWithTiles: aTileCollection andParsecs: aParsecs 
 ]
 
 { #category : #accessing }
@@ -27,9 +28,10 @@ Board >> firstPosition [
 ]
 
 { #category : #initialization }
-Board >> initializeWithTiles: aTileCollection [
+Board >> initializeWithTiles: aTileCollection andParsecs: aParsecs [
 
-	tiles := aTileCollection
+	tiles := aTileCollection.
+	parsecs := aParsecs
 ]
 
 { #category : #asserting }
@@ -43,6 +45,11 @@ Board >> isTheLastOnePosition: aPosition [
 Board >> lastPosition [ 
 
 	^ tiles size
+]
+
+{ #category : #accessing }
+Board >> parsecs [
+	^parsecs
 ]
 
 { #category : #accessing }

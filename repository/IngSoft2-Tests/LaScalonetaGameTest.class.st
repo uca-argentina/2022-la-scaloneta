@@ -9,7 +9,7 @@ LaScalonetaGameTest >> initializeLaScalonetaGame [
 
 	| aGame aDiceCup aBoard aDie1 |
 	
-	aBoard := Board withTiles: { 'aTile1'. 'aTile2'. 'aTile3' }.
+	aBoard := Board withTiles: { NoEffect new. NoEffect new. NoEffect new. NoEffect new} andParsecs: 2.
 
 	aDie1 := LoadedDie with: 1.
 	aDiceCup := DiceCup withAll: { aDie1 }.
@@ -32,12 +32,49 @@ LaScalonetaGameTest >> should: block raise: expectedErrorClass withMessage: expe
 		description: 'Test did not fail as expected'
 ]
 
+{ #category : #tests }
+LaScalonetaGameTest >> testEveryoneGoesBackToTile1WhenJorgeLandsOnAnAtomicBombEffect [
+
+	| aGame aBoard aDie1 aDiceCup |
+
+	aBoard := Board withTiles: { NoEffect new. AtomicBombEffect new. NoEffect new. NoEffect new. NoEffect new  } andParsecs: 5.
+
+   aDie1 := LoadedDie with: 2.
+
+   aDiceCup := DiceCup withAll: { aDie1 }.
+
+	aGame := LaScalonetaGame 
+				playedBy: ( {'Jorge'. 'Julian'} )
+				on: aBoard
+				rolling: aDiceCup
+				numberOfLaps: 2.
+				
+	 aGame playNextTurn.
+	 aGame playNextTurn.
+	 aGame playNextTurn.
+	 aGame playNextTurn.
+	 aGame playNextTurn.
+	
+	 self assert: (aGame positionOf:'Julian')tileNumber equals: 1.
+	 self assert: (aGame positionOf:'Julian')lap equals: 1.
+	 self assert: (aGame positionOf:'Julian')tileNumber equals: 1.
+	 self assert: (aGame positionOf:'Jorge')lap equals: 2.
+	
+	
+	
+	
+	
+	
+	
+
+]
+
 { #category : #running }
 LaScalonetaGameTest >> testFinalPositionOfPlayersCorrespondsWithTheActualFinalPositions [
 
 	| aGame aDiceCup aBoard aDie1 |
 	
-	aBoard := Board withTiles: { 'aTile1'. 'aTile2'. 'aTile3' }.
+	aBoard := Board withTiles: { NoEffect new. NoEffect new. NoEffect new } andParsecs: 3.
 
 	aDie1 := LoadedDie with: 3.
 	aDiceCup := DiceCup withAll: { aDie1 }.
@@ -72,7 +109,7 @@ LaScalonetaGameTest >> testGameHasEndedAsOnePlayerReachedTheEnd [
 
 	| aGame aDiceCup aBoard aDie1 |
 	
-	aBoard := Board withTiles: { 'aTile1'. 'aTile2'. 'aTile3' }.
+	aBoard := Board withTiles: { NoEffect new. NoEffect new. NoEffect new } andParsecs: 3.
 
 	aDie1 := LoadedDie with: 3.
 	aDiceCup := DiceCup withAll: { aDie1 }.
@@ -97,7 +134,7 @@ LaScalonetaGameTest >> testGameHasEndedAsOnePlayerReachedTheEnd [
 
 { #category : #tests }
 LaScalonetaGameTest >> testGameHasNotEndedAsNoPlayerReachedTheEnd [
-	
+	"
 	| aGame |
 	
 	aGame := self initializeLaScalonetaGame.
@@ -110,6 +147,28 @@ LaScalonetaGameTest >> testGameHasNotEndedAsNoPlayerReachedTheEnd [
 	
 	self assert: (aGame positionOf: 'Jorge') tileNumber equals: 2.
 	self deny: aGame hasEnded
+	"
+
+	| aGame aDiceCup aBoard aDie1 |
+	
+	aBoard := Board withTiles: { NoEffect new. NoEffect new. NoEffect new. NoEffect new  }andParsecs: 4.
+
+	aDie1 := LoadedDie with: 1.
+	aDiceCup := DiceCup withAll: { aDie1 }.
+
+	aGame := LaScalonetaGame
+		         playedBy: { 'Jorge'. 'Julian' }
+		         on: aBoard
+		         rolling: aDiceCup
+					numberOfLaps: 2.
+
+	self deny: (aGame hasEnded).
+	
+	aGame playNextTurn. 
+	aGame playNextTurn. 	
+	aGame playNextTurn.
+			
+	self deny: aGame hasEnded.
 ]
 
 { #category : #tests }
@@ -127,7 +186,7 @@ LaScalonetaGameTest >> testJorgeIsNotTheWinnerOfLaScalonetaGameWhenJulianReaches
 
 	| aGame aBoard aDie1 aDiceCup |
 
-	aBoard := Board withTiles: { 'aTile1'. 'aTile2'. 'aTile3'. 'aTile4' }.
+	aBoard := Board withTiles: { NoEffect new. NoEffect new. NoEffect new. NoEffect new }andParsecs: 4.
 
     aDie1 := LoadedDie with: 3.
     aDiceCup := DiceCup withAll: { aDie1 }.
@@ -152,11 +211,99 @@ LaScalonetaGameTest >> testJorgeIsNotTheWinnerOfLaScalonetaGameWhenJulianReaches
 ]
 
 { #category : #tests }
+LaScalonetaGameTest >> testJorgeMovesBack4TilesWhenLandingOnAWormholeEffect [
+
+	| aGame aBoard aDie1 aDiceCup |
+
+	aBoard := Board withTiles: { NoEffect new. NoEffect new. NoEffect new. NoEffect new. WormHoleEffect new. NoEffect new }andParsecs: 6.
+
+    aDie1 := LoadedDie with: 4.
+    aDiceCup := DiceCup withAll: { aDie1 }.
+
+	aGame := LaScalonetaGame 
+				playedBy: ( {'Jorge'} )
+				on: aBoard
+				rolling: aDiceCup
+				numberOfLaps: 2.
+
+	 aGame playNextTurn. 
+	
+	 self assert: (aGame positionOf: 'Jorge') tileNumber equals: 1.
+	
+	
+	
+	
+	
+	
+	
+
+]
+
+{ #category : #tests }
+LaScalonetaGameTest >> testJorgeMovesForward4TilesWhenLandingOnASppedUpEffect [
+
+	| aGame aBoard aDie1 aDiceCup |
+
+	aBoard := Board withTiles: { NoEffect new. SpeedUpEffect new. NoEffect new. NoEffect new. NoEffect new. NoEffect new }andParsecs: 6.
+
+    aDie1 := LoadedDie with: 1.
+    aDiceCup := DiceCup withAll: { aDie1 }.
+
+	aGame := LaScalonetaGame 
+				playedBy: ( {'Jorge'} )
+				on: aBoard
+				rolling: aDiceCup
+				numberOfLaps: 2.
+
+	 aGame playNextTurn. 
+	
+	 self assert: (aGame positionOf: 'Jorge') tileNumber equals: 6.
+	
+	
+	
+	
+	
+	
+	
+
+]
+
+{ #category : #tests }
+LaScalonetaGameTest >> testJorgeMovesForwardAccordinglyWhenLandingOnAHyperJumpEffect [
+
+	| aGame aBoard aDie1 aDiceCup |
+
+	aBoard := Board withTiles: { NoEffect new. HyperJumpEffect new. NoEffect new. NoEffect new. NoEffect new. NoEffect new. NoEffect new. NoEffect new. NoEffect new. NoEffect new }andParsecs: 10.
+	"Board de 10 casilleros y 2 vueltas, cada casillero equivale a 10 parsecs."
+   aDie1 := LoadedDie with: 1.
+
+   aDiceCup := DiceCup withAll: { aDie1 }.
+
+	aGame := LaScalonetaGame 
+				playedBy: ( {'Jorge'} )
+				on: aBoard
+				rolling: aDiceCup
+				numberOfLaps: 2.
+				
+	aGame playNextTurn.
+	
+	self assert: (aGame positionOf:'Jorge')tileNumber equals: 6.
+	
+	
+	
+	
+	
+	
+	
+
+]
+
+{ #category : #tests }
 LaScalonetaGameTest >> testJorgeWinsLaScalonetaGameWhenJorgeReachesTheEndFirst [
 
 	| aGame aBoard aDie1 aDiceCup |
 
-	aBoard := Board withTiles: { 'aTile1'. 'aTile2'. 'aTile3'. 'aTile4' }.
+	aBoard := Board withTiles: {  NoEffect new. NoEffect new. NoEffect new. NoEffect new }andParsecs: 4.
 
     aDie1 := LoadedDie with: 3.
     aDiceCup := DiceCup withAll: { aDie1 }.
@@ -181,11 +328,81 @@ LaScalonetaGameTest >> testJorgeWinsLaScalonetaGameWhenJorgeReachesTheEndFirst [
 ]
 
 { #category : #tests }
+LaScalonetaGameTest >> testJulianMovesBack2PositionsAndBacksAlapWhenJorgeLandsOnAMoonWalkEffect [
+
+	| aGame aBoard aDie1 aDiceCup |
+
+	aBoard := Board withTiles: { MoonWalkEffect withN: -2. NoEffect new. NoEffect new. NoEffect new }andParsecs: 4.
+
+   aDie1 := LoadedDie with: 2.
+
+   aDiceCup := DiceCup withAll: { aDie1 }.
+
+	aGame := LaScalonetaGame 
+				playedBy: ( {'Jorge'. 'Julian'} )
+				on: aBoard
+				rolling: aDiceCup
+				numberOfLaps: 2.
+				
+	 aGame playNextTurn.
+	 aGame playNextTurn.
+	 aGame playNextTurn.
+	
+	 self assert: (aGame positionOf:'Julian')tileNumber equals: 1.
+	 self assert: (aGame positionOf:'Julian')lap equals: 1.
+	 self assert: (aGame positionOf:'Julian')tileNumber equals: 1.
+	 self assert: (aGame positionOf:'Jorge')lap equals: 2.
+	
+	
+	
+	
+	
+	
+	
+
+]
+
+{ #category : #tests }
+LaScalonetaGameTest >> testJulianMovesBack3PositionsWhenJorgeLandsOnAMoonWalkEffect [
+
+	| aGame aBoard aDie1 aDiceCup |
+
+	aBoard := Board withTiles: { MoonWalkEffect withN: -2. NoEffect new. NoEffect new. NoEffect new }andParsecs: 4.
+
+   aDie1 := LoadedDie with: 2.
+
+   aDiceCup := DiceCup withAll: { aDie1 }.
+
+	aGame := LaScalonetaGame 
+				playedBy: ( {'Jorge'. 'Julian'} )
+				on: aBoard
+				rolling: aDiceCup
+				numberOfLaps: 2.
+				
+	 aGame playNextTurn.
+	 aGame playNextTurn.
+	 aGame playNextTurn.
+	
+	 self assert: (aGame positionOf:'Julian')tileNumber equals: 1.
+	 self assert: (aGame positionOf:'Julian')lap equals: 1.
+	 self assert: (aGame positionOf:'Julian')tileNumber equals: 1.
+	 self assert: (aGame positionOf:'Jorge')lap equals: 2.
+	
+	
+	
+	
+	
+	
+	
+
+]
+
+{ #category : #tests }
 LaScalonetaGameTest >> testLaScalonetaGameMustHaveAtLeastOnePlayer [
 
 	| aBoard aDie1 aDiceCup |
 
-	aBoard := Board withTiles: { 'aTile1'. 'aTile2'. 'aTile3' }.
+	aBoard := Board withTiles: {NoEffect new. NoEffect new. NoEffect new}andParsecs: 3.
 	
 	aDie1 := LoadedDie with: 1.
 	aDiceCup := DiceCup withAll: { aDie1 }.
@@ -206,7 +423,7 @@ LaScalonetaGameTest >> testLaScalonetaGameMustHaveAtLeastOnePlayer [
 LaScalonetaGameTest >> testLaScalonetaGameMustHaveTwoOrMoreLaps [
 	| aBoard aDie1 aDiceCup |
 
-	aBoard := Board withTiles: { 'aTile1'. 'aTile2'. 'aTile3' }.
+	aBoard := Board withTiles: {NoEffect new. NoEffect new. NoEffect new} andParsecs: 3.
 	
 	aDie1 := LoadedDie with: 1.
 	aDiceCup := DiceCup withAll: { aDie1 }.
@@ -228,7 +445,7 @@ LaScalonetaGameTest >> testPlayerMovesThreeTilesFowardWhenRollingResultEqualsToT
 
 	| aGame aBoard aDie1 aDiceCup |
 
-	aBoard := Board withTiles: { 'aTile1'. 'aTile2'. 'aTile3'. 'aTile4' }.
+	aBoard := Board withTiles: {  NoEffect new. NoEffect new. NoEffect new. NoEffect new } andParsecs: 4.
 	
 	aDie1 := LoadedDie with: 3.
 	aDiceCup := DiceCup withAll: { aDie1 }.
@@ -272,7 +489,7 @@ LaScalonetaGameTest >> testPlayingAfterWinningIsNotAllowed [
 
 	| aGame aBoard aDie1 aDiceCup |
 
-	aBoard := Board withTiles: { 'aTile1'. 'aTile2'. 'aTile3' }.
+	aBoard := Board withTiles: { NoEffect new. NoEffect new. NoEffect new } andParsecs: 3.
 	
 	aDie1 := LoadedDie with: 3.
 	aDiceCup := DiceCup withAll: { aDie1 }.
@@ -306,10 +523,23 @@ LaScalonetaGameTest >> testPlayingAfterWinningIsNotAllowed [
 { #category : #tests }
 LaScalonetaGameTest >> testThereIsNoWinnerAsTheGameHasNotEnded [
 
-	| aGame |
+	| aGame aDiceCup aBoard aDie1 |
+	
+	aBoard := Board withTiles: { NoEffect new. NoEffect new. NoEffect new. NoEffect new  } andParsecs: 4.
 
-	aGame := self initializeLaScalonetaGame.
+	aDie1 := LoadedDie with: 1.
+	aDiceCup := DiceCup withAll: { aDie1 }.
 
+	aGame := LaScalonetaGame
+		         playedBy: { 'Jorge'. 'Julian' }
+		         on: aBoard
+		         rolling: aDiceCup
+					numberOfLaps: 2.
+
+	self deny: (aGame hasEnded).
+	
+	aGame playNextTurn. 
+	aGame playNextTurn. 	
 	aGame playNextTurn.
 	
 	self
