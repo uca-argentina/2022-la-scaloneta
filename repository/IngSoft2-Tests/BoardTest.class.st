@@ -9,9 +9,9 @@ BoardTest >> testBoardLengthEqualsToTileCollectionLength [
 
 	| board tiles |
 
-	tiles := {'tile1'. 'tile2'}.
+	tiles := {NoEffect new. NoEffect new.}.
 
-	board := Board withTiles: tiles.
+	board := Board withTiles: tiles andParsecs: 1.
 
 	self assert: board tiles size equals: tiles size
 ]
@@ -19,14 +19,17 @@ BoardTest >> testBoardLengthEqualsToTileCollectionLength [
 { #category : #tests }
 BoardTest >> testTileNumberedIsCorrect [
 
-	| tileCollection board |
+	| tile1 tile2 tiles board |
 	
-	tileCollection := { 'firstTile'. 'secondTile' }.
+	tile1 := NoEffect new.
+	tile2 := NoEffect new.
 	
-	board := Board withTiles: tileCollection.
+	tiles := {tile1. tile2}.
+
+	board := Board withTiles: tiles andParsecs: 1.
 	
-	self assert: ( board tileNumbered: 1 ) equals: 'firstTile' .
-	self assert: ( board tileNumbered: 2 ) equals: 'secondTile'.
+	self assert: ( board tileNumbered: 1 ) equals: tile1.
+	self assert: ( board tileNumbered: 2 ) equals: tile2.
 
 	
 
@@ -35,26 +38,30 @@ BoardTest >> testTileNumberedIsCorrect [
 { #category : #tests }
 BoardTest >> testTileNumberedIsNoyCorrect [
 
-	| tileCollection board |
+	| tile1 tile2 tiles board |
 	
-	tileCollection := { 'firstTile'. 'secondTile' }.
+	tile1 := NoEffect new.
+	tile2 := NoEffect new.
 	
-	board := Board withTiles: tileCollection.
-	
-	self deny: ( board tileNumbered: 1 ) equals: 'secondTile'.
-	self deny: ( board tileNumbered: 2 ) equals: 'firstTile'.
+	tiles := {tile1. tile2}.
 
+	board := Board withTiles: tiles andParsecs: 1.
+	
+	self deny: ( board tileNumbered: 1 ) equals: tile2.
+	self deny: ( board tileNumbered: 2 ) equals: tile1.
 ]
 
 { #category : #tests }
 BoardTest >> testTilesBoardEqualsToTilesCollection [
 
-	| board tiles |
+| tile1 tile2 tiles board |
+	
+	tile1 := NoEffect new.
+	tile2 := NoEffect new.
+	
+	tiles := {tile1. tile2}.
 
-
-	tiles := {'tile1'. 'tile2'}.
-
-	board := Board withTiles: tiles.
-
-	self assertCollection: board tiles equals: tiles
+	board := Board withTiles: tiles andParsecs: 1.
+	
+	self assert: board tiles equals: tiles.
 ]

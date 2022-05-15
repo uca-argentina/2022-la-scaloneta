@@ -103,7 +103,7 @@ LaScalonetaGame >> laps [
 ]
 
 { #category : #private }
-LaScalonetaGame >> movePlayer: aSpaceShip withRollingResult: aResult [
+LaScalonetaGame >> moveSpaceShip: aSpaceShip withRollingResult: aResult [
 
 	| quantityOfSquaresAdvanced auxLap newLap newPosition |
 	
@@ -125,7 +125,7 @@ LaScalonetaGame >> movePlayer: aSpaceShip withRollingResult: aResult [
 ]
 
 { #category : #private }
-LaScalonetaGame >> movePlayerToFirstPositionOnSameLap: aSpaceShip [ 
+LaScalonetaGame >> moveSpaceShipToFirstPositionOnSameLap: aSpaceShip [ 
 
  	self addPosition: ( SpaceShipPosition
 								ofSpaceShip: ( (self positionOf: aSpaceShip) spaceShip )
@@ -145,17 +145,11 @@ LaScalonetaGame >> nextSpaceShipTurn: aSpaceShip [
 { #category : #playing }
 LaScalonetaGame >> playNextTurn [
 
-	self rollDiceCupFor: (self spaceShipTurn)
-]
-
-{ #category : #accessing }
-LaScalonetaGame >> positionOf: aSpaceShip [
-
-	^ (spaceShipPositions select: [ :position | position spaceShip = aSpaceShip ]) last
+	self playTurnFor: (self spaceShipTurn)
 ]
 
 { #category : #private }
-LaScalonetaGame >> rollDiceCupFor: aPlayer [
+LaScalonetaGame >> playTurnFor: aPlayer [
 
 	| rollingResult |
 	
@@ -164,13 +158,31 @@ LaScalonetaGame >> rollDiceCupFor: aPlayer [
 	
 	rollingResult := diceCollection roll.
 	
-	self movePlayer: aPlayer withRollingResult: rollingResult.
+	self moveSpaceShip: aPlayer withRollingResult: rollingResult.
 	self applyEffect: self spaceShips.
 	
 	(board isTheLastOnePosition:( (self positionOf: aPlayer) tileNumber )) & ((self positionOf: aPlayer) lap = (self laps)) ifTrue: [ hasEnded := true ].
 													
 	self nextSpaceShipTurn: aPlayer.
 							
+
+
+]
+
+{ #category : #accessing }
+LaScalonetaGame >> positionOf: aSpaceShip [
+
+	^ (spaceShipPositions select: [ :position | position spaceShip = aSpaceShip ]) last
+]
+
+{ #category : #classification }
+LaScalonetaGame >> positionsRanking [
+
+	| spaceShipsPositions |
+
+	spaceShipsPositions := (self spaceShips) collect: [ :aSpaceShip | self positionOf: aSpaceShip].
+ 
+	^ spaceShipsPositions asSortedCollection: [ :spaceShipA :spaceShipB | spaceShipA >= spaceShipB ]
 
 
 ]
