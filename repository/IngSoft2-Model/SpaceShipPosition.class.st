@@ -23,6 +23,13 @@ SpaceShipPosition class >> startingOfSpaceShip: aSpaceShip forBoard: aBoard lap:
 
 ]
 
+{ #category : #comparing }
+SpaceShipPosition >> >= aSpaceShipPosition [ 
+
+	self lap = aSpaceShipPosition lap ifTrue: [ ^ self tileNumber >= aSpaceShipPosition tileNumber ].
+	^ self lap >= aSpaceShipPosition lap.
+]
+
 { #category : #initialization }
 SpaceShipPosition >> initializeOfSpaceShip: aSpaceShip tileNumber: aTileNumber lap: aLap [
 

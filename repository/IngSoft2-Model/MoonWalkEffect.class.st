@@ -2,7 +2,7 @@ Class {
 	#name : #MoonWalkEffect,
 	#superclass : #Object,
 	#instVars : [
-		'N'
+		'n'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -22,18 +22,18 @@ MoonWalkEffect class >> withN: aN [
 { #category : #initialization }
 MoonWalkEffect >> initializeWith: aN [
 	
-	N := aN.
+	n := aN.
 ]
 
 { #category : #private }
 MoonWalkEffect >> moveSpaceShip: aSpaceShips for: aGame [
 		
 		
-		^(aSpaceShips allButFirst do: [ :spaceShip | aGame movePlayer: spaceShip  withRollingResult: self n ]) 
+		^(aSpaceShips allButFirst do: [ :spaceShip | aGame moveSpaceShip: spaceShip  withRollingResult: self n ]) 
 ]
 
 { #category : #accessing }
 MoonWalkEffect >> n [
 
-	^ N
+	^ n
 ]

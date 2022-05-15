@@ -38,9 +38,11 @@ HyperJumpEffect >> initializeWith: aCollectionOfM [
 { #category : #private }
 HyperJumpEffect >> moveSpaceShip: aSpaceShips for: aGame [
 		
-		|aux|
-		aux:= self collectionOfM first.
-		collectionOfM  := ((self collectionOfM) reject: [ :each | each = aux ]) , { aux }.
-
-		^ aGame movePlayer: aSpaceShips  withRollingResult: self n 
+		|value_MCollection|
+		
+		value_MCollection := self collectionOfM first.
+		
+		collectionOfM  := ((self collectionOfM) reject: [ :each | each = value_MCollection ]) , { value_MCollection }.
+	
+		^ aGame moveSpaceShip: (aSpaceShips first) withRollingResult: (value_MCollection / (aGame board parsecs / aGame board tiles size )) floor 
 ]
