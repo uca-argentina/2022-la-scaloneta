@@ -93,7 +93,7 @@ LaScalonetaGame >> initializeWithBoard: aBoard diceCollection: aDiceCollection s
 LaScalonetaGame >> itsMyTurn: aSpaceShip [
 
 	(spaceShipTurn = aSpaceShip) ifTrue: [ ^ true ]
-	                       ifFalse: [ ^ false ]
+	                             ifFalse: [ ^ false ]
 ]
 
 { #category : #accessing }
@@ -109,19 +109,23 @@ LaScalonetaGame >> moveSpaceShip: aSpaceShip withRollingResult: aResult [
 	
 	quantityOfSquaresAdvanced  :=  (((self positionOf: aSpaceShip) lap - 1) * (self board tiles size)) + aResult + (self positionOf: aSpaceShip) tileNumber.
 	
+	quantityOfSquaresAdvanced <= 0 ifTrue:[quantityOfSquaresAdvanced := 1].
+	
 	auxLap := ((quantityOfSquaresAdvanced - 1)  // (self board tiles size) + 1).
 	
 	newLap := auxLap min: (self laps).
 	
 	newPosition := quantityOfSquaresAdvanced % (self board tiles size).
 	
-	(newPosition = 0 | (auxLap > (self laps))) ifTrue: [ newPosition := (self board tiles size) ].
+	(newPosition = 0 | (auxLap > (self laps))) ifTrue: [ newPosition := (self board tiles size)].
 	
  	self addPosition: ( SpaceShipPosition
 								ofSpaceShip: ( (self positionOf: aSpaceShip) spaceShip )
 								tileNumber: newPosition
 								lap: newLap
 							) 
+							
+						
 ]
 
 { #category : #private }
@@ -159,13 +163,12 @@ LaScalonetaGame >> playTurnFor: aPlayer [
 	rollingResult := diceCollection roll.
 	
 	self moveSpaceShip: aPlayer withRollingResult: rollingResult.
-	self applyEffect: self spaceShips.
-	
-	(board isTheLastOnePosition:( (self positionOf: aPlayer) tileNumber )) & ((self positionOf: aPlayer) lap = (self laps)) ifTrue: [ hasEnded := true ].
-													
-	self nextSpaceShipTurn: aPlayer.
-							
 
+	(board isTheLastOnePosition:( (self positionOf: aPlayer) tileNumber )) & ((self positionOf: aPlayer) lap = (self laps)) ifTrue: [ hasEnded := true ]
+																																								ifFalse: [ self applyEffect: self spaceShips.
+																																									        self nextSpaceShipTurn: aPlayer.]
+							
+																																												
 
 ]
 

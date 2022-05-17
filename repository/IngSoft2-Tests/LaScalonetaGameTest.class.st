@@ -500,6 +500,34 @@ LaScalonetaGameTest >> testPlayingAfterWinningIsNotAllowed [
 ]
 
 { #category : #tests }
+LaScalonetaGameTest >> testScalonetaGamePlayedWithRandomBoard [
+	|tilesCollection board aGame pool aDie1 aDiceCup|
+	
+	pool := EffectPool withEffects: {NoEffect new. MoonWalkEffect withN: -2. HyperJumpEffect with: #(1 2 3). AtomicBombEffect new. WormHoleEffect new. } andProbabilities: {40. 10. 8. 20. 2. 20.}.
+	tilesCollection := pool randomCollectionOfEffectsWithLength: 5.
+	
+	board := Board withTiles: tilesCollection andParsecs: 2.
+	
+	aDie1 := LoadedDie with: 7.
+   aDiceCup := DiceCup withAll: { aDie1 }.
+
+   aGame := LaScalonetaGame
+                 playedBy: { 'Jorge'. 'Julian' }
+                 on: board
+                 rolling: aDiceCup
+                    numberOfLaps: 2.
+
+	self playUntilFinished: aGame.	
+	
+	self assert: aGame hasEnded.
+
+
+	
+	
+	
+]
+
+{ #category : #tests }
 LaScalonetaGameTest >> testSpaceShipsRanking [
 
 	| aGame aDiceCup aBoard aDie1 |

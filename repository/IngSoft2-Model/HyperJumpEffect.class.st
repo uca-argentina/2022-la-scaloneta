@@ -23,7 +23,8 @@ HyperJumpEffect class >> with: aCollectionOfM [
 
 { #category : #private }
 HyperJumpEffect >> collectionOfM [
-	^collectionOfM 
+
+	^ collectionOfM 
 ]
 
 { #category : #initialization }
@@ -38,7 +39,7 @@ HyperJumpEffect >> initializeWith: aCollectionOfM [
 { #category : #private }
 HyperJumpEffect >> moveSpaceShip: aSpaceShips for: aGame [
 		
-		|value_MCollection|
+		| value_MCollection |
 		
 		value_MCollection := self collectionOfM first.
 		

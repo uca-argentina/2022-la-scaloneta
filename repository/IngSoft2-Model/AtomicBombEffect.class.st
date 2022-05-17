@@ -8,5 +8,5 @@ Class {
 AtomicBombEffect >> moveSpaceShip: aSpaceShips for: aGame [
 		
 		
-		^(aSpaceShips  do: [ :spaceShip | aGame moveSpaceShipToFirstPositionOnSameLap: spaceShip ]) 
+		^ (aSpaceShips  do: [ :spaceShip | aGame moveSpaceShipToFirstPositionOnSameLap: spaceShip ]) 
 ]

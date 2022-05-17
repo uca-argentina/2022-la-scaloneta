@@ -49,7 +49,8 @@ Board >> lastPosition [
 
 { #category : #accessing }
 Board >> parsecs [
-	^parsecs
+
+	^ parsecs
 ]
 
 { #category : #accessing }
