@@ -109,6 +109,8 @@ LaScalonetaGame >> moveSpaceShip: aSpaceShip withRollingResult: aResult [
 	
 	quantityOfSquaresAdvanced  :=  (((self positionOf: aSpaceShip) lap - 1) * (self board tiles size)) + aResult + (self positionOf: aSpaceShip) tileNumber.
 	
+	quantityOfSquaresAdvanced <= 0 ifTrue:[quantityOfSquaresAdvanced := 1].
+	
 	auxLap := ((quantityOfSquaresAdvanced - 1)  // (self board tiles size) + 1).
 	
 	newLap := auxLap min: (self laps).

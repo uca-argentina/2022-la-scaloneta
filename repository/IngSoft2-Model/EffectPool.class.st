@@ -43,6 +43,19 @@ EffectPool >> initializeWithEffect: effects andProbabilities: probabilities [
 ]
 
 { #category : #accessing }
+EffectPool >> randomCollectionOfEffectsWithLength: length [
+
+	|randomEffectsCollection|
+
+	randomEffectsCollection :=  { }.
+	
+	(1 to: length) do: [ :i | randomEffectsCollection :=  randomEffectsCollection, { self randomEffect}].
+	
+	^randomEffectsCollection.
+	
+]
+
+{ #category : #accessing }
 EffectPool >> randomEffect [
 	|effectIndex|
        
