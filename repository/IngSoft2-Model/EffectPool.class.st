@@ -20,45 +20,36 @@ EffectPool >> effectPoolCollection [
 
 { #category : #initialization }
 EffectPool >> initializeWithEffect: effects andProbabilities: probabilities [ 
-		|i j effect probability |
+
+		| effect probability |
 
       effectPoolCollection := {}.
-		i := 1.
-		j := 1.
+		
+		1 to: effects size do: [ :i | effect := effects at: i.
+                                    probability := probabilities at: i.
 
-		
-		[(i <= (effects size))] whileTrue:
-			[
-				effect := effects at: i.
-				probability := probabilities at: i.
-				[(j < (probability + 1) )] whileTrue:[
-						
-						effectPoolCollection := effectPoolCollection, { effect }.
-						j := j+1.
-					].
-				i := i+1.
-				j := 1.
-			]
-		
+                                    probability+1 timesRepeat: [ effectPoolCollection := effectPoolCollection copyWith: effect. ]                                                       
+									 ]
 ]
 
 { #category : #accessing }
 EffectPool >> randomCollectionOfEffectsWithLength: length [
 
-	|randomEffectsCollection|
+	| randomEffectsCollection |
 
 	randomEffectsCollection :=  { }.
 	
-	(1 to: length) do: [ :i | randomEffectsCollection :=  randomEffectsCollection, { self randomEffect}].
+	1 to: length do: [ :i | randomEffectsCollection :=  randomEffectsCollection copyWith: self randomEffect].
 	
-	^randomEffectsCollection.
+	^ randomEffectsCollection.
 	
 ]
 
 { #category : #accessing }
 EffectPool >> randomEffect [
+
 	|effectIndex|
        
-		effectIndex := (effectPoolCollection size)  atRandom.
-		^self effectPoolCollection at: effectIndex .
+		effectIndex := (effectPoolCollection size) atRandom.
+		^ self effectPoolCollection at: effectIndex .
 ]

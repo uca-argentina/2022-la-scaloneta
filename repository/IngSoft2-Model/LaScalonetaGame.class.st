@@ -93,7 +93,7 @@ LaScalonetaGame >> initializeWithBoard: aBoard diceCollection: aDiceCollection s
 LaScalonetaGame >> itsMyTurn: aSpaceShip [
 
 	(spaceShipTurn = aSpaceShip) ifTrue: [ ^ true ]
-	                       ifFalse: [ ^ false ]
+	                             ifFalse: [ ^ false ]
 ]
 
 { #category : #accessing }
