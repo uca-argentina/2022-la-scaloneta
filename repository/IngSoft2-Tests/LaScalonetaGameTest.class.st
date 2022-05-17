@@ -503,12 +503,12 @@ LaScalonetaGameTest >> testPlayingAfterWinningIsNotAllowed [
 LaScalonetaGameTest >> testScalonetaGamePlayedWithRandomBoard [
 	|tilesCollection board aGame pool aDie1 aDiceCup|
 	
-	pool := EffectPool withEffects: {NoEffect new.  MoonWalkEffect new.  SpeedUpEffect new. HyperJumpEffect new. AtomicBombEffect new. WormHoleEffect new. } andProbabilities: {40. 10. 20. 8. 2. 20.}.
+	pool := EffectPool withEffects: {NoEffect new. MoonWalkEffect withN: -2. HyperJumpEffect with: #(1 2 3). AtomicBombEffect new. WormHoleEffect new. } andProbabilities: {40. 10. 8. 20. 2. 20.}.
 	tilesCollection := pool randomCollectionOfEffectsWithLength: 5.
 	
 	board := Board withTiles: tilesCollection andParsecs: 2.
 	
-	aDie1 := LoadedDie with: 3.
+	aDie1 := LoadedDie with: 7.
    aDiceCup := DiceCup withAll: { aDie1 }.
 
    aGame := LaScalonetaGame
@@ -517,8 +517,8 @@ LaScalonetaGameTest >> testScalonetaGamePlayedWithRandomBoard [
                  rolling: aDiceCup
                     numberOfLaps: 2.
 
-  
-	self playUntilFinished: aGame.
+	self playUntilFinished: aGame.	
+	
 	self assert: aGame hasEnded.
 
 
