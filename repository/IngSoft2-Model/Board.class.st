@@ -9,16 +9,17 @@ Class {
 }
 
 { #category : #asserting }
-Board class >> assertValid: aTileCollection [ 
+Board class >> assertValid: aTileCollection [
 
-	aTileCollection size  < 2 ifTrue: [ Error signal: 'Number of tiles should be 2 or more' ]
+	aTileCollection size < 2 ifTrue: [ 
+		Error signal: 'Number of tiles should be 2 or more' ]
 ]
 
 { #category : #'instance creation' }
-Board class >> withTiles: aTileCollection andParsecs: aParsecs [
+Board class >> withTiles: tiles andParsecs: parsecs [
 
-	self assertValid: aTileCollection.
-	^ self new initializeWithTiles: aTileCollection andParsecs: aParsecs 
+	self assertValid: tiles.
+	^ self new initializeWithTiles: tiles andParsecs: parsecs
 ]
 
 { #category : #accessing }
@@ -37,8 +38,9 @@ Board >> initializeWithTiles: aTileCollection andParsecs: aParsecs [
 { #category : #asserting }
 Board >> isTheLastOnePosition: aPosition [
 
-	( self lastPosition = aPosition ) ifTrue:[ ^ true ]
-									         ifFalse: [ ^ false ]
+	self lastPosition = aPosition
+		ifTrue: [ ^ true ]
+		ifFalse: [ ^ false ]
 ]
 
 { #category : #accessing }

@@ -8,9 +8,10 @@ Class {
 }
 
 { #category : #asserting }
-RandomDie class >> assertValid: numberOfSides [ 
+RandomDie class >> assertValid: numberOfSides [
 
-	numberOfSides < 3 ifTrue: [ Error signal: 'Number of faces should be greater than 2' ]
+	numberOfSides < 3 ifTrue: [ 
+		Error signal: 'Number of faces should be greater than 2' ]
 ]
 
 { #category : #'instance creation' }
@@ -29,5 +30,5 @@ RandomDie >> initializeWith: aNumberOfSides [
 { #category : #rolling }
 RandomDie >> roll [
 
-      ^ numberOfSides atRandom
+	^ numberOfSides atRandom
 ]
