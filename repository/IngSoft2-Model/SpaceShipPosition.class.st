@@ -12,22 +12,27 @@ Class {
 { #category : #'instance creation' }
 SpaceShipPosition class >> ofSpaceShip: aSpaceSip tileNumber: aTileNumber lap: aLap [
 
-	^ self new initializeOfSpaceShip: aSpaceSip tileNumber: aTileNumber lap: aLap
-
+	^ self new
+		  initializeOfSpaceShip: aSpaceSip
+		  tileNumber: aTileNumber
+		  lap: aLap
 ]
 
 { #category : #'instance creation' }
 SpaceShipPosition class >> startingOfSpaceShip: aSpaceShip forBoard: aBoard lap: aLap [
 
-	^ self ofSpaceShip: aSpaceShip tileNumber: (aBoard firstPosition) lap: aLap
-
+	^ self
+		  ofSpaceShip: aSpaceShip
+		  tileNumber: aBoard firstPosition
+		  lap: aLap
 ]
 
 { #category : #comparing }
-SpaceShipPosition >> >= aSpaceShipPosition [ 
+SpaceShipPosition >> >= aSpaceShipPosition [
 
-	self lap = aSpaceShipPosition lap ifTrue: [ ^ self tileNumber >= aSpaceShipPosition tileNumber ].
-	^ self lap >= aSpaceShipPosition lap.
+	self lap = aSpaceShipPosition lap ifTrue: [ 
+		^ self tileNumber >= aSpaceShipPosition tileNumber ].
+	^ self lap >= aSpaceShipPosition lap
 ]
 
 { #category : #initialization }

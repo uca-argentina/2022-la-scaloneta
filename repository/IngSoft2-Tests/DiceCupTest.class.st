@@ -15,7 +15,7 @@ DiceCupTest >> should: block raise: expectedErrorClass withMessage: expectedErro
 ]
 
 { #category : #tests }
-DiceCupTest >> testDiceCupCanNotInitializeIfEmpty [
+DiceCupTest >> testDiceCupShouldHaveAtLeastOneDie [
 	
 	
 	self

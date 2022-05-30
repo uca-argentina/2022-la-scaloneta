@@ -6,6 +6,6 @@ Class {
 
 { #category : #private }
 NoEffect >> moveSpaceShip: aSpaceShips for: aGame [
-		
-		^ aGame moveSpaceShip: aSpaceShips first withRollingResult: 0
+
+	^ aGame moveSpaceShip: aSpaceShips first withRollingResult: 0
 ]

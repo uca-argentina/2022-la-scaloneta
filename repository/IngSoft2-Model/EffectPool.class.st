@@ -8,8 +8,11 @@ Class {
 }
 
 { #category : #initialize }
-EffectPool class >> withEffects: effectsCollection andProbabilities: probabilitiesCollection [
-	^self new initializeWithEffect: effectsCollection andProbabilities: probabilitiesCollection.
+EffectPool class >> withEffects: effects andProbabilities: probabilities [
+
+	^ self new
+		  initializeWithEffect: effects
+		  andProbabilities: probabilities
 ]
 
 { #category : #accessing }
@@ -19,37 +22,36 @@ EffectPool >> effectPoolCollection [
 ]
 
 { #category : #initialization }
-EffectPool >> initializeWithEffect: effects andProbabilities: probabilities [ 
+EffectPool >> initializeWithEffect: effects andProbabilities: probabilities [
 
-		| effect probability |
+	| effect probability |
+	effectPoolCollection := {  }.
 
-      effectPoolCollection := {}.
-		
-		1 to: effects size do: [ :i | effect := effects at: i.
-                                    probability := probabilities at: i.
+	1 to: effects size do: [ :i | 
+		effect := effects at: i.
+		probability := probabilities at: i.
 
-                                    probability+1 timesRepeat: [ effectPoolCollection := effectPoolCollection copyWith: effect. ]                                                       
-									 ]
+		probability + 1 timesRepeat: [ 
+			effectPoolCollection := effectPoolCollection copyWith: effect ] ]
 ]
 
 { #category : #accessing }
 EffectPool >> randomCollectionOfEffectsWithLength: length [
 
 	| randomEffectsCollection |
+	randomEffectsCollection := {  }.
 
-	randomEffectsCollection :=  { }.
-	
-	1 to: length do: [ :i | randomEffectsCollection :=  randomEffectsCollection copyWith: self randomEffect].
-	
-	^ randomEffectsCollection.
-	
+	1 to: length do: [ :i | 
+		randomEffectsCollection := randomEffectsCollection copyWith:
+			                           self randomEffect ].
+
+	^ randomEffectsCollection
 ]
 
 { #category : #accessing }
 EffectPool >> randomEffect [
 
-	|effectIndex|
-       
-		effectIndex := (effectPoolCollection size) atRandom.
-		^ self effectPoolCollection at: effectIndex .
+	| effectIndex |
+	effectIndex := effectPoolCollection size atRandom.
+	^ self effectPoolCollection at: effectIndex
 ]

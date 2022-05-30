@@ -10,14 +10,15 @@ Class {
 { #category : #asserting }
 LoadedDie class >> assertValid: result [
 
-	result > 0 ifFalse: [ Error signal: 'Die should be loaded with result greater than zero' ] 
+	result > 0 ifFalse: [ 
+		Error signal: 'Die should be loaded with result greater than zero' ]
 ]
 
 { #category : #'instance creation' }
 LoadedDie class >> with: result [
 
 	self assertValid: result.
-	^self new initializeWith: result
+	^ self new initializeWith: result
 ]
 
 { #category : #initialization }

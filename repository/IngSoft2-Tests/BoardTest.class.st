@@ -36,22 +36,6 @@ BoardTest >> testTileNumberedIsCorrect [
 ]
 
 { #category : #tests }
-BoardTest >> testTileNumberedIsNoyCorrect [
-
-	| tile1 tile2 tiles board |
-	
-	tile1 := NoEffect new.
-	tile2 := NoEffect new.
-	
-	tiles := {tile1. tile2}.
-
-	board := Board withTiles: tiles andParsecs: 1.
-	
-	self deny: ( board tileNumbered: 1 ) equals: tile2.
-	self deny: ( board tileNumbered: 2 ) equals: tile1.
-]
-
-{ #category : #tests }
 BoardTest >> testTilesBoardEqualsToTilesCollection [
 
 | tile1 tile2 tiles board |

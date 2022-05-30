@@ -8,17 +8,25 @@ Class {
 }
 
 { #category : #asserting }
-HyperJumpEffect class >> assertValidCollection: aCollecrtionOfM [
-	
-	aCollecrtionOfM do: [ : m | m<0 ifTrue:[Error signal: 'Values of the collection must be positive!' ]]
+HyperJumpEffect class >> assertIsNotEmptyFor: aCollecrtionOfM [
+
+	aCollecrtionOfM ifEmpty: [ Error signal: 'HyperJumpEffect can not be initalize with empty collection!' ] 
+]
+
+{ #category : #asserting }
+HyperJumpEffect class >> assertValidValuesFor: aCollecrtionOfM [
+
+	aCollecrtionOfM do: [ :m | 
+		m < 0 ifTrue: [ 
+			Error signal: 'Values of the collection must be positive!' ] ]
 ]
 
 { #category : #'instance creation' }
-HyperJumpEffect class >> with: aCollectionOfM [
-	
-	self assertValidCollection: aCollectionOfM.
-	^self new initializeWith: aCollectionOfM. 
-	
+HyperJumpEffect class >> withMValues: aCollectionOfM [
+
+	self assertIsNotEmptyFor: aCollectionOfM.
+	self assertValidValuesFor: aCollectionOfM.
+	^ self new initializeWith: aCollectionOfM
 ]
 
 { #category : #private }
@@ -38,12 +46,17 @@ HyperJumpEffect >> initializeWith: aCollectionOfM [
 
 { #category : #private }
 HyperJumpEffect >> moveSpaceShip: aSpaceShips for: aGame [
-		
-		| value_MCollection |
-		
-		value_MCollection := self collectionOfM first.
-		
-		collectionOfM  := ((self collectionOfM) reject: [ :each | each = value_MCollection ]) , { value_MCollection }.
-	
-		^ aGame moveSpaceShip: (aSpaceShips first) withRollingResult: (value_MCollection / (aGame board parsecs / aGame board tiles size )) floor 
+
+	| value_MCollection |
+	value_MCollection := self collectionOfM first.
+
+	collectionOfM := (self collectionOfM reject: [ :each | 
+		                  each = value_MCollection ])
+	                 , { value_MCollection }.
+
+	^ aGame
+		  moveSpaceShip: aSpaceShips first
+		  withRollingResult:
+			  (value_MCollection
+			   / (aGame board parsecs / aGame board tiles size)) floor
 ]
