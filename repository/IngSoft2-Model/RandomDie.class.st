@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #asserting }
-RandomDie class >> assertValid: numberOfSides [
+RandomDie class >> assertValidNumberOfTiles: numberOfSides [
 
 	numberOfSides < 3 ifTrue: [ 
 		Error signal: 'Number of faces should be greater than 2' ]
@@ -17,7 +17,7 @@ RandomDie class >> assertValid: numberOfSides [
 { #category : #'instance creation' }
 RandomDie class >> with: numberOfSides [
 
-	self assertValid: numberOfSides.
+	self assertValidNumberOfTiles: numberOfSides.
 	^ self new initializeWith: numberOfSides
 ]
 

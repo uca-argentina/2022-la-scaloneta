@@ -9,17 +9,25 @@ Class {
 }
 
 { #category : #asserting }
-Board class >> assertValid: aTileCollection [
+Board class >> assertValidNumberOfTiles: aTileCollection [
 
 	aTileCollection size < 2 ifTrue: [ 
 		Error signal: 'Number of tiles should be 2 or more' ]
 ]
 
-{ #category : #'instance creation' }
-Board class >> withTiles: tiles andParsecs: parsecs [
+{ #category : #asserting }
+Board class >> assertValidParsecs: parsecs [
 
-	self assertValid: tiles.
-	^ self new initializeWithTiles: tiles andParsecs: parsecs
+	parsecs > 0 ifFalse: [ 
+		Error signal: 'Parsecs must be greater than 0!' ]
+]
+
+{ #category : #'instance creation' }
+Board class >> with: tiles and: parsecs [
+
+	self assertValidNumberOfTiles: tiles.
+	self assertValidParsecs: parsecs.
+	^ self new initializeWith: tiles and: parsecs
 ]
 
 { #category : #accessing }
@@ -29,7 +37,7 @@ Board >> firstPosition [
 ]
 
 { #category : #initialization }
-Board >> initializeWithTiles: aTileCollection andParsecs: aParsecs [
+Board >> initializeWith: aTileCollection and: aParsecs [
 
 	tiles := aTileCollection.
 	parsecs := aParsecs

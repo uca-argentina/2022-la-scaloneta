@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #private }
-NoEffect >> moveSpaceShip: aSpaceShips for: aGame [
+NoEffect >> move: aSpaceShips for: aGame [
 
 
 ]

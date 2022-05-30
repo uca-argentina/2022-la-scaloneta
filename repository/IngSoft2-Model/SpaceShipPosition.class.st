@@ -19,7 +19,7 @@ SpaceShipPosition class >> ofSpaceShip: aSpaceSip tileNumber: aTileNumber lap: a
 ]
 
 { #category : #'instance creation' }
-SpaceShipPosition class >> startingOfSpaceShip: aSpaceShip forBoard: aBoard lap: aLap [
+SpaceShipPosition class >> startingOf: aSpaceShip for: aBoard at: aLap [
 
 	^ self
 		  ofSpaceShip: aSpaceShip

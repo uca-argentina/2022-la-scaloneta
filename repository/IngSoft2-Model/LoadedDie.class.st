@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #asserting }
-LoadedDie class >> assertValid: result [
+LoadedDie class >> assertValidNumberOfTiles: result [
 
 	result > 0 ifFalse: [ 
 		Error signal: 'Die should be loaded with result greater than zero' ]
@@ -17,7 +17,7 @@ LoadedDie class >> assertValid: result [
 { #category : #'instance creation' }
 LoadedDie class >> with: result [
 
-	self assertValid: result.
+	self assertValidNumberOfTiles: result.
 	^ self new initializeWith: result
 ]
 

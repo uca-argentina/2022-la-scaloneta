@@ -11,7 +11,7 @@ BoardTest >> testBoardLengthEqualsToTileCollectionLength [
 
 	tiles := {NoEffect new. NoEffect new.}.
 
-	board := Board withTiles: tiles andParsecs: 1.
+	board := Board with: tiles and: 1.
 
 	self assert: board size equals: tiles size
 ]
@@ -26,7 +26,7 @@ BoardTest >> testTileNumberedIsCorrect [
 	
 	tiles := {tile1. tile2}.
 
-	board := Board withTiles: tiles andParsecs: 1.
+	board := Board with: tiles and: 1.
 	
 	self assert: board tiles first equals: tile1.
 	self assert: board tiles second equals: tile2.
@@ -45,7 +45,7 @@ BoardTest >> testTilesBoardEqualsToTilesCollection [
 	
 	tiles := {tile1. tile2}.
 
-	board := Board withTiles: tiles andParsecs: 1.
+	board := Board with: tiles and: 1.
 	
 	self assert: board tiles equals: tiles.
 ]

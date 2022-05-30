@@ -15,7 +15,7 @@ MoonWalkEffect class >> assertNIsANegativeNumber: aN [
 ]
 
 { #category : #private }
-MoonWalkEffect class >> withN: aN [
+MoonWalkEffect class >> with: aN [
 
 	self assertNIsANegativeNumber: aN.
 	^ self new initializeWith: aN
@@ -28,8 +28,8 @@ MoonWalkEffect >> initializeWith: aN [
 ]
 
 { #category : #private }
-MoonWalkEffect >> moveSpaceShip: aSpaceShips for: aGame [
+MoonWalkEffect >> move: aSpaceShips for: aGame [
 
 	^ aSpaceShips allButFirst do: [ :spaceShip | 
-		  aGame moveSpaceShip: spaceShip withRollingResult: n ]
+		  aGame move: spaceShip withRolling: n ]
 ]
