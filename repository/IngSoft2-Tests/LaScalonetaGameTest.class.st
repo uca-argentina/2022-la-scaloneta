@@ -73,6 +73,42 @@ LaScalonetaGameTest >> testAskingForTheWinnerWhenTheGameHasNotEndedThrowsAnError
 ]
 
 { #category : #tests }
+LaScalonetaGameTest >> testEffectPoolProbabilitiesMustBeBetwenZeroAndOneHundred [
+
+	| pool |
+	self
+		should: [ 
+			pool := EffectPool
+				        withEffects: { 
+						        NoEffect new.
+						        (MoonWalkEffect withN: -2).
+						        (HyperJumpEffect withMValues: #( 1 2 3 )).
+						        AtomicBombEffect new.
+						        WormHoleEffect new }
+				        andProbabilities: { 40. -50. 8. 20. 2. -20 } ]
+		raise: Error
+		withMessage: 'Probabilities must be betwen 0 and 100!' 
+]
+
+{ #category : #tests }
+LaScalonetaGameTest >> testEffectPoolSumOfProbabilitiesMustBeEqualsToOneHundred [
+
+	| pool |
+	self
+		should: [ 
+			pool := EffectPool
+				        withEffects: { 
+						        NoEffect new.
+						        (MoonWalkEffect withN: -2).
+						        (HyperJumpEffect withMValues: #( 1 2 3 )).
+						        AtomicBombEffect new.
+						        WormHoleEffect new }
+				        andProbabilities: { 40. 10. 8. 20. 2. 10 } ]
+		raise: Error
+		withMessage: 'The sum of the probabilities must be equal to 100!'
+]
+
+{ #category : #tests }
 LaScalonetaGameTest >> testEveryoneGoesBackToTheFirstPositionOnTheSameLapWhenJorgeLandsOnAnAtomicBombEffect [
 
 	| aGame aBoard aDie1 aDiceCup |
@@ -243,7 +279,7 @@ LaScalonetaGameTest >> testJorgeIsNotTheWinnerOfLaScalonetaGameWhenJulianReaches
 		         playedBy: { 'Julian'. 'Jorge' }
 		         on: aBoard
 		         rolling: aDiceCup
-		         withNumberOfLaps: 2.
+		         withNumberOfLaps: 1.
 
 	aGame playNextTurn.
 
@@ -459,7 +495,7 @@ LaScalonetaGameTest >> testJorgeWinsLaScalonetaGameWhenJorgeReachesTheEndFirst [
 		         playedBy: { 'Jorge'. 'Julian' }
 		         on: aBoard
 		         rolling: aDiceCup
-		         withNumberOfLaps: 2.
+		         withNumberOfLaps: 1.
 
 	aGame playNextTurn.
 

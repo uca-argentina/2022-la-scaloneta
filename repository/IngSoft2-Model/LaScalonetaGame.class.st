@@ -61,10 +61,22 @@ LaScalonetaGame >> assertGameHasNotEnded [
 		Error signal: 'La Scaloneta Game has already ended!' ]
 ]
 
+{ #category : #private }
+LaScalonetaGame >> assertSpaceShipHasNotReachedTheEndSoLaScalonetaGameContinue: aSpaceShip [
+
+	((board isTheLastOnePosition:
+		  (self positionOf: aSpaceShip) tileNumber) and: [ 
+		 (self positionOf: aSpaceShip) lap = self laps ])
+		ifTrue: [ hasEnded := true ]
+		ifFalse: [ 
+			self applyEffect: self spaceShips.
+			self nextSpaceShipTurn: aSpaceShip ]
+]
+
 { #category : #asserting }
 LaScalonetaGame >> assertSpaceShipTurn: aSpaceShip [
 
-	self spaceShipCurrentTurn = aSpaceShip ifFalse: [ 
+	spaceShipCurrentTurn = aSpaceShip ifFalse: [ 
 		Error signal: 'Its not your turn!' ]
 ]
 
@@ -107,7 +119,7 @@ LaScalonetaGame >> moveSpaceShip: aSpaceShip withRollingResult: aResult [
 
 	| quantityOfSquaresAdvanced auxLap newLap newPosition oldPosition boardSize |
 	oldPosition := self positionOf: aSpaceShip.
-	boardSize := self board tiles size.
+	boardSize := self board size.
 
 	quantityOfSquaresAdvanced := (oldPosition lap - 1) * boardSize
 	                             + aResult + oldPosition tileNumber.
@@ -151,7 +163,7 @@ LaScalonetaGame >> nextSpaceShipTurn: aSpaceShip [
 { #category : #playing }
 LaScalonetaGame >> playNextTurn [
 
-	self playTurnFor: self spaceShipCurrentTurn
+	self playTurnFor: spaceShipCurrentTurn
 ]
 
 { #category : #private }
@@ -164,14 +176,7 @@ LaScalonetaGame >> playTurnFor: aSpaceShip [
 	rollingResult := diceCollection roll.
 
 	self moveSpaceShip: aSpaceShip withRollingResult: rollingResult.
-
-	((board isTheLastOnePosition:
-		  (self positionOf: aSpaceShip) tileNumber) and: [ 
-		 (self positionOf: aSpaceShip) lap = self laps ])
-		ifTrue: [ hasEnded := true ]
-		ifFalse: [ 
-			self applyEffect: self spaceShips.
-			self nextSpaceShipTurn: aSpaceShip ]
+	self assertSpaceShipHasNotReachedTheEndSoLaScalonetaGameContinue: aSpaceShip
 ]
 
 { #category : #accessing }
@@ -193,12 +198,6 @@ LaScalonetaGame >> positionsRanking [
 ]
 
 { #category : #accessing }
-LaScalonetaGame >> spaceShipCurrentTurn [
-	
-	^ spaceShipCurrentTurn
-]
-
-{ #category : #accessing }
 LaScalonetaGame >> spaceShips [
 
 	^ spaceShips
@@ -208,13 +207,8 @@ LaScalonetaGame >> spaceShips [
 { #category : #accessing }
 LaScalonetaGame >> winner [
 
-	| aWinner |
-	aWinner := spaceShips select: [ :spaceShip | 
-		           (self positionOf: spaceShip) tileNumber
-		           >= self board lastPosition ].
-
-	aWinner size < 1
-		ifTrue: [ 
+	self hasEnded
+		ifFalse: [ 
 		Error signal: 'There is no winner as the game has not ended yet.' ]
-		ifFalse: [ ^ aWinner last ]
+		ifTrue: [ ^ self positionsRanking first spaceShip ]
 ]
