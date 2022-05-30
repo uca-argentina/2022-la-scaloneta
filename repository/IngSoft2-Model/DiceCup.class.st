@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #asserting }
-DiceCup class >> assertValid: aDiceCollection [
+DiceCup class >> assertValidNumberOfTiles: aDiceCollection [
 
 	aDiceCollection ifEmpty: [ 
 		Error signal: 'A DiceCup should have at least one die.' ]
@@ -17,7 +17,7 @@ DiceCup class >> assertValid: aDiceCollection [
 { #category : #'instance creation' }
 DiceCup class >> withAll: dice [
 
-	self assertValid: dice.
+	self assertValidNumberOfTiles: dice.
 	^ self new initializeWithAll: dice
 ]
 

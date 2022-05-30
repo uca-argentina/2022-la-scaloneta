@@ -22,7 +22,7 @@ HyperJumpEffect class >> assertValidValuesFor: aCollecrtionOfM [
 ]
 
 { #category : #'instance creation' }
-HyperJumpEffect class >> withMValues: aCollectionOfM [
+HyperJumpEffect class >> with: aCollectionOfM [
 
 	self assertIsNotEmptyFor: aCollectionOfM.
 	self assertValidValuesFor: aCollectionOfM.
@@ -45,7 +45,7 @@ HyperJumpEffect >> initializeWith: aCollectionOfM [
 ]
 
 { #category : #private }
-HyperJumpEffect >> moveSpaceShip: aSpaceShips for: aGame [
+HyperJumpEffect >> move: aSpaceShips for: aGame [
 
 	| value_MCollection |
 	value_MCollection := self collectionOfM first.
@@ -55,8 +55,8 @@ HyperJumpEffect >> moveSpaceShip: aSpaceShips for: aGame [
 	                 , { value_MCollection }.
 
 	^ aGame
-		  moveSpaceShip: aSpaceShips first
-		  withRollingResult:
+		  move: aSpaceShips first
+		  withRolling:
 			  (value_MCollection
 			   / (aGame board parsecs / aGame board size)) floor
 ]

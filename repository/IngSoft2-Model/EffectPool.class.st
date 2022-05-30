@@ -22,14 +22,14 @@ EffectPool class >> assertSumOfProbabilitiesEqualsToOneHoundred: probabilities [
 ]
 
 { #category : #initialize }
-EffectPool class >> withEffects: effects andProbabilities: probabilities [
+EffectPool class >> with: effects and: probabilities [
 
 	self assertProbabilitiesAreBetwenZeroAndOneHoundred: probabilities.
 	self assertSumOfProbabilitiesEqualsToOneHoundred: probabilities.
 
 	^ self new
-		  initializeWithEffect: effects
-		  andProbabilities: probabilities
+		  initializeWith: effects
+		  and: probabilities
 ]
 
 { #category : #accessing }
@@ -39,7 +39,7 @@ EffectPool >> effectPoolCollection [
 ]
 
 { #category : #initialization }
-EffectPool >> initializeWithEffect: effects andProbabilities: probabilities [
+EffectPool >> initializeWith: effects and: probabilities [
 
 	| effect probability |
 	effectPoolCollection := {  }.
@@ -54,7 +54,7 @@ EffectPool >> initializeWithEffect: effects andProbabilities: probabilities [
 ]
 
 { #category : #accessing }
-EffectPool >> randomCollectionOfEffectsWithLength: length [
+EffectPool >> randomCollectionOfEffectsWith: length [
 
 	| randomEffectsCollection |
 	randomEffectsCollection := {  }.

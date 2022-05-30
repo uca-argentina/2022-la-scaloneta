@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #private }
-SpeedUpEffect >> moveSpaceShip: aSpaceShips for: aGame [
+SpeedUpEffect >> move: aSpaceShips for: aGame [
 
-	^ aGame moveSpaceShip: aSpaceShips first withRollingResult: 4
+	^ aGame move: aSpaceShips first withRolling: 4
 ]

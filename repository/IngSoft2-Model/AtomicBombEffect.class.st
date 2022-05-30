@@ -5,8 +5,8 @@ Class {
 }
 
 { #category : #private }
-AtomicBombEffect >> moveSpaceShip: aSpaceShips for: aGame [
+AtomicBombEffect >> move: aSpaceShips for: aGame [
 
 	^ aSpaceShips do: [ :spaceShip | 
-		  aGame moveSpaceShipToFirstPositionOnSameLap: spaceShip ]
+		  aGame moveToFirstPositionOnSameLap: spaceShip ]
 ]
