@@ -31,11 +31,5 @@ MoonWalkEffect >> initializeWith: aN [
 MoonWalkEffect >> moveSpaceShip: aSpaceShips for: aGame [
 
 	^ aSpaceShips allButFirst do: [ :spaceShip | 
-		  aGame moveSpaceShip: spaceShip withRollingResult: self n ]
-]
-
-{ #category : #accessing }
-MoonWalkEffect >> n [
-
-	^ n
+		  aGame moveSpaceShip: spaceShip withRollingResult: n ]
 ]

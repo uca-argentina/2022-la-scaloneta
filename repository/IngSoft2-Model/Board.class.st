@@ -56,9 +56,9 @@ Board >> parsecs [
 ]
 
 { #category : #accessing }
-Board >> tileNumbered: aTileNumber [
-
-	^ tiles at: aTileNumber
+Board >> size [ 
+	
+	^ self tiles size
 ]
 
 { #category : #accessing }

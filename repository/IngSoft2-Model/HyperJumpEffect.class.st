@@ -58,5 +58,5 @@ HyperJumpEffect >> moveSpaceShip: aSpaceShips for: aGame [
 		  moveSpaceShip: aSpaceShips first
 		  withRollingResult:
 			  (value_MCollection
-			   / (aGame board parsecs / aGame board tiles size)) floor
+			   / (aGame board parsecs / aGame board size)) floor
 ]

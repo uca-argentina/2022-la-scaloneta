@@ -7,8 +7,25 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
+{ #category : #asserting }
+EffectPool class >> assertProbabilitiesAreBetwenZeroAndOneHoundred: probabilities [
+
+	probabilities do: [ :proba | 
+		(proba between: 0 and: 100) ifFalse: [ 
+			Error signal: 'Probabilities must be betwen 0 and 100!' ] ]
+]
+
+{ #category : #asserting }
+EffectPool class >> assertSumOfProbabilitiesEqualsToOneHoundred: probabilities [
+
+	((probabilities inject: 0 into: [:inicial :aux | inicial + aux]) = 100) ifFalse: [Error signal: 'The sum of the probabilities must be equal to 100!'].
+]
+
 { #category : #initialize }
 EffectPool class >> withEffects: effects andProbabilities: probabilities [
+
+	self assertProbabilitiesAreBetwenZeroAndOneHoundred: probabilities.
+	self assertSumOfProbabilitiesEqualsToOneHoundred: probabilities.
 
 	^ self new
 		  initializeWithEffect: effects
@@ -33,6 +50,7 @@ EffectPool >> initializeWithEffect: effects andProbabilities: probabilities [
 
 		probability + 1 timesRepeat: [ 
 			effectPoolCollection := effectPoolCollection copyWith: effect ] ]
+
 ]
 
 { #category : #accessing }
