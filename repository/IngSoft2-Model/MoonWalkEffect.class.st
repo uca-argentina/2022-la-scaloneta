@@ -2,34 +2,34 @@ Class {
 	#name : #MoonWalkEffect,
 	#superclass : #Object,
 	#instVars : [
-		'n'
+		'numberOfSquaresToMoveBackwards'
 	],
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #asserting }
-MoonWalkEffect class >> assertNIsANegativeNumber: aN [
+MoonWalkEffect class >> assertNumberOfSquaresToMoveBackwardsIsANegativeNumber: aN [
 
 	aN > 0 ifTrue: [ 
 		Error signal: 'MoonWalk effect N must be a negative number' ]
 ]
 
 { #category : #private }
-MoonWalkEffect class >> with: aN [
+MoonWalkEffect class >> with: aNumberOfSquaresToMoveBackwards [
 
-	self assertNIsANegativeNumber: aN.
-	^ self new initializeWith: aN
+	self assertNumberOfSquaresToMoveBackwardsIsANegativeNumber: aNumberOfSquaresToMoveBackwards.
+	^ self new initializeWith: aNumberOfSquaresToMoveBackwards
 ]
 
 { #category : #initialization }
-MoonWalkEffect >> initializeWith: aN [
+MoonWalkEffect >> initializeWith: aNumberOfSquaresToMoveBackwards [
 	
-	n := aN.
+	numberOfSquaresToMoveBackwards := aNumberOfSquaresToMoveBackwards.
 ]
 
 { #category : #private }
 MoonWalkEffect >> move: aSpaceShips for: aGame [
 
 	^ aSpaceShips allButFirst do: [ :spaceShip | 
-		  aGame move: spaceShip withRolling: n ]
+		  aGame move: spaceShip withRolling: numberOfSquaresToMoveBackwards ]
 ]

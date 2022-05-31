@@ -2,43 +2,37 @@ Class {
 	#name : #HyperJumpEffect,
 	#superclass : #Object,
 	#instVars : [
-		'collectionOfM'
+		'parsecsSequence'
 	],
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #asserting }
-HyperJumpEffect class >> assertIsNotEmptyFor: aCollecrtionOfM [
+HyperJumpEffect class >> assertIsNotEmptyFor: aParsecsSequence [
 
-	aCollecrtionOfM ifEmpty: [ Error signal: 'HyperJumpEffect can not be initalize with empty collection!' ] 
+	aParsecsSequence ifEmpty: [ Error signal: 'HyperJumpEffect can not be initalize with empty collection!' ] 
 ]
 
 { #category : #asserting }
-HyperJumpEffect class >> assertValidValuesFor: aCollecrtionOfM [
+HyperJumpEffect class >> assertValidValuesFor: aParsecsSequence [
 
-	aCollecrtionOfM do: [ :m | 
+	aParsecsSequence do: [ :m | 
 		m < 0 ifTrue: [ 
 			Error signal: 'Values of the collection must be positive!' ] ]
 ]
 
 { #category : #'instance creation' }
-HyperJumpEffect class >> with: aCollectionOfM [
+HyperJumpEffect class >> with: aParsecsSequence [
 
-	self assertIsNotEmptyFor: aCollectionOfM.
-	self assertValidValuesFor: aCollectionOfM.
-	^ self new initializeWith: aCollectionOfM
-]
-
-{ #category : #private }
-HyperJumpEffect >> collectionOfM [
-
-	^ collectionOfM 
+	self assertIsNotEmptyFor: aParsecsSequence.
+	self assertValidValuesFor: aParsecsSequence.
+	^ self new initializeWith: aParsecsSequence
 ]
 
 { #category : #initialization }
-HyperJumpEffect >> initializeWith: aCollectionOfM [
+HyperJumpEffect >> initializeWith: aParsecsSequence [
 
-	collectionOfM := aCollectionOfM sorted reverse.
+	parsecsSequence := aParsecsSequence sorted reverse.
 	
 	
 	
@@ -48,9 +42,9 @@ HyperJumpEffect >> initializeWith: aCollectionOfM [
 HyperJumpEffect >> move: aSpaceShips for: aGame [
 
 	| value_MCollection |
-	value_MCollection := self collectionOfM first.
+	value_MCollection := parsecsSequence first.
 
-	collectionOfM := (self collectionOfM reject: [ :each | 
+	parsecsSequence := (parsecsSequence reject: [ :each | 
 		                  each = value_MCollection ])
 	                 , { value_MCollection }.
 

@@ -78,42 +78,6 @@ LaScalonetaGameTest >> testAskingForTheWinnerWhenTheGameHasNotEndedThrowsAnError
 ]
 
 { #category : #tests }
-LaScalonetaGameTest >> testEffectPoolProbabilitiesMustBeBetwenZeroAndOneHundred [
-
-	| pool |
-	self
-		should: [ 
-			pool := EffectPool
-				        with: { 
-						        NoEffect new.
-						        (MoonWalkEffect with: -2).
-						        (HyperJumpEffect with: #( 1 2 3 )).
-						        AtomicBombEffect new.
-						        WormHoleEffect new }
-				        and: { 40. -50. 8. 20. 2. -20 } ]
-		raise: Error
-		withMessage: 'Probabilities must be betwen 0 and 100!' 
-]
-
-{ #category : #tests }
-LaScalonetaGameTest >> testEffectPoolSumOfProbabilitiesMustBeEqualsToOneHundred [
-
-	| pool |
-	self
-		should: [ 
-			pool := EffectPool
-				        with: { 
-						        NoEffect new.
-						        (MoonWalkEffect with: -2).
-						        (HyperJumpEffect with: #( 1 2 3 )).
-						        AtomicBombEffect new.
-						        WormHoleEffect new }
-				        and: { 40. 10. 8. 20. 2. 10 } ]
-		raise: Error
-		withMessage: 'The sum of the probabilities must be equal to 100!'
-]
-
-{ #category : #tests }
 LaScalonetaGameTest >> testEveryoneGoesBackToTheFirstPositionOnTheSameLapWhenJorgeLandsOnAnAtomicBombEffect [
 
 	| aGame aBoard aDie1 aDie2 aDiceCup |
@@ -708,6 +672,7 @@ LaScalonetaGameTest >> testScalonetaGamePlayedWithRandomBoard [
 				        NoEffect new.
 				        (MoonWalkEffect with: -2).
 				        (HyperJumpEffect with: #( 1 2 3 )).
+						  SpeedUpEffect new.
 				        AtomicBombEffect new.
 				        WormHoleEffect new }
 		        and: { 40. 10. 8. 20. 2. 20 }.
@@ -765,4 +730,8 @@ LaScalonetaGameTest >> testSpaceShipStartsAtTileNumberOneAndLapNumberOne [
 
 	self assert: 'Jorge' isAt: 1 with: 1 in: aGame.
 	self assert: 'Julian' isAt: 1 with: 1 in: aGame.
+]
+
+{ #category : #tests }
+LaScalonetaGameTest >> testWormholeAndMoonWalkNoRetrocedeMasDelPrimerCasilleroDeLaPrimeraVuelta [
 ]

@@ -41,16 +41,11 @@ EffectPool >> effectPoolCollection [
 { #category : #initialization }
 EffectPool >> initializeWith: effects and: probabilities [
 
-	| effect probability |
 	effectPoolCollection := {  }.
 
-	1 to: effects size do: [ :i | 
-		effect := effects at: i.
-		probability := probabilities at: i.
-
+	effects with: probabilities do: [ :effect :probability | 
 		probability + 1 timesRepeat: [ 
 			effectPoolCollection := effectPoolCollection copyWith: effect ] ]
-
 ]
 
 { #category : #accessing }
