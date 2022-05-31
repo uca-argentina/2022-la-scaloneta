@@ -519,6 +519,32 @@ LaScalonetaGameTest >> testJorgeWinsLaScalonetaGameWhenJorgeReachesTheEndFirst [
 ]
 
 { #category : #tests }
+LaScalonetaGameTest >> testJulianDoesNotGoBackFurtherThanFirstPositionOfFirstLapWhenAffectedByAWormholeOnSecondPositionOfFirstLap [
+
+| aGame aBoard aDie1 |
+	aBoard := Board
+		          with: { 
+				          NoEffect new.
+				          WormHoleEffect new.
+				          NoEffect new.
+				          NoEffect new.
+				          NoEffect new }
+		          and: 6.
+
+	aDie1 := LoadedDie with: 1.
+
+	aGame := LaScalonetaGame
+		         playedBy: { 'Jorge' }
+		         on: aBoard
+		         rolling: aDie1
+		         withNumberOfLaps: 2.
+		
+	aGame playNextTurn.
+	
+	self assert: 'Jorge' isAt: 1 with: 1 in: aGame
+]
+
+{ #category : #tests }
 LaScalonetaGameTest >> testJulianIsTheThirdSpaceShipAtSpaceShipsRankingAsHisPositionIsTheThirdClosestToTheGoal [
 
 	| aGame aBoard aDie1 |
@@ -730,8 +756,4 @@ LaScalonetaGameTest >> testSpaceShipStartsAtTileNumberOneAndLapNumberOne [
 
 	self assert: 'Jorge' isAt: 1 with: 1 in: aGame.
 	self assert: 'Julian' isAt: 1 with: 1 in: aGame.
-]
-
-{ #category : #tests }
-LaScalonetaGameTest >> testWormholeAndMoonWalkNoRetrocedeMasDelPrimerCasilleroDeLaPrimeraVuelta [
 ]
