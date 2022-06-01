@@ -3,10 +3,18 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'tiles',
-		'parsecs'
+		'parsecs',
+		'laps'
 	],
 	#category : #'IngSoft2-Model'
 }
+
+{ #category : #asserting }
+Board class >> assertValidNumberOfLaps: aLaps [
+
+	aLaps > 0 ifFalse: [ 
+		Error signal: 'La Scaloneta Game must have one or more laps!' ]
+]
 
 { #category : #asserting }
 Board class >> assertValidNumberOfTiles: aTileCollection [
@@ -23,11 +31,12 @@ Board class >> assertValidParsecs: parsecs [
 ]
 
 { #category : #'instance creation' }
-Board class >> with: tiles and: parsecs [
+Board class >> with: tiles numberOfLaps: laps and: parsecs [
 
 	self assertValidNumberOfTiles: tiles.
+	self assertValidNumberOfLaps: laps.
 	self assertValidParsecs: parsecs.
-	^ self new initializeWith: tiles and: parsecs
+	^ self new initializeWith: tiles numberOfLaps: laps and: parsecs
 ]
 
 { #category : #accessing }
@@ -37,9 +46,10 @@ Board >> firstPosition [
 ]
 
 { #category : #initialization }
-Board >> initializeWith: aTileCollection and: aParsecs [
+Board >> initializeWith: aTileCollection numberOfLaps: aLaps and: aParsecs [
 
 	tiles := aTileCollection.
+	laps := aLaps.
 	parsecs := aParsecs
 ]
 
@@ -52,9 +62,42 @@ Board >> isTheLastOnePosition: aPosition [
 ]
 
 { #category : #accessing }
+Board >> laps [
+
+	^ laps
+]
+
+{ #category : #accessing }
 Board >> lastPosition [ 
 
 	^ tiles size
+]
+
+{ #category : #private }
+Board >> move: aResult from: oldPosition [
+
+	| boardSize quantityOfSquaresAdvanced auxLap newLap newPosition |
+	boardSize := self size.
+
+	quantityOfSquaresAdvanced := (oldPosition lap - 1) * boardSize
+	                             + aResult + oldPosition tileNumber.
+
+	quantityOfSquaresAdvanced <= 0 ifTrue: [ 
+		quantityOfSquaresAdvanced := 1 ].
+
+	auxLap := quantityOfSquaresAdvanced - 1 // boardSize + 1.
+
+	newLap := auxLap min: laps.
+
+	newPosition := quantityOfSquaresAdvanced % boardSize.
+
+	(newPosition = 0 or: [ auxLap > laps ]) ifTrue: [ 
+		newPosition := boardSize ].
+	
+	^ (SpaceShipPosition
+			 ofSpaceShip: oldPosition spaceShip
+			 tileNumber: newPosition
+			 lap: newLap)
 ]
 
 { #category : #accessing }

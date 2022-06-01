@@ -4,16 +4,6 @@ Class {
 	#category : #'IngSoft2-Tests'
 }
 
-{ #category : #asserting }
-DiceCupTest >> should: block raise: expectedErrorClass withMessage: expectedErrorMessage [
-
-	self
-		should: block
-		raise: expectedErrorClass
-		whoseDescriptionIncludes: expectedErrorMessage
-		description: 'Test did not fail as expected'
-]
-
 { #category : #tests }
 DiceCupTest >> testDiceCupShouldHaveAtLeastOneDie [
 	
