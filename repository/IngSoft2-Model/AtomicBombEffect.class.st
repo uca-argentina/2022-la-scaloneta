@@ -1,11 +1,11 @@
 Class {
 	#name : #AtomicBombEffect,
-	#superclass : #Object,
+	#superclass : #Effect,
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #private }
-AtomicBombEffect >> move: aSpaceShips for: aGame [
+AtomicBombEffect >> applyTo: aSpaceShips for: aGame [
 
 	^ aSpaceShips do: [ :spaceShip | 
 		  aGame moveToFirstPositionOnSameLap: spaceShip ]

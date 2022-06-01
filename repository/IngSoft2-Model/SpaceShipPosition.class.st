@@ -23,7 +23,7 @@ SpaceShipPosition class >> startingOf: aSpaceShip for: aBoard at: aLap [
 
 	^ self
 		  ofSpaceShip: aSpaceShip
-		  tileNumber: aBoard firstPosition
+		  tileNumber: aBoard firstTileNumber
 		  lap: aLap
 ]
 

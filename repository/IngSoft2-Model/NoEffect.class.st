@@ -1,11 +1,11 @@
 Class {
 	#name : #NoEffect,
-	#superclass : #Object,
+	#superclass : #Effect,
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #private }
-NoEffect >> move: aSpaceShips for: aGame [
+NoEffect >> applyTo: aSpaceShips for: aGame [
 
 
 ]

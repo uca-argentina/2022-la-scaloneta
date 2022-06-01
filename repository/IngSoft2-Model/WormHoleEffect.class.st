@@ -1,11 +1,11 @@
 Class {
 	#name : #WormHoleEffect,
-	#superclass : #Object,
+	#superclass : #Effect,
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #private }
-WormHoleEffect >> move: aSpaceShips for: aGame [
+WormHoleEffect >> applyTo: aSpaceShips for: aGame [
 
 	^ aGame move: aSpaceShips first withRolling: -4
 ]

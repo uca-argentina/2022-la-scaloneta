@@ -1,6 +1,6 @@
 Class {
 	#name : #MoonWalkEffect,
-	#superclass : #Object,
+	#superclass : #Effect,
 	#instVars : [
 		'numberOfSquaresToMoveBackwards'
 	],
@@ -21,15 +21,15 @@ MoonWalkEffect class >> with: aNumberOfSquaresToMoveBackwards [
 	^ self new initializeWith: aNumberOfSquaresToMoveBackwards
 ]
 
+{ #category : #private }
+MoonWalkEffect >> applyTo: aSpaceShips for: aGame [
+
+	^ aSpaceShips allButFirst do: [ :spaceShip | 
+		  aGame move: spaceShip withRolling: numberOfSquaresToMoveBackwards ]
+]
+
 { #category : #initialization }
 MoonWalkEffect >> initializeWith: aNumberOfSquaresToMoveBackwards [
 	
 	numberOfSquaresToMoveBackwards := aNumberOfSquaresToMoveBackwards.
-]
-
-{ #category : #private }
-MoonWalkEffect >> move: aSpaceShips for: aGame [
-
-	^ aSpaceShips allButFirst do: [ :spaceShip | 
-		  aGame move: spaceShip withRolling: numberOfSquaresToMoveBackwards ]
 ]
