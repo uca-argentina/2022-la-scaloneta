@@ -7,18 +7,10 @@ Class {
 		'spaceShips',
 		'hasEnded',
 		'spaceShipPositions',
-		'spaceShipCurrentTurn',
-		'laps'
+		'spaceShipCurrentTurn'
 	],
 	#category : #'IngSoft2-Model'
 }
-
-{ #category : #asserting }
-LaScalonetaGame class >> assertValidNumberOfLaps: aLaps [
-
-	aLaps > 0 ifFalse: [ 
-		Error signal: 'La Scaloneta Game must have one or more laps!' ]
-]
 
 { #category : #asserting }
 LaScalonetaGame class >> assertValidNumberOfSpaceShips: aSpaceShipsCollection [
@@ -28,16 +20,14 @@ LaScalonetaGame class >> assertValidNumberOfSpaceShips: aSpaceShipsCollection [
 ]
 
 { #category : #'instance creation' }
-LaScalonetaGame class >> playedBy: spaceShips on: board rolling: dice withNumberOfLaps: laps [
+LaScalonetaGame class >> playedBy: spaceShips on: board rolling: dice [
 
 	self assertValidNumberOfSpaceShips: spaceShips.
-	self assertValidNumberOfLaps: laps.
 
 	^ self new
 		  initializeWith: board
 		  rolling: dice
 		  playedBy: spaceShips
-		  numberOfLaps: laps
 ]
 
 { #category : #adding }
@@ -66,10 +56,10 @@ LaScalonetaGame >> assertSpaceShipHasNotReachedTheEndSoLaScalonetaGameContinue: 
 
 	((board isTheLastOnePosition:
 		  (self positionOf: aSpaceShip) tileNumber) and: [ 
-		 (self positionOf: aSpaceShip) lap = self laps ])
+		 (self positionOf: aSpaceShip) lap = self board laps ])
 		ifTrue: [ hasEnded := true ]
 		ifFalse: [ 
-			self applyEffectTo: self spaceShips.
+			self applyEffectTo: spaceShips.
 			self nextSpaceShipTurn: aSpaceShip ]
 ]
 
@@ -93,7 +83,7 @@ LaScalonetaGame >> hasEnded [
 ]
 
 { #category : #initialization }
-LaScalonetaGame >> initializeWith: aBoard rolling: aDiceCollection playedBy: aSpaceShip numberOfLaps: aLaps [
+LaScalonetaGame >> initializeWith: aBoard rolling: aDiceCollection playedBy: aSpaceShip [
 
 	board := aBoard.
 	diceCollection := aDiceCollection.
@@ -105,41 +95,17 @@ LaScalonetaGame >> initializeWith: aBoard rolling: aDiceCollection playedBy: aSp
 			                       for: board
 			                       at: 1 ]) asOrderedCollection.
 	spaceShipCurrentTurn := spaceShips first.
-	laps := aLaps
-]
-
-{ #category : #accessing }
-LaScalonetaGame >> laps [
-
-	^ laps
 ]
 
 { #category : #private }
 LaScalonetaGame >> move: aSpaceShip withRolling: aResult [
 
-	| quantityOfSquaresAdvanced auxLap newLap newPosition oldPosition boardSize |
+	| newPosition oldPosition |
 	oldPosition := self positionOf: aSpaceShip.
-	boardSize := self board size.
 
-	quantityOfSquaresAdvanced := (oldPosition lap - 1) * boardSize
-	                             + aResult + oldPosition tileNumber.
+	newPosition := board move: aResult from: oldPosition.
 
-	quantityOfSquaresAdvanced <= 0 ifTrue: [ 
-		quantityOfSquaresAdvanced := 1 ].
-
-	auxLap := quantityOfSquaresAdvanced - 1 // boardSize + 1.
-
-	newLap := auxLap min: self laps.
-
-	newPosition := quantityOfSquaresAdvanced % boardSize.
-
-	(newPosition = 0 or: [ auxLap > self laps ]) ifTrue: [ 
-		newPosition := boardSize ].
-
-	self add: (SpaceShipPosition
-			 ofSpaceShip: oldPosition spaceShip
-			 tileNumber: newPosition
-			 lap: newLap)
+	self add: newPosition
 ]
 
 { #category : #private }
@@ -190,18 +156,11 @@ LaScalonetaGame >> positionOf: aSpaceShip [
 LaScalonetaGame >> positionsRanking [
 
 	| spaceShipsPositions |
-	spaceShipsPositions := self spaceShips collect: [ :aSpaceShip | 
+	spaceShipsPositions := spaceShips collect: [ :aSpaceShip | 
 		                       self positionOf: aSpaceShip ].
 
 	^ spaceShipsPositions asSortedCollection: [ :spaceShipA :spaceShipB | 
 		  spaceShipA >= spaceShipB ]
-]
-
-{ #category : #accessing }
-LaScalonetaGame >> spaceShips [
-
-	^ spaceShips
-
 ]
 
 { #category : #accessing }
