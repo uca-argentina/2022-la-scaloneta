@@ -1,6 +1,6 @@
 Class {
 	#name : #HyperJumpEffect,
-	#superclass : #Object,
+	#superclass : #Effect,
 	#instVars : [
 		'parsecsSequence'
 	],
@@ -29,17 +29,8 @@ HyperJumpEffect class >> with: aParsecsSequence [
 	^ self new initializeWith: aParsecsSequence
 ]
 
-{ #category : #initialization }
-HyperJumpEffect >> initializeWith: aParsecsSequence [
-
-	parsecsSequence := aParsecsSequence sorted reverse.
-	
-	
-	
-]
-
 { #category : #private }
-HyperJumpEffect >> move: aSpaceShips for: aGame [
+HyperJumpEffect >> applyTo: aSpaceShips for: aGame [
 
 	| value_MCollection |
 	value_MCollection := parsecsSequence first.
@@ -53,4 +44,13 @@ HyperJumpEffect >> move: aSpaceShips for: aGame [
 		  withRolling:
 			  (value_MCollection
 			   / (aGame board parsecs / aGame board size)) floor
+]
+
+{ #category : #initialization }
+HyperJumpEffect >> initializeWith: aParsecsSequence [
+
+	parsecsSequence := aParsecsSequence sorted reverse.
+	
+	
+	
 ]

@@ -1,11 +1,11 @@
 Class {
 	#name : #SpeedUpEffect,
-	#superclass : #Object,
+	#superclass : #Effect,
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #private }
-SpeedUpEffect >> move: aSpaceShips for: aGame [
+SpeedUpEffect >> applyTo: aSpaceShips for: aGame [
 
 	^ aGame move: aSpaceShips first withRolling: 4
 ]

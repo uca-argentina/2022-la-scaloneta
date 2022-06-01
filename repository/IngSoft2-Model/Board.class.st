@@ -40,7 +40,7 @@ Board class >> with: tiles numberOfLaps: laps and: parsecs [
 ]
 
 { #category : #accessing }
-Board >> firstPosition [
+Board >> firstTileNumber [
 
 	^ 1
 ]
@@ -53,24 +53,10 @@ Board >> initializeWith: aTileCollection numberOfLaps: aLaps and: aParsecs [
 	parsecs := aParsecs
 ]
 
-{ #category : #asserting }
-Board >> isTheLastOnePosition: aPosition [
-
-	self lastPosition = aPosition
-		ifTrue: [ ^ true ]
-		ifFalse: [ ^ false ]
-]
-
 { #category : #accessing }
 Board >> laps [
 
 	^ laps
-]
-
-{ #category : #accessing }
-Board >> lastPosition [ 
-
-	^ tiles size
 ]
 
 { #category : #private }
@@ -110,6 +96,14 @@ Board >> parsecs [
 Board >> size [ 
 	
 	^ self tiles size
+]
+
+{ #category : #asserting }
+Board >> spaceShipPositionIsTheLastOne: aSpaceShipPosition [
+
+	(laps = aSpaceShipPosition lap and: [ 
+		 self size = aSpaceShipPosition tileNumber ]) ifTrue: [ ^ true ]
+																	ifFalse: [ ^ false ]
 ]
 
 { #category : #accessing }

@@ -284,9 +284,9 @@ LaScalonetaGameTest >> testJorgeIsTheFirstSpaceShipAtSpaceShipsRankingAsHisPosit
 	aGame playNextTurn.
 	aGame playNextTurn.
 
-	self assert: aGame positionsRanking first spaceShip equals: 'Jorge'.
-	self assert: aGame positionsRanking first tileNumber equals: 1.
-	self assert: aGame positionsRanking first lap equals: 2.
+	self assert: aGame spaceShipsPositionsRanking first spaceShip equals: 'Jorge'.
+	self assert: aGame spaceShipsPositionsRanking first tileNumber equals: 1.
+	self assert: aGame spaceShipsPositionsRanking first lap equals: 2.
 ]
 
 { #category : #tests }
@@ -557,9 +557,9 @@ LaScalonetaGameTest >> testJulianIsTheThirdSpaceShipAtSpaceShipsRankingAsHisPosi
 	aGame playNextTurn.
 	aGame playNextTurn.
 
-	self assert: aGame positionsRanking third spaceShip equals: 'Julian'.
-	self assert: aGame positionsRanking third tileNumber equals: 2.
-	self assert: aGame positionsRanking third lap equals: 1
+	self assert: aGame spaceShipsPositionsRanking third spaceShip equals: 'Julian'.
+	self assert: aGame spaceShipsPositionsRanking third tileNumber equals: 2.
+	self assert: aGame spaceShipsPositionsRanking third lap equals: 1
 ]
 
 { #category : #tests }

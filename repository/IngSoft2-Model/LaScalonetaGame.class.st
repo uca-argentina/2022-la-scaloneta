@@ -40,7 +40,7 @@ LaScalonetaGame >> add: aSpaceShipPosition [
 LaScalonetaGame >> applyEffectTo: aSpaceShips [
 
 	(self board tiles at: (self positionOf: aSpaceShips first) tileNumber)
-		move: aSpaceShips
+		applyTo: aSpaceShips
 		for: self
 ]
 
@@ -49,18 +49,6 @@ LaScalonetaGame >> assertGameHasNotEnded [
 
 	self hasEnded ifTrue: [ 
 		Error signal: 'La Scaloneta Game has already ended!' ]
-]
-
-{ #category : #private }
-LaScalonetaGame >> assertSpaceShipHasNotReachedTheEndSoLaScalonetaGameContinue: aSpaceShip [
-
-	((board isTheLastOnePosition:
-		  (self positionOf: aSpaceShip) tileNumber) and: [ 
-		 (self positionOf: aSpaceShip) lap = self board laps ])
-		ifTrue: [ hasEnded := true ]
-		ifFalse: [ 
-			self applyEffectTo: spaceShips.
-			self nextSpaceShipTurn: aSpaceShip ]
 ]
 
 { #category : #asserting }
@@ -98,6 +86,16 @@ LaScalonetaGame >> initializeWith: aBoard rolling: aDiceCollection playedBy: aSp
 ]
 
 { #category : #private }
+LaScalonetaGame >> laScalonetaGameContinuesDependingOnWhetherTheSpaceShipWonOrNot: aSpaceShip [
+
+	(board spaceShipPositionIsTheLastOne: (self positionOf: aSpaceShip))
+		ifTrue: [ hasEnded := true ]
+		ifFalse: [ 
+			self applyEffectTo: spaceShips.
+			self nextSpaceShipTurn: aSpaceShip ]
+]
+
+{ #category : #private }
 LaScalonetaGame >> move: aSpaceShip withRolling: aResult [
 
 	| newPosition oldPosition |
@@ -113,7 +111,7 @@ LaScalonetaGame >> moveToFirstPositionOnSameLap: aSpaceShip [
 
 	self add: (SpaceShipPosition
 			 ofSpaceShip: (self positionOf: aSpaceShip) spaceShip
-			 tileNumber: board firstPosition
+			 tileNumber: board firstTileNumber
 			 lap: (self positionOf: aSpaceShip) lap)
 ]
 
@@ -142,7 +140,7 @@ LaScalonetaGame >> playTurnFor: aSpaceShip [
 	rollingResult := diceCollection roll.
 
 	self move: aSpaceShip withRolling: rollingResult.
-	self assertSpaceShipHasNotReachedTheEndSoLaScalonetaGameContinue: aSpaceShip
+	self laScalonetaGameContinuesDependingOnWhetherTheSpaceShipWonOrNot: aSpaceShip
 ]
 
 { #category : #accessing }
@@ -153,7 +151,7 @@ LaScalonetaGame >> positionOf: aSpaceShip [
 ]
 
 { #category : #classification }
-LaScalonetaGame >> positionsRanking [
+LaScalonetaGame >> spaceShipsPositionsRanking [
 
 	| spaceShipsPositions |
 	spaceShipsPositions := spaceShips collect: [ :aSpaceShip | 
@@ -169,5 +167,5 @@ LaScalonetaGame >> winner [
 	self hasEnded
 		ifFalse: [ 
 		Error signal: 'There is no winner as the game has not ended yet.' ]
-		ifTrue: [ ^ self positionsRanking first spaceShip ]
+		ifTrue: [ ^ self spaceShipsPositionsRanking first spaceShip ]
 ]
