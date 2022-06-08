@@ -96,6 +96,17 @@ LaScalonetaGame >> laScalonetaGameContinuesDependingOnWhetherTheSpaceShipWonOrNo
 ]
 
 { #category : #private }
+LaScalonetaGame >> move: aSpaceShip withParsecs: aParsecs [
+
+	| newPosition oldPosition |
+	oldPosition := self positionOf: aSpaceShip.
+
+	newPosition := board movePasecs: aParsecs from: oldPosition.
+
+	self add: newPosition
+]
+
+{ #category : #private }
 LaScalonetaGame >> move: aSpaceShip withRolling: aResult [
 
 	| newPosition oldPosition |

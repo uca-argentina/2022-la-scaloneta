@@ -14,15 +14,17 @@ LaScalonetaGameTest >> assert: aSpaceship isAt: aPostion with: aLap in: aGame [
 { #category : #creating }
 LaScalonetaGameTest >> laScalonetaGamePlayedByJorgeAndJulianWithALoadedDieWithOneOnABoardOfFourNoEffectTilesAndTwoParsecsDuringTwoLaps [
 
-	| aGame aBoard aDie1 |
+	| aGame aBoard aDie1 aDeck |
+
 	aBoard := Board
 		          with: { 
 				          NoEffect new.
 				          NoEffect new.
 				          NoEffect new.
 				          NoEffect new }
-				    numberOfLaps: 2
-		          and: 2.
+		          and: 2
+		          finishingAfter: 2
+		          usingCardsFrom: aDeck.
 
 	aDie1 := LoadedDie with: 1.
 
@@ -42,15 +44,17 @@ LaScalonetaGameTest >> playUntilFinished: aGame [
 { #category : #tests }
 LaScalonetaGameTest >> testAskingForTheWinnerWhenTheGameHasNotEndedThrowsAnErrorMessage [
 
-	| aGame aBoard aDie1 |
+	| aGame aBoard aDie1 aDeck |
+	
 	aBoard := Board
 		          with: { 
 				          NoEffect new.
 				          NoEffect new.
 				          NoEffect new.
 				          NoEffect new }
-					 numberOfLaps: 2
-		          and: 4.
+				    and: 4
+					 finishingAfter: 2
+					usingCardsFrom: aDeck.
 
 	aDie1 := LoadedDie with: 1.
 
@@ -70,16 +74,18 @@ LaScalonetaGameTest >> testAskingForTheWinnerWhenTheGameHasNotEndedThrowsAnError
 { #category : #tests }
 LaScalonetaGameTest >> testEveryoneGoesBackToTheFirstPositionOnTheSameLapWhenJorgeLandsOnAnAtomicBombEffect [
 
-	| aGame aBoard aDie1 aDie2 aDiceCup |
-	aBoard := Board
+	| aGame aBoard aDie1 aDie2 aDiceCup aDeck |
+	
+		aBoard := Board
 		          with: { 
 				          NoEffect new.
 				          AtomicBombEffect new.
 				          NoEffect new.
 				          NoEffect new.
 				          NoEffect new }
-					 numberOfLaps: 2
-		          and: 5.
+		          and: 5
+		          finishingAfter: 2
+		          usingCardsFrom: aDeck.
 
 	aDie1 := LoadedDie with: 2.
 	aDie2 := LoadedDie with: 1.
@@ -108,14 +114,15 @@ LaScalonetaGameTest >> testEveryoneGoesBackToTheFirstPositionOnTheSameLapWhenJor
 { #category : #tests }
 LaScalonetaGameTest >> testFinalPositionOfSpaceShipsCorrespondsWithTheActualFinalPositions [
 
-	| aGame aDiceCup aBoard aDie1 aDie2 aDie3 |
-	aBoard := Board
+	| aGame aDiceCup aBoard aDie1 aDie2 aDie3 aDeck |
+		aBoard := Board
 		          with: { 
 				          NoEffect new.
 				          NoEffect new.
 				          NoEffect new }
-					 numberOfLaps: 2
-		          and: 3.
+		          and: 3
+		          finishingAfter: 2
+		          usingCardsFrom: aDeck.	
 
 	aDie1 := LoadedDie with: 1.
 	aDie2 := LoadedDie with: 1.
@@ -148,15 +155,17 @@ LaScalonetaGameTest >> testFinalPositionOfSpaceShipsCorrespondsWithTheActualFina
 { #category : #tests }
 LaScalonetaGameTest >> testGameHasEndedAsOneSpaceShipReachedTheEnd [
 
-	| aGame aDiceCup aBoard aDie1 aDie2 aDie3 |
+	| aGame aDiceCup aBoard aDie1 aDie2 aDie3 aDeck |
+	
 	aBoard := Board
 		          with: { 
 				          NoEffect new.
 				          NoEffect new.
 				          NoEffect new }
-					 numberOfLaps: 2
-		          and: 3.
-
+		          and: 3
+		          finishingAfter: 2
+		          usingCardsFrom: aDeck.
+		
 	aDie1 := LoadedDie with: 1.
 	aDie2 := LoadedDie with: 1.
 	aDie3 := LoadedDie with: 1.
@@ -204,7 +213,8 @@ LaScalonetaGameTest >> testHyperJumpEffectMValuesCollectionCanNotContainsNegativ
 { #category : #tests }
 LaScalonetaGameTest >> testJorgeDoesNotMoveFowardAsTheNumberOfParsecsIsNotEnoughToMoveOneTile [
 
-	| aGame aBoard aDie1 |
+	| aGame aBoard aDie1 aDeck |
+
 	aBoard := Board
 		          with: { 
 				          NoEffect new.
@@ -213,8 +223,9 @@ LaScalonetaGameTest >> testJorgeDoesNotMoveFowardAsTheNumberOfParsecsIsNotEnough
 				          NoEffect new.
 				          NoEffect new.
 				          NoEffect new }
-					 numberOfLaps: 2
-		          and: 12.
+		          and: 12
+		          finishingAfter: 2
+		          usingCardsFrom: aDeck.
 
 	aDie1 := LoadedDie with: 1.
 
@@ -231,15 +242,17 @@ LaScalonetaGameTest >> testJorgeDoesNotMoveFowardAsTheNumberOfParsecsIsNotEnough
 { #category : #tests }
 LaScalonetaGameTest >> testJorgeIsNotTheWinnerOfLaScalonetaGameWhenJulianReachesTheEndFirst [
 
-	| aGame aBoard aDie1 aDiceCup aDie2 aDie3 |
+	| aGame aBoard aDie1 aDiceCup aDie2 aDie3 aDeck |
+
 	aBoard := Board
 		          with: { 
 				          NoEffect new.
 				          NoEffect new.
 				          NoEffect new.
 				          NoEffect new }
-					 numberOfLaps: 1
-		          and: 4.
+		          and: 4
+		          finishingAfter: 1
+		          usingCardsFrom: aDeck.
 		
 	aDie1 := LoadedDie with: 1.
 	aDie2 := LoadedDie with: 1.
@@ -263,13 +276,15 @@ LaScalonetaGameTest >> testJorgeIsNotTheWinnerOfLaScalonetaGameWhenJulianReaches
 { #category : #tests }
 LaScalonetaGameTest >> testJorgeIsTheFirstSpaceShipAtSpaceShipsRankingAsHisPositionIsTheClosestToTheGoal [
 
-	| aGame aDiceCup aBoard aDie1 |
+	| aGame aDiceCup aBoard aDie1 aDeck |
+
 	aBoard := Board
 		          with: { 
 				          NoEffect new.
 				          NoEffect new }
-					 numberOfLaps: 2
-		          and: 3.
+		          and: 3
+		          finishingAfter: 2
+		          usingCardsFrom: aDeck.
 
 	aDie1 := LoadedDie with: 1.
 	aDiceCup := DiceCup withAll: { aDie1 }.
@@ -292,7 +307,8 @@ LaScalonetaGameTest >> testJorgeIsTheFirstSpaceShipAtSpaceShipsRankingAsHisPosit
 { #category : #tests }
 LaScalonetaGameTest >> testJorgeMovesBackFourTilesWhenLandingOnAWormholeEffect [
 
-	| aGame aBoard aDie1 aDie2 aDiceCup |
+	| aGame aBoard aDie1 aDie2 aDiceCup aDeck |
+	
 	aBoard := Board
 		          with: { 
 				          NoEffect new.
@@ -301,8 +317,9 @@ LaScalonetaGameTest >> testJorgeMovesBackFourTilesWhenLandingOnAWormholeEffect [
 				          NoEffect new.
 				          WormHoleEffect new.
 				          NoEffect new }
-					 numberOfLaps: 2
-		          and: 6.
+		          and: 6
+		          finishingAfter: 2
+		          usingCardsFrom: aDeck.
 
 	aDie1 := LoadedDie with: 2.
 	aDie2 := LoadedDie with: 2.
@@ -324,14 +341,16 @@ LaScalonetaGameTest >> testJorgeMovesBackFourTilesWhenLandingOnAWormholeEffect [
 { #category : #tests }
 LaScalonetaGameTest >> testJorgeMovesBackTwoPositionsAndBacksALapWhenJorgeLandsOnAMoonWalkEffect [
 
-	| aGame aBoard aDie1 aDie2 aDiceCup |
+	| aGame aBoard aDie1 aDie2 aDiceCup aDeck |
+	
 	aBoard := Board
 		          with: { 
 				          (MoonWalkEffect with: -2).
 				          NoEffect new.
 				          NoEffect new }
-					 numberOfLaps: 2
-		          and: 4.
+		          and: 4
+		          finishingAfter: 2
+		          usingCardsFrom: aDeck.
 
 	aDie1 := LoadedDie with: 2.
 	aDie2 := LoadedDie with: 1.
@@ -358,7 +377,8 @@ LaScalonetaGameTest >> testJorgeMovesBackTwoPositionsAndBacksALapWhenJorgeLandsO
 { #category : #tests }
 LaScalonetaGameTest >> testJorgeMovesForwardFourTilesWhenLandingOnASpeedUpEffect [
 
-	| aGame aBoard aDie1 |
+	| aGame aBoard aDie1 aDeck |
+	
 	aBoard := Board
 		          with: { 
 				          NoEffect new.
@@ -367,8 +387,9 @@ LaScalonetaGameTest >> testJorgeMovesForwardFourTilesWhenLandingOnASpeedUpEffect
 				          NoEffect new.
 				          NoEffect new.
 				          NoEffect new }
-					 numberOfLaps: 2
-		          and: 6.
+		          and: 6
+		          finishingAfter: 2
+		          usingCardsFrom: aDeck.
 
 	aDie1 := LoadedDie with: 1.
 
@@ -386,7 +407,8 @@ LaScalonetaGameTest >> testJorgeMovesForwardFourTilesWhenLandingOnASpeedUpEffect
 { #category : #tests }
 LaScalonetaGameTest >> testJorgeMovesForwardOneParsecWhenLandingOnAHyperJumpEffectWithMValueEqualsToOneParsec [
 
-	| aGame aBoard aDie1 |
+	| aGame aBoard aDie1 aDeck |
+	
 	aBoard := Board
 		          with: { 
 				          NoEffect new.
@@ -395,9 +417,10 @@ LaScalonetaGameTest >> testJorgeMovesForwardOneParsecWhenLandingOnAHyperJumpEffe
 				          NoEffect new.
 				          NoEffect new.
 				          NoEffect new }
-					 numberOfLaps: 2
-		          and: 3.
-
+		          and: 3
+		          finishingAfter: 2
+		          usingCardsFrom: aDeck.
+		
 	aDie1 := LoadedDie with: 1.
 
 	aGame := LaScalonetaGame
@@ -413,7 +436,8 @@ LaScalonetaGameTest >> testJorgeMovesForwardOneParsecWhenLandingOnAHyperJumpEffe
 { #category : #tests }
 LaScalonetaGameTest >> testJorgeMovesFowardOneParsecAndThenJulianMovesFowardTwoParsecsSinceTheyBothLandedOnAHyperJumpEffectAndOneAndTwoWhereTheFirstValuesOfTheMValuesList [
 
-	| aGame aBoard aDie1 |
+	| aGame aBoard aDie1 aDeck |
+	
 	aBoard := Board
 		          with: { 
 				          NoEffect new.
@@ -422,9 +446,10 @@ LaScalonetaGameTest >> testJorgeMovesFowardOneParsecAndThenJulianMovesFowardTwoP
 				          NoEffect new.
 				          NoEffect new.
 				          NoEffect new }
-					 numberOfLaps: 2
-		          and: 3.
-
+		          and: 3
+		          finishingAfter: 2
+		          usingCardsFrom: aDeck.
+		
 	aDie1 := LoadedDie with: 1.
 
 	aGame := LaScalonetaGame
@@ -444,7 +469,8 @@ LaScalonetaGameTest >> testJorgeMovesFowardOneParsecAndThenJulianMovesFowardTwoP
 { #category : #tests }
 LaScalonetaGameTest >> testJorgeMovesFowardOneParsecThenJulianMovesFowardTwoParsecsAndFinallyHernanMovesFowardOneParsecAgainWhenLadingOnAHyperJumpEffectInitializeWithATwoMValuesList [
 
-	| aGame aBoard aDie1 |
+	| aGame aBoard aDie1 aDeck|
+	
 	aBoard := Board
 		          with: { 
 				          NoEffect new.
@@ -453,8 +479,9 @@ LaScalonetaGameTest >> testJorgeMovesFowardOneParsecThenJulianMovesFowardTwoPars
 				          NoEffect new.
 				          NoEffect new.
 				          NoEffect new }
-					 numberOfLaps: 2
-		          and: 3.
+		          and: 3
+		          finishingAfter: 2
+		          usingCardsFrom: aDeck.
 
 	aDie1 := LoadedDie with: 1.
 
@@ -479,16 +506,18 @@ LaScalonetaGameTest >> testJorgeMovesFowardOneParsecThenJulianMovesFowardTwoPars
 { #category : #tests }
 LaScalonetaGameTest >> testJorgeWinsLaScalonetaGameWhenJorgeReachesTheEndFirst [
 
-	| aGame aBoard aDie1 aDie2 aDie3 aDiceCup |
+	| aGame aBoard aDie1 aDie2 aDie3 aDiceCup aDeck |
+	
 	aBoard := Board
 		          with: { 
 				          NoEffect new.
 				          NoEffect new.
 				          NoEffect new.
 				          NoEffect new }
-					 numberOfLaps: 1
-		          and: 4.
-
+		          and: 4
+		          finishingAfter: 1
+		          usingCardsFrom: aDeck.
+	
 	aDie1 := LoadedDie with: 1.
 	aDie2 := LoadedDie with: 1.
 	aDie3 := LoadedDie with: 1.
@@ -511,7 +540,8 @@ LaScalonetaGameTest >> testJorgeWinsLaScalonetaGameWhenJorgeReachesTheEndFirst [
 { #category : #tests }
 LaScalonetaGameTest >> testJulianDoesNotGoBackFurtherThanFirstPositionOfFirstLapWhenAffectedByAWormholeOnSecondPositionOfFirstLap [
 
-| aGame aBoard aDie1 |
+| aGame aBoard aDie1 aDeck |
+
 	aBoard := Board
 		          with: { 
 				          NoEffect new.
@@ -519,8 +549,9 @@ LaScalonetaGameTest >> testJulianDoesNotGoBackFurtherThanFirstPositionOfFirstLap
 				          NoEffect new.
 				          NoEffect new.
 				          NoEffect new }
-					 numberOfLaps: 2
-		          and: 6.
+		          and: 6
+		          finishingAfter: 2
+		          usingCardsFrom: aDeck.
 
 	aDie1 := LoadedDie with: 1.
 
@@ -537,13 +568,15 @@ LaScalonetaGameTest >> testJulianDoesNotGoBackFurtherThanFirstPositionOfFirstLap
 { #category : #tests }
 LaScalonetaGameTest >> testJulianIsTheThirdSpaceShipAtSpaceShipsRankingAsHisPositionIsTheThirdClosestToTheGoal [
 
-	| aGame aBoard aDie1 |
+	| aGame aBoard aDie1 aDeck |
+	
 	aBoard := Board
 		          with: { 
 				          NoEffect new.
 				          NoEffect new }
-					 numberOfLaps: 2
-		          and: 3.
+		          and: 3
+		          finishingAfter: 2
+		          usingCardsFrom: aDeck.
 
 	aDie1 := LoadedDie with: 1.
 
@@ -565,15 +598,17 @@ LaScalonetaGameTest >> testJulianIsTheThirdSpaceShipAtSpaceShipsRankingAsHisPosi
 { #category : #tests }
 LaScalonetaGameTest >> testLaScalonetaGameEndWhenPlayingWithARandomDie [
 
-	| aGame aBoard aDie1 |
+	| aGame aBoard aDie1 aDeck |
+	
 	aBoard := Board
 		          with: { 
 				          NoEffect new.
 				          NoEffect new.
 				          NoEffect new.
 				          NoEffect new }
-					 numberOfLaps: 2
-		          and: 2.
+		          and: 2
+		          finishingAfter: 2
+		          usingCardsFrom: aDeck.
 
 	aDie1 := RandomDie with: 3.
 
@@ -592,15 +627,17 @@ LaScalonetaGameTest >> testLaScalonetaGameEndWhenPlayingWithARandomDie [
 { #category : #tests }
 LaScalonetaGameTest >> testLaScalonetaGameMustHaveAtLeastOneSpaceShip [
 
-	| aBoard aDie1 |
+	| aBoard aDie1 aDeck |
+	
 	aBoard := Board
 		          with: { 
 				          NoEffect new.
 				          NoEffect new.
 				          NoEffect new }
-					 numberOfLaps: 2
-		          and: 3.
-
+		          and: 3
+		          finishingAfter: 2
+		          usingCardsFrom: aDeck.
+	
 	aDie1 := LoadedDie with: 1.
 
 	self
@@ -616,15 +653,18 @@ LaScalonetaGameTest >> testLaScalonetaGameMustHaveAtLeastOneSpaceShip [
 { #category : #tests }
 LaScalonetaGameTest >> testLaScalonetaGameMustHaveOneOrMoreLaps [
 
+	| aDeck |
+
 	self
-		should: [ 
+		should: [
 			Board
-				with: { 
+		          with: { 
 						NoEffect new.
 						NoEffect new.
 						NoEffect new }
-				numberOfLaps: 0
-				and: 3 ]
+		          and: 3
+		          finishingAfter: 0
+		          usingCardsFrom: aDeck. ]
 		raise: Error
 		withMessage: 'La Scaloneta Game must have one or more laps!'
 ]
@@ -632,15 +672,17 @@ LaScalonetaGameTest >> testLaScalonetaGameMustHaveOneOrMoreLaps [
 { #category : #tests }
 LaScalonetaGameTest >> testPlayingAfterWinningIsNotAllowed [
 
-	| aGame aBoard aDie1 aDie2 aDie3 aDiceCup |
+	| aGame aBoard aDie1 aDie2 aDie3 aDiceCup aDeck |
+	
 	aBoard := Board
 		          with: { 
 				          NoEffect new.
 				          NoEffect new.
 				          NoEffect new }
-					 numberOfLaps: 2
-		          and: 3.
-
+		          and: 3
+		          finishingAfter: 2
+		          usingCardsFrom: aDeck.
+	
 	aDie1 := LoadedDie with: 1.
 	aDie2 := LoadedDie with: 1.
 	aDie3 := LoadedDie with: 1.
@@ -674,7 +716,7 @@ LaScalonetaGameTest >> testPlayingAfterWinningIsNotAllowed [
 { #category : #tests }
 LaScalonetaGameTest >> testScalonetaGamePlayedWithRandomBoard [
 
-	| tilesCollection board aGame pool aDie1 aDie2 aDiceCup |
+	| tilesCollection board aGame pool aDie1 aDie2 aDiceCup aDeck |
 	pool := EffectPool
 		        with: { 
 				        NoEffect new.
@@ -685,8 +727,12 @@ LaScalonetaGameTest >> testScalonetaGamePlayedWithRandomBoard [
 				        WormHoleEffect new }
 		        and: { 40. 10. 8. 20. 2. 20 }.
 	tilesCollection := pool randomCollectionOfEffectsWith: 5.
-
-	board := Board with: tilesCollection numberOfLaps: 2 and: 2.
+	
+	board := Board
+		          with: tilesCollection
+		          and: 2
+		          finishingAfter: 2
+		          usingCardsFrom: aDeck.
 
 	aDie1 := LoadedDie with: 3.
 	aDie2 := LoadedDie with: 4.
@@ -705,16 +751,18 @@ LaScalonetaGameTest >> testScalonetaGamePlayedWithRandomBoard [
 { #category : #tests }
 LaScalonetaGameTest >> testSpaceShipMovesThreeTilesFowardWhenRollingResultEqualsToThree [
 
-	| aGame aBoard aDie1 aDie2 aDiceCup |
+	| aGame aBoard aDie1 aDie2 aDiceCup aDeck |
+	
 	aBoard := Board
 		          with: { 
 				          NoEffect new.
 				          NoEffect new.
 				          NoEffect new.
 				          NoEffect new }
-					 numberOfLaps: 2
-		          and: 4.
-
+		          and: 4
+		          finishingAfter: 2
+		          usingCardsFrom: aDeck.
+	
 	aDie1 := LoadedDie with: 2.
 	aDie2 := LoadedDie with: 1.
 	aDiceCup := DiceCup withAll: { aDie1. aDie2 }.
