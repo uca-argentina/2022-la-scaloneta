@@ -240,6 +240,43 @@ LaScalonetaGameTest >> testJorgeDoesNotMoveFowardAsTheNumberOfParsecsIsNotEnough
 ]
 
 { #category : #tests }
+LaScalonetaGameTest >> testJorgeGetsAnAccelerationAndAffectsAllPlayers [
+
+	| aGame aBoard aDie1 aDie2 aDiceCup anAccelerationCard |
+
+	anAccelerationCard := AccelerationCard new.
+	
+	aBoard := Board
+		          with: { 
+				          NoEffect new.
+				          NoEffect new.
+				          DeliveryCardEffect new.
+				          NoEffect new.
+				          NoEffect new }
+		          and: 12
+		          finishingAfter: 2
+		          usingCardsFrom: #(anAccelerationCard).
+		
+	aDie1 := LoadedDie with: 1.
+	aDie2 := LoadedDie with: 1.
+
+	aDiceCup := DiceCup withAll: { 
+			            aDie1.
+			            aDie2}.
+
+	aGame := LaScalonetaGame
+		         playedBy: { 'Jorge'. 'Julian' }
+		         on: aBoard
+		         rolling: aDiceCup.
+		
+	aGame playNextTurn.
+	
+	aGame playNextTurn.
+	
+	self assert: 'Julian' isAt: 4 with: 1 in: aGame.
+]
+
+{ #category : #tests }
 LaScalonetaGameTest >> testJorgeIsNotTheWinnerOfLaScalonetaGameWhenJulianReachesTheEndFirst [
 
 	| aGame aBoard aDie1 aDiceCup aDie2 aDie3 aDeck |

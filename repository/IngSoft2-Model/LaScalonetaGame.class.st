@@ -71,17 +71,13 @@ LaScalonetaGame >> hasEnded [
 ]
 
 { #category : #initialization }
-LaScalonetaGame >> initializeWith: aBoard rolling: aDiceCollection playedBy: aSpaceShip [
+LaScalonetaGame >> initializeWith: aBoard rolling: aDiceCollection playedBy: aSpaceShips [
 
 	board := aBoard.
 	diceCollection := aDiceCollection.
-	spaceShips := aSpaceShip.
+	spaceShips := aSpaceShips.
 	hasEnded := false.
-	spaceShipPositions := (spaceShips collect: [ :player | 
-		                       SpaceShipPosition
-			                       startingOf: player
-			                       for: board
-			                       at: 1 ]) asOrderedCollection.
+	spaceShipPositions := board initializePositionsFor: aSpaceShips.
 	spaceShipCurrentTurn := spaceShips first.
 ]
 

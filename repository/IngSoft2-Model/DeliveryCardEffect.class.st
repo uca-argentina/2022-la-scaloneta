@@ -7,5 +7,7 @@ Class {
 { #category : #private }
 DeliveryCardEffect >> applyTo: aSpaceShips for: aGame [
 
+	aGame board giveCardFromDeckTo: aSpaceShips.
+
 	
 ]

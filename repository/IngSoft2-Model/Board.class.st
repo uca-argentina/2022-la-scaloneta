@@ -5,7 +5,8 @@ Class {
 		'tiles',
 		'parsecs',
 		'laps',
-		'deck'
+		'deck',
+		'cardHandlers'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -40,10 +41,35 @@ Board class >> with: tiles and: parsecs finishingAfter: laps usingCardsFrom: dec
 	^ self new initializeWith: tiles and: parsecs finishingAfter: laps usingCardsFrom: deck
 ]
 
+{ #category : #'as yet unclassified' }
+Board >> cardHandlerOf: aSpaceShip [
+
+	| playerCardHandler |
+	playerCardHandler := cardHandlers
+		detect: [ :handler | handler player = aSpaceShip ].
+	^ playerCardHandler
+]
+
 { #category : #accessing }
 Board >> firstTileNumber [
 
 	^ 1
+]
+
+{ #category : #'as yet unclassified' }
+Board >> giveCardFromDeckTo: aSpaceShip [
+
+	(self cardHandlerOf: aSpaceShip) addToHand: (deck pick).
+]
+
+{ #category : #initialization }
+Board >> initializePositionsFor: aGroupOfSpaceShip [
+
+	^ (aGroupOfSpaceShip collect: [ :spaceShip | 
+		                       SpaceShipPosition
+			                       startingOf: spaceShip
+			                       for: self
+			                       at: 1 ]) asOrderedCollection.
 ]
 
 { #category : #initialization }
