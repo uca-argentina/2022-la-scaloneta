@@ -31,12 +31,12 @@ Board class >> assertValidParsecs: parsecs [
 ]
 
 { #category : #'instance creation' }
-Board class >> with: tiles numberOfLaps: laps and: parsecs [
+Board class >> with: tiles and: parsecs finishingAfter: laps [
 
 	self assertValidNumberOfTiles: tiles.
 	self assertValidNumberOfLaps: laps.
 	self assertValidParsecs: parsecs.
-	^ self new initializeWith: tiles numberOfLaps: laps and: parsecs
+	^ self new initializeWith: tiles and: parsecs finishingAfter: laps
 ]
 
 { #category : #accessing }
@@ -46,11 +46,21 @@ Board >> firstTileNumber [
 ]
 
 { #category : #initialization }
-Board >> initializeWith: aTileCollection numberOfLaps: aLaps and: aParsecs [
+Board >> initializePositionsFor: aGroupOfSpaceShip [
 
-	tiles := aTileCollection.
+	^ (aGroupOfSpaceShip collect: [ :spaceShip | 
+		                       SpaceShipPosition
+			                       startingOf: spaceShip
+			                       for: self
+			                       at: 1 ]) asOrderedCollection.
+]
+
+{ #category : #initialization }
+Board >> initializeWith: aTiles and: aParsecs finishingAfter: aLaps [
+
+	tiles := aTiles.
+	parsecs := aParsecs.
 	laps := aLaps.
-	parsecs := aParsecs
 ]
 
 { #category : #accessing }
@@ -84,6 +94,35 @@ Board >> move: aResult from: oldPosition [
 			 ofSpaceShip: oldPosition spaceShip
 			 tileNumber: newPosition
 			 lap: newLap)
+]
+
+{ #category : #private }
+Board >> movePasecs: aParsecs from: oldPosition [
+
+	| boardSize quantityOfSquaresAdvanced auxLap newLap newPosition aResult |
+	boardSize := self size.
+
+	aResult := (aParsecs / (self parsecs / boardSize)) floor.
+
+	quantityOfSquaresAdvanced := (oldPosition lap - 1) * boardSize
+	                             + aResult + oldPosition tileNumber.
+
+	quantityOfSquaresAdvanced <= 0 ifTrue: [ 
+		quantityOfSquaresAdvanced := 1 ].
+
+	auxLap := quantityOfSquaresAdvanced - 1 // boardSize + 1.
+
+	newLap := auxLap min: laps.
+
+	newPosition := quantityOfSquaresAdvanced % boardSize.
+
+	(newPosition = 0 or: [ auxLap > laps ]) ifTrue: [ 
+		newPosition := boardSize ].
+
+	^ SpaceShipPosition
+		  ofSpaceShip: oldPosition spaceShip
+		  tileNumber: newPosition
+		  lap: newLap
 ]
 
 { #category : #accessing }

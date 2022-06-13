@@ -1,0 +1,30 @@
+Class {
+	#name : #Deck,
+	#superclass : #Object,
+	#instVars : [
+		'cards'
+	],
+	#category : #'IngSoft2-Model'
+}
+
+{ #category : #'instance creation' }
+Deck class >> with: cards [
+
+	cards isEmpty ifTrue: [ Error signal: 'Deck must have at least one card!'  ].
+
+	^ self new initializeWith: cards.
+]
+
+{ #category : #initialization }
+Deck >> initializeWith: aGroupOfCards [
+
+	cards := aGroupOfCards.
+]
+
+{ #category : #actions }
+Deck >> pick [
+
+	| cardToPick |
+	cardToPick := cards at: (Random new nextInteger: (cards size)).
+	^ cardToPick
+]

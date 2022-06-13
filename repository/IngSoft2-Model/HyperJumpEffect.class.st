@@ -41,9 +41,7 @@ HyperJumpEffect >> applyTo: aSpaceShips for: aGame [
 
 	^ aGame
 		  move: aSpaceShips first
-		  withRolling:
-			  (value_MCollection
-			   / (aGame board parsecs / aGame board size)) floor
+		  withParsecs: value_MCollection
 ]
 
 { #category : #initialization }

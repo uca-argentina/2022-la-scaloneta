@@ -7,7 +7,9 @@ Class {
 		'spaceShips',
 		'hasEnded',
 		'spaceShipPositions',
-		'spaceShipCurrentTurn'
+		'spaceShipCurrentTurn',
+		'cardHandlers',
+		'deck'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -20,7 +22,7 @@ LaScalonetaGame class >> assertValidNumberOfSpaceShips: aSpaceShipsCollection [
 ]
 
 { #category : #'instance creation' }
-LaScalonetaGame class >> playedBy: spaceShips on: board rolling: dice [
+LaScalonetaGame class >> playedBy: spaceShips on: board rolling: dice usingCardsFrom: aDeck [
 
 	self assertValidNumberOfSpaceShips: spaceShips.
 
@@ -28,6 +30,7 @@ LaScalonetaGame class >> playedBy: spaceShips on: board rolling: dice [
 		  initializeWith: board
 		  rolling: dice
 		  playedBy: spaceShips
+		  usingCardsFrom: aDeck.
 ]
 
 { #category : #adding }
@@ -64,6 +67,25 @@ LaScalonetaGame >> board [
 	^ board
 ]
 
+{ #category : #accessing }
+LaScalonetaGame >> cardHandlerOf: aSpaceShip [
+
+	| playerCardHandler |
+	playerCardHandler := cardHandlers
+		detect: [ :handler | handler spaceShip = aSpaceShip ].
+	^ playerCardHandler
+]
+
+{ #category : #action }
+LaScalonetaGame >> giveCardFromDeckTo: aSpaceShip [
+
+	| card |
+	
+	card := deck pick.
+
+	(self cardHandlerOf: aSpaceShip) addToHand: card.
+]
+
 { #category : #testing }
 LaScalonetaGame >> hasEnded [
 
@@ -71,18 +93,17 @@ LaScalonetaGame >> hasEnded [
 ]
 
 { #category : #initialization }
-LaScalonetaGame >> initializeWith: aBoard rolling: aDiceCollection playedBy: aSpaceShip [
+LaScalonetaGame >> initializeWith: aBoard rolling: aDiceCollection playedBy: aSpaceShips usingCardsFrom: aDeck [
 
 	board := aBoard.
 	diceCollection := aDiceCollection.
-	spaceShips := aSpaceShip.
+	spaceShips := aSpaceShips.
 	hasEnded := false.
-	spaceShipPositions := (spaceShips collect: [ :player | 
-		                       SpaceShipPosition
-			                       startingOf: player
-			                       for: board
-			                       at: 1 ]) asOrderedCollection.
+	spaceShipPositions := board initializePositionsFor: aSpaceShips.
 	spaceShipCurrentTurn := spaceShips first.
+	deck := aDeck.
+	cardHandlers := aSpaceShips
+		collect: [ :spaceShip | CardHandler with: spaceShip ].
 ]
 
 { #category : #private }
@@ -93,6 +114,17 @@ LaScalonetaGame >> laScalonetaGameContinuesDependingOnWhetherTheSpaceShipWonOrNo
 		ifFalse: [ 
 			self applyEffectTo: spaceShips.
 			self nextSpaceShipTurn: aSpaceShip ]
+]
+
+{ #category : #private }
+LaScalonetaGame >> move: aSpaceShip withParsecs: aParsecs [
+
+	| newPosition oldPosition |
+	oldPosition := self positionOf: aSpaceShip.
+
+	newPosition := board movePasecs: aParsecs from: oldPosition.
+
+	self add: newPosition
 ]
 
 { #category : #private }
