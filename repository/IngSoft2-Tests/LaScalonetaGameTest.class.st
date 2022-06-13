@@ -23,15 +23,15 @@ LaScalonetaGameTest >> laScalonetaGamePlayedByJorgeAndJulianWithALoadedDieWithOn
 				          NoEffect new.
 				          NoEffect new }
 		          and: 2
-		          finishingAfter: 2
-		          usingCardsFrom: aDeck.
+		          finishingAfter: 2.
 
 	aDie1 := LoadedDie with: 1.
 
 	aGame := LaScalonetaGame
 		         playedBy: { 'Jorge'. 'Julian' }
 		         on: aBoard
-		         rolling: aDie1.
+		         rolling: aDie1
+		         usingCardsFrom: aDeck.
 	^ aGame
 ]
 
@@ -52,16 +52,15 @@ LaScalonetaGameTest >> testAskingForTheWinnerWhenTheGameHasNotEndedThrowsAnError
 				          NoEffect new.
 				          NoEffect new.
 				          NoEffect new }
-				    and: 4
-					 finishingAfter: 2
-					usingCardsFrom: aDeck.
+				    and: 4 finishingAfter: 2.
 
 	aDie1 := LoadedDie with: 1.
 
 	aGame := LaScalonetaGame
 		         playedBy: { 'Jorge'. 'Julian' }
 		         on: aBoard
-		         rolling: aDie1.
+		         rolling: aDie1
+					usingCardsFrom: aDeck.
 
 	self deny: aGame hasEnded.
 
@@ -75,8 +74,7 @@ LaScalonetaGameTest >> testAskingForTheWinnerWhenTheGameHasNotEndedThrowsAnError
 LaScalonetaGameTest >> testEveryoneGoesBackToTheFirstPositionOnTheSameLapWhenJorgeLandsOnAnAtomicBombEffect [
 
 	| aGame aBoard aDie1 aDie2 aDiceCup aDeck |
-	
-		aBoard := Board
+	aBoard := Board
 		          with: { 
 				          NoEffect new.
 				          AtomicBombEffect new.
@@ -84,8 +82,7 @@ LaScalonetaGameTest >> testEveryoneGoesBackToTheFirstPositionOnTheSameLapWhenJor
 				          NoEffect new.
 				          NoEffect new }
 		          and: 5
-		          finishingAfter: 2
-		          usingCardsFrom: aDeck.
+		          finishingAfter: 2.
 
 	aDie1 := LoadedDie with: 2.
 	aDie2 := LoadedDie with: 1.
@@ -97,7 +94,8 @@ LaScalonetaGameTest >> testEveryoneGoesBackToTheFirstPositionOnTheSameLapWhenJor
 	aGame := LaScalonetaGame
 		         playedBy: { 'Jorge'. 'Julian'. 'Hernan'. 'Tomas' }
 		         on: aBoard
-		         rolling: aDiceCup.
+		         rolling: aDiceCup
+		         usingCardsFrom: aDeck.
 
 	aGame playNextTurn.
 	aGame playNextTurn.
@@ -105,24 +103,39 @@ LaScalonetaGameTest >> testEveryoneGoesBackToTheFirstPositionOnTheSameLapWhenJor
 	aGame playNextTurn.
 	aGame playNextTurn.
 
-	self assert: 'Jorge' isAt: 1 with: 2 in: aGame.
-	self assert: 'Julian' isAt: 1 with: 1 in: aGame.
-	self assert: 'Hernan' isAt: 1 with: 1 in: aGame.
-	self assert: 'Tomas' isAt: 1 with: 1 in: aGame.
+	self
+		assert: 'Jorge'
+		isAt: 1
+		with: 2
+		in: aGame.
+	self
+		assert: 'Julian'
+		isAt: 1
+		with: 1
+		in: aGame.
+	self
+		assert: 'Hernan'
+		isAt: 1
+		with: 1
+		in: aGame.
+	self
+		assert: 'Tomas'
+		isAt: 1
+		with: 1
+		in: aGame
 ]
 
 { #category : #tests }
 LaScalonetaGameTest >> testFinalPositionOfSpaceShipsCorrespondsWithTheActualFinalPositions [
 
 	| aGame aDiceCup aBoard aDie1 aDie2 aDie3 aDeck |
-		aBoard := Board
+	aBoard := Board
 		          with: { 
 				          NoEffect new.
 				          NoEffect new.
 				          NoEffect new }
 		          and: 3
-		          finishingAfter: 2
-		          usingCardsFrom: aDeck.	
+		          finishingAfter: 2.
 
 	aDie1 := LoadedDie with: 1.
 	aDie2 := LoadedDie with: 1.
@@ -136,19 +149,36 @@ LaScalonetaGameTest >> testFinalPositionOfSpaceShipsCorrespondsWithTheActualFina
 	aGame := LaScalonetaGame
 		         playedBy: { 'Jorge'. 'Julian' }
 		         on: aBoard
-		         rolling: aDiceCup.
+		         rolling: aDiceCup
+		         usingCardsFrom: aDeck.
 
 	aGame playNextTurn.
 	aGame playNextTurn.
 
-	self assert: 'Jorge' isAt: 1 with: 2 in: aGame.
-	self assert: 'Julian' isAt: 1 with: 2 in: aGame.
+	self
+		assert: 'Jorge'
+		isAt: 1
+		with: 2
+		in: aGame.
+	self
+		assert: 'Julian'
+		isAt: 1
+		with: 2
+		in: aGame.
 
 	aGame playNextTurn.
 
 
-	self assert: 'Jorge' isAt: 3 with: 2 in: aGame.
-	self assert: 'Julian' isAt: 1 with: 2 in: aGame.
+	self
+		assert: 'Jorge'
+		isAt: 3
+		with: 2
+		in: aGame.
+	self
+		assert: 'Julian'
+		isAt: 1
+		with: 2
+		in: aGame.
 	self assert: aGame hasEnded
 ]
 
@@ -156,16 +186,14 @@ LaScalonetaGameTest >> testFinalPositionOfSpaceShipsCorrespondsWithTheActualFina
 LaScalonetaGameTest >> testGameHasEndedAsOneSpaceShipReachedTheEnd [
 
 	| aGame aDiceCup aBoard aDie1 aDie2 aDie3 aDeck |
-	
 	aBoard := Board
 		          with: { 
 				          NoEffect new.
 				          NoEffect new.
 				          NoEffect new }
 		          and: 3
-		          finishingAfter: 2
-		          usingCardsFrom: aDeck.
-		
+		          finishingAfter: 2.
+
 	aDie1 := LoadedDie with: 1.
 	aDie2 := LoadedDie with: 1.
 	aDie3 := LoadedDie with: 1.
@@ -178,7 +206,8 @@ LaScalonetaGameTest >> testGameHasEndedAsOneSpaceShipReachedTheEnd [
 	aGame := LaScalonetaGame
 		         playedBy: { 'Jorge'. 'Julian' }
 		         on: aBoard
-		         rolling: aDiceCup.
+		         rolling: aDiceCup
+		         usingCardsFrom: aDeck.
 
 	self deny: aGame hasEnded.
 
@@ -214,7 +243,6 @@ LaScalonetaGameTest >> testHyperJumpEffectMValuesCollectionCanNotContainsNegativ
 LaScalonetaGameTest >> testJorgeDoesNotMoveFowardAsTheNumberOfParsecsIsNotEnoughToMoveOneTile [
 
 	| aGame aBoard aDie1 aDeck |
-
 	aBoard := Board
 		          with: { 
 				          NoEffect new.
@@ -224,25 +252,29 @@ LaScalonetaGameTest >> testJorgeDoesNotMoveFowardAsTheNumberOfParsecsIsNotEnough
 				          NoEffect new.
 				          NoEffect new }
 		          and: 12
-		          finishingAfter: 2
-		          usingCardsFrom: aDeck.
+		          finishingAfter: 2.
 
 	aDie1 := LoadedDie with: 1.
 
 	aGame := LaScalonetaGame
 		         playedBy: { 'Jorge' }
 		         on: aBoard
-		         rolling: aDie1.
+		         rolling: aDie1
+		         usingCardsFrom: aDeck.
 
 	aGame playNextTurn.
 
-	self assert: 'Jorge' isAt: 2 with: 1 in: aGame.
+	self
+		assert: 'Jorge'
+		isAt: 2
+		with: 1
+		in: aGame
 ]
 
 { #category : #tests }
 LaScalonetaGameTest >> testJorgeGetsAnAccelerationAndAffectsAllPlayers [
 
-	| aGame aBoard aDie1 aDie2 aDiceCup anAccelerationCard |
+	| aGame aBoard aDie1 aDie2 aDiceCup anAccelerationCard aDeck |
 
 	anAccelerationCard := AccelerationCard new.
 	
@@ -254,8 +286,7 @@ LaScalonetaGameTest >> testJorgeGetsAnAccelerationAndAffectsAllPlayers [
 				          NoEffect new.
 				          NoEffect new }
 		          and: 12
-		          finishingAfter: 2
-		          usingCardsFrom: #(anAccelerationCard).
+		          finishingAfter: 2.
 		
 	aDie1 := LoadedDie with: 1.
 	aDie2 := LoadedDie with: 1.
@@ -264,23 +295,23 @@ LaScalonetaGameTest >> testJorgeGetsAnAccelerationAndAffectsAllPlayers [
 			            aDie1.
 			            aDie2}.
 
+	aDeck := Deck with: #(AccelerationCard).
+
 	aGame := LaScalonetaGame
 		         playedBy: { 'Jorge'. 'Julian' }
 		         on: aBoard
-		         rolling: aDiceCup.
+		         rolling: aDiceCup
+		         usingCardsFrom: aDeck.
 		
 	aGame playNextTurn.
-	
 	aGame playNextTurn.
 	
-	self assert: 'Julian' isAt: 4 with: 1 in: aGame.
 ]
 
 { #category : #tests }
 LaScalonetaGameTest >> testJorgeIsNotTheWinnerOfLaScalonetaGameWhenJulianReachesTheEndFirst [
 
 	| aGame aBoard aDie1 aDiceCup aDie2 aDie3 aDeck |
-
 	aBoard := Board
 		          with: { 
 				          NoEffect new.
@@ -288,9 +319,8 @@ LaScalonetaGameTest >> testJorgeIsNotTheWinnerOfLaScalonetaGameWhenJulianReaches
 				          NoEffect new.
 				          NoEffect new }
 		          and: 4
-		          finishingAfter: 1
-		          usingCardsFrom: aDeck.
-		
+		          finishingAfter: 1.
+
 	aDie1 := LoadedDie with: 1.
 	aDie2 := LoadedDie with: 1.
 	aDie3 := LoadedDie with: 1.
@@ -303,7 +333,8 @@ LaScalonetaGameTest >> testJorgeIsNotTheWinnerOfLaScalonetaGameWhenJulianReaches
 	aGame := LaScalonetaGame
 		         playedBy: { 'Julian'. 'Jorge' }
 		         on: aBoard
-		         rolling: aDiceCup.
+		         rolling: aDiceCup
+		         usingCardsFrom: aDeck.
 
 	aGame playNextTurn.
 
@@ -314,14 +345,12 @@ LaScalonetaGameTest >> testJorgeIsNotTheWinnerOfLaScalonetaGameWhenJulianReaches
 LaScalonetaGameTest >> testJorgeIsTheFirstSpaceShipAtSpaceShipsRankingAsHisPositionIsTheClosestToTheGoal [
 
 	| aGame aDiceCup aBoard aDie1 aDeck |
-
 	aBoard := Board
 		          with: { 
 				          NoEffect new.
 				          NoEffect new }
 		          and: 3
-		          finishingAfter: 2
-		          usingCardsFrom: aDeck.
+		          finishingAfter: 2.
 
 	aDie1 := LoadedDie with: 1.
 	aDiceCup := DiceCup withAll: { aDie1 }.
@@ -329,23 +358,27 @@ LaScalonetaGameTest >> testJorgeIsTheFirstSpaceShipAtSpaceShipsRankingAsHisPosit
 	aGame := LaScalonetaGame
 		         playedBy: { 'Jorge'. 'Julian'. 'Lucas' }
 		         on: aBoard
-		         rolling: aDiceCup.
+		         rolling: aDiceCup
+		         usingCardsFrom: aDeck.
 
 	aGame playNextTurn.
 	aGame playNextTurn.
 	aGame playNextTurn.
 	aGame playNextTurn.
 
-	self assert: aGame spaceShipsPositionsRanking first spaceShip equals: 'Jorge'.
-	self assert: aGame spaceShipsPositionsRanking first tileNumber equals: 1.
-	self assert: aGame spaceShipsPositionsRanking first lap equals: 2.
+	self
+		assert: aGame spaceShipsPositionsRanking first spaceShip
+		equals: 'Jorge'.
+	self
+		assert: aGame spaceShipsPositionsRanking first tileNumber
+		equals: 1.
+	self assert: aGame spaceShipsPositionsRanking first lap equals: 2
 ]
 
 { #category : #tests }
 LaScalonetaGameTest >> testJorgeMovesBackFourTilesWhenLandingOnAWormholeEffect [
 
 	| aGame aBoard aDie1 aDie2 aDiceCup aDeck |
-	
 	aBoard := Board
 		          with: { 
 				          NoEffect new.
@@ -355,8 +388,7 @@ LaScalonetaGameTest >> testJorgeMovesBackFourTilesWhenLandingOnAWormholeEffect [
 				          WormHoleEffect new.
 				          NoEffect new }
 		          and: 6
-		          finishingAfter: 2
-		          usingCardsFrom: aDeck.
+		          finishingAfter: 2.
 
 	aDie1 := LoadedDie with: 2.
 	aDie2 := LoadedDie with: 2.
@@ -368,11 +400,16 @@ LaScalonetaGameTest >> testJorgeMovesBackFourTilesWhenLandingOnAWormholeEffect [
 	aGame := LaScalonetaGame
 		         playedBy: { 'Jorge' }
 		         on: aBoard
-		         rolling: aDiceCup.
+		         rolling: aDiceCup
+		         usingCardsFrom: aDeck.
 
 	aGame playNextTurn.
 
-	self assert: 'Jorge' isAt: 1 with: 1 in: aGame.
+	self
+		assert: 'Jorge'
+		isAt: 1
+		with: 1
+		in: aGame
 ]
 
 { #category : #tests }
@@ -386,8 +423,7 @@ LaScalonetaGameTest >> testJorgeMovesBackTwoPositionsAndBacksALapWhenJorgeLandsO
 				          NoEffect new.
 				          NoEffect new }
 		          and: 4
-		          finishingAfter: 2
-		          usingCardsFrom: aDeck.
+		          finishingAfter: 2.
 
 	aDie1 := LoadedDie with: 2.
 	aDie2 := LoadedDie with: 1.
@@ -399,7 +435,8 @@ LaScalonetaGameTest >> testJorgeMovesBackTwoPositionsAndBacksALapWhenJorgeLandsO
 	aGame := LaScalonetaGame
 		         playedBy: { 'Jorge'. 'Julian' }
 		         on: aBoard
-		         rolling: aDiceCup.
+		         rolling: aDiceCup
+		         usingCardsFrom: aDeck.
 
 	aGame playNextTurn.
 	
@@ -425,15 +462,15 @@ LaScalonetaGameTest >> testJorgeMovesForwardFourTilesWhenLandingOnASpeedUpEffect
 				          NoEffect new.
 				          NoEffect new }
 		          and: 6
-		          finishingAfter: 2
-		          usingCardsFrom: aDeck.
+		          finishingAfter: 2.
 
 	aDie1 := LoadedDie with: 1.
 
 	aGame := LaScalonetaGame
 		         playedBy: { 'Jorge' }
 		         on: aBoard
-		         rolling: aDie1.
+		         rolling: aDie1
+		         usingCardsFrom: aDeck.
 
 	aGame playNextTurn.
 
@@ -455,15 +492,15 @@ LaScalonetaGameTest >> testJorgeMovesForwardOneParsecWhenLandingOnAHyperJumpEffe
 				          NoEffect new.
 				          NoEffect new }
 		          and: 3
-		          finishingAfter: 2
-		          usingCardsFrom: aDeck.
+		          finishingAfter: 2.
 		
 	aDie1 := LoadedDie with: 1.
 
 	aGame := LaScalonetaGame
 		         playedBy: { 'Jorge' }
 		         on: aBoard
-		         rolling: aDie1.
+		         rolling: aDie1
+		         usingCardsFrom: aDeck.
 
 	aGame playNextTurn.
 
@@ -484,15 +521,15 @@ LaScalonetaGameTest >> testJorgeMovesFowardOneParsecAndThenJulianMovesFowardTwoP
 				          NoEffect new.
 				          NoEffect new }
 		          and: 3
-		          finishingAfter: 2
-		          usingCardsFrom: aDeck.
+		          finishingAfter: 2.
 		
 	aDie1 := LoadedDie with: 1.
 
 	aGame := LaScalonetaGame
 		         playedBy: { 'Jorge'. 'Julian' }
 		         on: aBoard
-		         rolling: aDie1.
+		         rolling: aDie1
+					usingCardsFrom: aDeck.
 
 	aGame playNextTurn.
 
@@ -506,8 +543,7 @@ LaScalonetaGameTest >> testJorgeMovesFowardOneParsecAndThenJulianMovesFowardTwoP
 { #category : #tests }
 LaScalonetaGameTest >> testJorgeMovesFowardOneParsecThenJulianMovesFowardTwoParsecsAndFinallyHernanMovesFowardOneParsecAgainWhenLadingOnAHyperJumpEffectInitializeWithATwoMValuesList [
 
-	| aGame aBoard aDie1 aDeck|
-	
+	| aGame aBoard aDie1 aDeck |
 	aBoard := Board
 		          with: { 
 				          NoEffect new.
@@ -517,27 +553,39 @@ LaScalonetaGameTest >> testJorgeMovesFowardOneParsecThenJulianMovesFowardTwoPars
 				          NoEffect new.
 				          NoEffect new }
 		          and: 3
-		          finishingAfter: 2
-		          usingCardsFrom: aDeck.
+		          finishingAfter: 2.
 
 	aDie1 := LoadedDie with: 1.
 
 	aGame := LaScalonetaGame
 		         playedBy: { 'Jorge'. 'Julian'. 'Hernan' }
 		         on: aBoard
-		         rolling: aDie1.
+		         rolling: aDie1
+		         usingCardsFrom: aDeck.
 
 	aGame playNextTurn.
 
-	self assert: 'Jorge' isAt: 2 with: 2 in: aGame.
+	self
+		assert: 'Jorge'
+		isAt: 2
+		with: 2
+		in: aGame.
 
 	aGame playNextTurn.
 
-	self assert: 'Julian' isAt: 6 with: 1 in: aGame.
-	
+	self
+		assert: 'Julian'
+		isAt: 6
+		with: 1
+		in: aGame.
+
 	aGame playNextTurn.
 
-	self assert: 'Hernan' isAt: 2 with: 2 in: aGame.
+	self
+		assert: 'Hernan'
+		isAt: 2
+		with: 2
+		in: aGame
 ]
 
 { #category : #tests }
@@ -552,8 +600,7 @@ LaScalonetaGameTest >> testJorgeWinsLaScalonetaGameWhenJorgeReachesTheEndFirst [
 				          NoEffect new.
 				          NoEffect new }
 		          and: 4
-		          finishingAfter: 1
-		          usingCardsFrom: aDeck.
+		          finishingAfter: 1.
 	
 	aDie1 := LoadedDie with: 1.
 	aDie2 := LoadedDie with: 1.
@@ -567,7 +614,8 @@ LaScalonetaGameTest >> testJorgeWinsLaScalonetaGameWhenJorgeReachesTheEndFirst [
 	aGame := LaScalonetaGame
 		         playedBy: { 'Jorge'. 'Julian' }
 		         on: aBoard
-		         rolling: aDiceCup.
+		         rolling: aDiceCup
+					usingCardsFrom: aDeck.
 
 	aGame playNextTurn.
 
@@ -587,15 +635,15 @@ LaScalonetaGameTest >> testJulianDoesNotGoBackFurtherThanFirstPositionOfFirstLap
 				          NoEffect new.
 				          NoEffect new }
 		          and: 6
-		          finishingAfter: 2
-		          usingCardsFrom: aDeck.
+		          finishingAfter: 2.
 
 	aDie1 := LoadedDie with: 1.
 
 	aGame := LaScalonetaGame
 		         playedBy: { 'Jorge' }
 		         on: aBoard
-		         rolling: aDie1.
+		         rolling: aDie1
+		         usingCardsFrom: aDeck.
 		
 	aGame playNextTurn.
 	
@@ -612,15 +660,15 @@ LaScalonetaGameTest >> testJulianIsTheThirdSpaceShipAtSpaceShipsRankingAsHisPosi
 				          NoEffect new.
 				          NoEffect new }
 		          and: 3
-		          finishingAfter: 2
-		          usingCardsFrom: aDeck.
+		          finishingAfter: 2.
 
 	aDie1 := LoadedDie with: 1.
 
 	aGame := LaScalonetaGame
 		         playedBy: { 'Jorge'. 'Julian'. 'Lucas' }
 		         on: aBoard
-		         rolling: aDie1.
+		         rolling: aDie1
+		         usingCardsFrom: aDeck.
 
 	aGame playNextTurn.
 	aGame playNextTurn.
@@ -644,15 +692,15 @@ LaScalonetaGameTest >> testLaScalonetaGameEndWhenPlayingWithARandomDie [
 				          NoEffect new.
 				          NoEffect new }
 		          and: 2
-		          finishingAfter: 2
-		          usingCardsFrom: aDeck.
+		          finishingAfter: 2.
 
 	aDie1 := RandomDie with: 3.
 
 	aGame := LaScalonetaGame
 		         playedBy: { 'Julian'. 'Jorge' }
 		         on: aBoard
-		         rolling: aDie1.
+		         rolling: aDie1
+		         usingCardsFrom: aDeck.
 
 	self deny: aGame hasEnded.
 
@@ -672,8 +720,7 @@ LaScalonetaGameTest >> testLaScalonetaGameMustHaveAtLeastOneSpaceShip [
 				          NoEffect new.
 				          NoEffect new }
 		          and: 3
-		          finishingAfter: 2
-		          usingCardsFrom: aDeck.
+		          finishingAfter: 2.
 	
 	aDie1 := LoadedDie with: 1.
 
@@ -682,7 +729,8 @@ LaScalonetaGameTest >> testLaScalonetaGameMustHaveAtLeastOneSpaceShip [
 			LaScalonetaGame
 				playedBy: {  }
 				on: aBoard
-				rolling: aDie1 ]
+				rolling: aDie1
+				usingCardsFrom: aDeck ]
 		raise: Error
 		withMessage: 'La Scaloneta Game must have at least one spaceship!'
 ]
@@ -700,8 +748,7 @@ LaScalonetaGameTest >> testLaScalonetaGameMustHaveOneOrMoreLaps [
 						NoEffect new.
 						NoEffect new }
 		          and: 3
-		          finishingAfter: 0
-		          usingCardsFrom: aDeck. ]
+		          finishingAfter: 0. ]
 		raise: Error
 		withMessage: 'La Scaloneta Game must have one or more laps!'
 ]
@@ -717,8 +764,7 @@ LaScalonetaGameTest >> testPlayingAfterWinningIsNotAllowed [
 				          NoEffect new.
 				          NoEffect new }
 		          and: 3
-		          finishingAfter: 2
-		          usingCardsFrom: aDeck.
+		          finishingAfter: 2.
 	
 	aDie1 := LoadedDie with: 1.
 	aDie2 := LoadedDie with: 1.
@@ -728,7 +774,8 @@ LaScalonetaGameTest >> testPlayingAfterWinningIsNotAllowed [
 	aGame := LaScalonetaGame
 		         playedBy: { 'Jorge'. 'Julian' }
 		         on: aBoard
-		         rolling: aDiceCup.
+		         rolling: aDiceCup
+		         usingCardsFrom: aDeck.
 
 	self deny: aGame hasEnded.
 	self assert: 'Jorge' isAt: 1 with: 1 in: aGame.
@@ -759,26 +806,25 @@ LaScalonetaGameTest >> testScalonetaGamePlayedWithRandomBoard [
 				        NoEffect new.
 				        (MoonWalkEffect with: -2).
 				        (HyperJumpEffect with: #( 1 2 3 )).
-						  SpeedUpEffect new.
+				        SpeedUpEffect new.
 				        AtomicBombEffect new.
 				        WormHoleEffect new }
 		        and: { 40. 10. 8. 20. 2. 20 }.
 	tilesCollection := pool randomCollectionOfEffectsWith: 5.
-	
-	board := Board
-		          with: tilesCollection
-		          and: 2
-		          finishingAfter: 2
-		          usingCardsFrom: aDeck.
+
+	board := Board with: tilesCollection and: 2 finishingAfter: 2.
 
 	aDie1 := LoadedDie with: 3.
 	aDie2 := LoadedDie with: 4.
-	aDiceCup := DiceCup withAll: { aDie1. aDie2 }.
+	aDiceCup := DiceCup withAll: { 
+			            aDie1.
+			            aDie2 }.
 
 	aGame := LaScalonetaGame
 		         playedBy: { 'Jorge'. 'Julian' }
 		         on: board
-		         rolling: aDiceCup.
+		         rolling: aDiceCup
+		         usingCardsFrom: aDeck.
 
 	self playUntilFinished: aGame.
 
@@ -797,8 +843,7 @@ LaScalonetaGameTest >> testSpaceShipMovesThreeTilesFowardWhenRollingResultEquals
 				          NoEffect new.
 				          NoEffect new }
 		          and: 4
-		          finishingAfter: 2
-		          usingCardsFrom: aDeck.
+		          finishingAfter: 2.
 	
 	aDie1 := LoadedDie with: 2.
 	aDie2 := LoadedDie with: 1.
@@ -807,7 +852,8 @@ LaScalonetaGameTest >> testSpaceShipMovesThreeTilesFowardWhenRollingResultEquals
 	aGame := LaScalonetaGame
 		         playedBy: { 'Jorge'. 'Julian' }
 		         on: aBoard
-		         rolling: aDiceCup.
+		         rolling: aDiceCup
+				   usingCardsFrom: aDeck.
 
 	aGame playNextTurn.
 

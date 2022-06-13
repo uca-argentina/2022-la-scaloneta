@@ -26,5 +26,5 @@ Deck >> pick [
 
 	| cardToPick |
 	cardToPick := cards at: (Random new nextInteger: (cards size)).
-	^ cardToPick copy
+	^ cardToPick
 ]

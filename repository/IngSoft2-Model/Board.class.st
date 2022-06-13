@@ -4,9 +4,7 @@ Class {
 	#instVars : [
 		'tiles',
 		'parsecs',
-		'laps',
-		'deck',
-		'cardHandlers'
+		'laps'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -33,33 +31,18 @@ Board class >> assertValidParsecs: parsecs [
 ]
 
 { #category : #'instance creation' }
-Board class >> with: tiles and: parsecs finishingAfter: laps usingCardsFrom: deck [
+Board class >> with: tiles and: parsecs finishingAfter: laps [
 
 	self assertValidNumberOfTiles: tiles.
 	self assertValidNumberOfLaps: laps.
 	self assertValidParsecs: parsecs.
-	^ self new initializeWith: tiles and: parsecs finishingAfter: laps usingCardsFrom: deck
-]
-
-{ #category : #'as yet unclassified' }
-Board >> cardHandlerOf: aSpaceShip [
-
-	| playerCardHandler |
-	playerCardHandler := cardHandlers
-		detect: [ :handler | handler player = aSpaceShip ].
-	^ playerCardHandler
+	^ self new initializeWith: tiles and: parsecs finishingAfter: laps
 ]
 
 { #category : #accessing }
 Board >> firstTileNumber [
 
 	^ 1
-]
-
-{ #category : #'as yet unclassified' }
-Board >> giveCardFromDeckTo: aSpaceShip [
-
-	(self cardHandlerOf: aSpaceShip) addToHand: (deck pick).
 ]
 
 { #category : #initialization }
@@ -73,12 +56,11 @@ Board >> initializePositionsFor: aGroupOfSpaceShip [
 ]
 
 { #category : #initialization }
-Board >> initializeWith: aTileCollection and: aParsecs finishingAfter: aLaps usingCardsFrom: aDeck [
+Board >> initializeWith: aTiles and: aParsecs finishingAfter: aLaps [
 
-	tiles := aTileCollection.
+	tiles := aTiles.
 	parsecs := aParsecs.
 	laps := aLaps.
-	deck := aDeck
 ]
 
 { #category : #accessing }
