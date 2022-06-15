@@ -63,12 +63,6 @@ Board >> initializeWith: aTiles and: aParsecs finishingAfter: aLaps [
 	laps := aLaps.
 ]
 
-{ #category : #accessing }
-Board >> laps [
-
-	^ laps
-]
-
 { #category : #private }
 Board >> move: aResult from: oldPosition [
 
