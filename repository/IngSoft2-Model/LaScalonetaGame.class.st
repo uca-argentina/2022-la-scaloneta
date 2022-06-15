@@ -9,7 +9,8 @@ Class {
 		'spaceShipPositions',
 		'spaceShipCurrentTurn',
 		'cardHandlers',
-		'deck'
+		'deck',
+		'lastCardPlayed'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -37,6 +38,26 @@ LaScalonetaGame class >> playedBy: spaceShips on: board rolling: dice usingCards
 LaScalonetaGame >> add: aSpaceShipPosition [
 
 	spaceShipPositions add: aSpaceShipPosition
+]
+
+{ #category : #adding }
+LaScalonetaGame >> addEffectOf: aCard to: aSpaceShip [
+
+	(self cardHandlerOf: aSpaceShip) addEffectOf: aCard.
+	lastCardPlayed:= aCard.
+]
+
+{ #category : #adding }
+LaScalonetaGame >> addToAllEffectOf: aCard [
+
+	spaceShips do:[:aSpaceship | self addEffectOf: aCard to:aSpaceship].
+]
+
+{ #category : #'as yet unclassified' }
+LaScalonetaGame >> affect: aTarget using: aCard by: aSpaceShip [
+
+	aCard applyTo: aTarget in: self from: aSpaceShip.
+	self removeFromHand: aCard of: aSpaceShip.
 ]
 
 { #category : #private }
@@ -70,10 +91,19 @@ LaScalonetaGame >> board [
 { #category : #accessing }
 LaScalonetaGame >> cardHandlerOf: aSpaceShip [
 
-	| playerCardHandler |
-	playerCardHandler := cardHandlers
+	| spaceShipCardHandler |
+	spaceShipCardHandler := cardHandlers
 		detect: [ :handler | handler spaceShip = aSpaceShip ].
-	^ playerCardHandler
+	^ spaceShipCardHandler
+]
+
+{ #category : #initialization }
+LaScalonetaGame >> distributeCardsFrom: aDeck [
+
+	cardHandlers
+		do: [ :cardHandler | 
+			cardHandler addToHand: aDeck pick.
+			cardHandler addToHand: aDeck pick ]
 ]
 
 { #category : #action }
@@ -84,6 +114,14 @@ LaScalonetaGame >> giveCardFromDeckTo: aSpaceShip [
 	card := deck pick.
 
 	(self cardHandlerOf: aSpaceShip) addToHand: card.
+]
+
+{ #category : #asserting }
+LaScalonetaGame >> has: aSpaceShip the: aCard [
+
+	| playerCardHandler |
+	playerCardHandler := self cardHandlerOf: aSpaceShip.
+	^ playerCardHandler hasInHand: aCard
 ]
 
 { #category : #testing }
@@ -104,6 +142,8 @@ LaScalonetaGame >> initializeWith: aBoard rolling: aDiceCollection playedBy: aSp
 	deck := aDeck.
 	cardHandlers := aSpaceShips
 		collect: [ :spaceShip | CardHandler with: spaceShip ].
+	lastCardPlayed := nil.
+	self distributeCardsFrom: aDeck.
 ]
 
 { #category : #private }
@@ -130,10 +170,13 @@ LaScalonetaGame >> move: aSpaceShip withParsecs: aParsecs [
 { #category : #private }
 LaScalonetaGame >> move: aSpaceShip withRolling: aResult [
 
-	| newPosition oldPosition |
+	| newPosition oldPosition squares |
+	
+	squares := aResult + (self cardHandlerOf: aSpaceShip) totalEffectsOnPlayer.
+	
 	oldPosition := self positionOf: aSpaceShip.
 
-	newPosition := board move: aResult from: oldPosition.
+	newPosition := board move: squares from: oldPosition.
 
 	self add: newPosition
 ]
@@ -182,6 +225,19 @@ LaScalonetaGame >> positionOf: aSpaceShip [
 		   position spaceShip = aSpaceShip ]) last
 ]
 
+{ #category : #'as yet unclassified' }
+LaScalonetaGame >> quantityOfCardInHandOf: aSpaceShip [
+
+	^ (self cardHandlerOf: aSpaceShip) quantityOfCardsInHand
+]
+
+{ #category : #removing }
+LaScalonetaGame >> removeFromHand: aCard of: aPlayer [
+
+	(self cardHandlerOf: aPlayer) removeFromHand: aCard.
+	
+]
+
 { #category : #classification }
 LaScalonetaGame >> spaceShipsPositionsRanking [
 
@@ -191,6 +247,20 @@ LaScalonetaGame >> spaceShipsPositionsRanking [
 
 	^ spaceShipsPositions asSortedCollection: [ :spaceShipA :spaceShipB | 
 		  spaceShipA >= spaceShipB ]
+]
+
+{ #category : #asserting }
+LaScalonetaGame >> validate: aSpaceShip has: aCard [ 
+
+	(self has: aSpaceShip the: aCard)
+        ifFalse: [ Error signal: 'The SpaceShip cannot throw this card because he does not have it'].
+]
+
+{ #category : #asserting }
+LaScalonetaGame >> validateThrowOfAPermanent: aCard from: aSpaceShip [
+
+	self assertSpaceShipTurn: aSpaceShip.
+	self validate: aSpaceShip has: aCard.
 ]
 
 { #category : #accessing }
