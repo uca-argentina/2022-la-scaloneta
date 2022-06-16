@@ -22,8 +22,7 @@ Deck >> initializeWith: aGroupOfCards [
 ]
 
 { #category : #actions }
-Deck >> pick [
-
+Deck >> pick [ 
 	| cardToPick |
 	cardToPick := cards at: (Random new nextInteger: (cards size)).
 	^ cardToPick

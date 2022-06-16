@@ -27,6 +27,12 @@ CardHandler >> addToHand: aCard [
 	cardsInHand add: aCard.
 ]
 
+{ #category : #'as yet unclassified' }
+CardHandler >> affectsPlayer: aCard [ 
+
+	^ cardsThatAffect includes: aCard.
+]
+
 { #category : #testing }
 CardHandler >> hasInHand: aCard [ 
 
@@ -45,6 +51,12 @@ CardHandler >> initializeWith: aSpaceShip [
 CardHandler >> quantityOfCardsInHand [ 
 
 	^ cardsInHand size
+]
+
+{ #category : #removing }
+CardHandler >> removeEffectOf: aCard [
+
+	cardsThatAffect remove: aCard ifAbsent: [ Error signal: 'There is no card at cardsThatAffect that matches to be removed' ].
 ]
 
 { #category : #action }

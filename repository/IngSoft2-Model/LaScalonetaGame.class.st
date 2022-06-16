@@ -10,7 +10,8 @@ Class {
 		'spaceShipCurrentTurn',
 		'cardHandlers',
 		'deck',
-		'lastCardPlayed'
+		'lastCardPlayed',
+		'lastSquarePlayed'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -48,6 +49,12 @@ LaScalonetaGame >> addEffectOf: aCard to: aSpaceShip [
 ]
 
 { #category : #adding }
+LaScalonetaGame >> addInHand: aCard to: aSpaceShip [
+
+	(self cardHandlerOf: aSpaceShip) addToHand: aCard.
+]
+
+{ #category : #adding }
 LaScalonetaGame >> addToAllEffectOf: aCard [
 
 	spaceShips do:[:aSpaceship | self addEffectOf: aCard to:aSpaceship].
@@ -60,12 +67,23 @@ LaScalonetaGame >> affect: aTarget using: aCard by: aSpaceShip [
 	self removeFromHand: aCard of: aSpaceShip.
 ]
 
+{ #category : #'as yet unclassified' }
+LaScalonetaGame >> applyEffectOfTheLastPlayedSquareTo: aSpaceship from: aCard [
+
+	lastSquarePlayed applyTo: aSpaceship for: self.
+	lastCardPlayed:= aCard.
+]
+
 { #category : #private }
 LaScalonetaGame >> applyEffectTo: aSpaceShips [
 
+	lastSquarePlayed := (self board tiles at: (self positionOf: aSpaceShips first) tileNumber).
+
 	(self board tiles at: (self positionOf: aSpaceShips first) tileNumber)
 		applyTo: aSpaceShips
-		for: self
+		for: self.
+		
+	
 ]
 
 { #category : #asserting }
@@ -143,6 +161,7 @@ LaScalonetaGame >> initializeWith: aBoard rolling: aDiceCollection playedBy: aSp
 	cardHandlers := aSpaceShips
 		collect: [ :spaceShip | CardHandler with: spaceShip ].
 	lastCardPlayed := nil.
+	lastSquarePlayed := NoEffect new.
 	self distributeCardsFrom: aDeck.
 ]
 
@@ -154,6 +173,12 @@ LaScalonetaGame >> laScalonetaGameContinuesDependingOnWhetherTheSpaceShipWonOrNo
 		ifFalse: [ 
 			self applyEffectTo: spaceShips.
 			self nextSpaceShipTurn: aSpaceShip ]
+]
+
+{ #category : #accessing }
+LaScalonetaGame >> lastCardPlayed [
+
+	^lastCardPlayed
 ]
 
 { #category : #private }
@@ -177,7 +202,7 @@ LaScalonetaGame >> move: aSpaceShip withRolling: aResult [
 	oldPosition := self positionOf: aSpaceShip.
 
 	newPosition := board move: squares from: oldPosition.
-
+	
 	self add: newPosition
 ]
 
@@ -238,6 +263,27 @@ LaScalonetaGame >> removeFromHand: aCard of: aPlayer [
 	
 ]
 
+{ #category : #removing }
+LaScalonetaGame >> removeToAllPlayersPermanent: card [
+
+	| handlersWithCardToBeRemoved |
+	
+	handlersWithCardToBeRemoved := cardHandlers
+		select: [ :cardHandler | cardHandler affectsPlayer: card ].
+	
+	(handlersWithCardToBeRemoved isEmpty) ifTrue: [ Error signal: 'There is no Card Handler with the card to be removed' ].
+	
+	handlersWithCardToBeRemoved
+		do: [ :cardHandler | cardHandler removeEffectOf: card ].
+		lastCardPlayed := CancellationCard  new.
+]
+
+{ #category : #accessing }
+LaScalonetaGame >> spaceShips [
+
+	^spaceShips
+]
+
 { #category : #classification }
 LaScalonetaGame >> spaceShipsPositionsRanking [
 
@@ -261,6 +307,11 @@ LaScalonetaGame >> validateThrowOfAPermanent: aCard from: aSpaceShip [
 
 	self assertSpaceShipTurn: aSpaceShip.
 	self validate: aSpaceShip has: aCard.
+]
+
+{ #category : #asserting }
+LaScalonetaGame >> validateThrowOfAnInstantaneous: aCard from: aSpaceShip [
+		self validate: aSpaceShip has: aCard.
 ]
 
 { #category : #accessing }
