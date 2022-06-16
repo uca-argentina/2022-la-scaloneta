@@ -46,45 +46,6 @@ LaScalonetaGameTest >> playUntilFinished: aGame [
 ]
 
 { #category : #tests }
-LaScalonetaGameTest >> testAJorgeAndJulianHaveTwoCardsInHandWhenTheGameStarts [
-
-
-	| aGame aBoard aDie1 aDie2 aDiceCup anAccelerationCard aDeck |
-
-	anAccelerationCard := AccelerationCard new.
-	
-	aBoard := Board
-		          with: { 
-				          NoEffect new.
-				          NoEffect new.
-				          DeliveryCardEffect new.
-				          NoEffect new.
-				          NoEffect new }
-		          and: 12
-		          finishingAfter: 2.
-		
-	aDie1 := LoadedDie with: 1.
-	aDie2 := LoadedDie with: 1.
-
-	aDiceCup := DiceCup withAll: { 
-			            aDie1.
-			            aDie2}.
-
-	anAccelerationCard := AccelerationCard new.
-
-	aDeck := Deck with: {anAccelerationCard}.
-
-	aGame := LaScalonetaGame
-		         playedBy: { 'Jorge'. 'Julian' }
-		         on: aBoard
-		         rolling: aDiceCup
-		         usingCardsFrom: aDeck.
-	
-	self assert: (aGame quantityOfCardInHandOf: 'Jorge') equals: 2.
-	self assert: (aGame quantityOfCardInHandOf: 'Julian') equals: 2.
-]
-
-{ #category : #tests }
 LaScalonetaGameTest >> testAskingForTheWinnerWhenTheGameHasNotEndedThrowsAnErrorMessage [
 
 	| aGame aBoard aDie1 aDeck anAccelerationCard |
@@ -154,26 +115,10 @@ LaScalonetaGameTest >> testEveryoneGoesBackToTheFirstPositionOnTheSameLapWhenJor
 	aGame playNextTurn.
 	aGame playNextTurn.
 
-	self
-		assert: 'Jorge'
-		isAt: 1
-		with: 2
-		in: aGame.
-	self
-		assert: 'Julian'
-		isAt: 1
-		with: 1
-		in: aGame.
-	self
-		assert: 'Hernan'
-		isAt: 1
-		with: 1
-		in: aGame.
-	self
-		assert: 'Tomas'
-		isAt: 1
-		with: 1
-		in: aGame
+	self assert: 'Jorge' isAt: 1 with: 2 in: aGame.
+	self assert: 'Julian' isAt: 1 with: 1 in: aGame.
+	self assert: 'Hernan' isAt: 1 with: 1 in: aGame.
+	self assert: 'Tomas' isAt: 1 with: 1 in: aGame.
 ]
 
 { #category : #tests }
@@ -210,30 +155,13 @@ LaScalonetaGameTest >> testFinalPositionOfSpaceShipsCorrespondsWithTheActualFina
 	aGame playNextTurn.
 	aGame playNextTurn.
 
-	self
-		assert: 'Jorge'
-		isAt: 1
-		with: 2
-		in: aGame.
-	self
-		assert: 'Julian'
-		isAt: 1
-		with: 2
-		in: aGame.
+	self assert: 'Jorge' isAt: 1 with: 2 in: aGame.
+	self assert: 'Julian' isAt: 1 with: 2 in: aGame.
 
 	aGame playNextTurn.
 
-
-	self
-		assert: 'Jorge'
-		isAt: 3
-		with: 2
-		in: aGame.
-	self
-		assert: 'Julian'
-		isAt: 1
-		with: 2
-		in: aGame.
+	self assert: 'Jorge' isAt: 3 with: 2 in: aGame.
+	self assert: 'Julian' isAt: 1 with: 2 in: aGame.
 	self assert: aGame hasEnded
 ]
 
@@ -275,8 +203,7 @@ LaScalonetaGameTest >> testGameHasEndedAsOneSpaceShipReachedTheEnd [
 	aGame playNextTurn.
 
 	self assert: aGame hasEnded.
-	self assert: (aGame positionOf: 'Jorge') tileNumber equals: 3.
-	self assert: (aGame positionOf: 'Jorge') lap equals: 2
+	self assert: 'Jorge' isAt: 3 with: 2 in: aGame 
 ]
 
 { #category : #tests }
@@ -285,8 +212,7 @@ LaScalonetaGameTest >> testHyperJumpEffectMValuesCollectionCanNotBeEmpty [
 	self
 		should: [ HyperJumpEffect with: #(  ) ]
 		raise: Error
-		withMessage:
-		'HyperJumpEffect can not be initalize with empty collection!'
+		withMessage: 'HyperJumpEffect can not be initalize with empty collection!'
 ]
 
 { #category : #tests }
@@ -296,6 +222,45 @@ LaScalonetaGameTest >> testHyperJumpEffectMValuesCollectionCanNotContainsNegativ
 		should: [ HyperJumpEffect with: #( 1 -3 4 ) ]
 		raise: Error
 		withMessage: 'Values of the collection must be positive!'
+]
+
+{ #category : #tests }
+LaScalonetaGameTest >> testJorgeAndJulianHaveTwoCardsInHandWhenTheGameStarts [
+
+
+	| aGame aBoard aDie1 aDie2 aDiceCup anAccelerationCard aDeck |
+
+	anAccelerationCard := AccelerationCard new.
+	
+	aBoard := Board
+		          with: { 
+				          NoEffect new.
+				          NoEffect new.
+				          DeliveryCardEffect new.
+				          NoEffect new.
+				          NoEffect new }
+		          and: 12
+		          finishingAfter: 2.
+		
+	aDie1 := LoadedDie with: 1.
+	aDie2 := LoadedDie with: 1.
+
+	aDiceCup := DiceCup withAll: { 
+			            aDie1.
+			            aDie2}.
+
+	anAccelerationCard := AccelerationCard new.
+
+	aDeck := Deck with: {anAccelerationCard}.
+
+	aGame := LaScalonetaGame
+		         playedBy: { 'Jorge'. 'Julian' }
+		         on: aBoard
+		         rolling: aDiceCup
+		         usingCardsFrom: aDeck.
+	
+	self assert: (aGame quantityOfCardInHandOf: 'Jorge') equals: 2.
+	self assert: (aGame quantityOfCardInHandOf: 'Julian') equals: 2.
 ]
 
 { #category : #tests }
@@ -342,8 +307,7 @@ LaScalonetaGameTest >> testJorgeCannotThrowAnAccelerationCardThatHeDoesNotHaveIn
 	self
 		should: [ aGame affect: { 'Jorge'. 'Julian' } using: anAccelerationCard by: 'Julian' ]
 		raise: Error
-		withMessage:
-		'The SpaceShip cannot throw this card because he does not have it'
+		withMessage: 'The SpaceShip cannot throw this card because he does not have it'
 ]
 
 { #category : #tests }
@@ -388,8 +352,7 @@ LaScalonetaGameTest >> testJorgeCannotThrowAnOverloadCardWhenItIsNotHisTurn [
 	self
 		should: [ aGame affect: { 'Jorge'. 'Julian' } using: anAccelerationCard by: 'Jorge' ]
 		raise: Error
-		withMessage:
-		'Its not your turn!'
+		withMessage: 'Its not your turn!'
 	
 	
 
@@ -426,11 +389,50 @@ LaScalonetaGameTest >> testJorgeDoesNotMoveFowardAsTheNumberOfParsecsIsNotEnough
 
 	aGame playNextTurn.
 
-	self
-		assert: 'Jorge'
-		isAt: 2
-		with: 1
-		in: aGame
+	self assert: 'Jorge' isAt: 2 with: 1 in: aGame
+]
+
+{ #category : #tests }
+LaScalonetaGameTest >> testJorgeGetsARepeatCardAndPlaysItWithSpeedUpSquare [
+
+	| aGame aBoard aDie1 aDie2 aDiceCup aRepeatCard aDeck |
+	
+	aBoard := Board
+		          with: { 
+				          NoEffect new.
+				          NoEffect new.
+				          SpeedUpEffect new.
+				          NoEffect new.
+				          NoEffect new }
+		          and: 12
+		          finishingAfter: 3.
+		
+	aDie1 := LoadedDie with: 1.
+	aDie2 := LoadedDie with: 1.
+
+	aDiceCup := DiceCup withAll: { 
+			            aDie1.
+			            aDie2}.
+			
+	aRepeatCard := RepeatCard new.
+	
+	
+	aDeck := LoadedDeck withCards: {aRepeatCard}.
+
+	aGame := LaScalonetaGame
+		         playedBy: { 'Jorge'. 'Julian' }
+		         on: aBoard
+		         rolling: aDiceCup
+		         usingCardsFrom: aDeck.
+		
+	aGame playNextTurn.
+	aGame playNextTurn.
+	
+	self assert: 'Jorge' isAt: 2 with: 2 in: aGame. 
+	
+	aGame affect: 'Jorge' using: aRepeatCard by: 'Jorge'.
+	
+	self assert: 'Jorge' isAt: 1 with: 3 in: aGame. 
 ]
 
 { #category : #tests }
@@ -735,12 +737,8 @@ LaScalonetaGameTest >> testJorgeIsTheFirstSpaceShipAtSpaceShipsRankingAsHisPosit
 	aGame playNextTurn.
 	aGame playNextTurn.
 
-	self
-		assert: aGame spaceShipsPositionsRanking first spaceShip
-		equals: 'Jorge'.
-	self
-		assert: aGame spaceShipsPositionsRanking first tileNumber
-		equals: 1.
+	self assert: aGame spaceShipsPositionsRanking first spaceShip equals: 'Jorge'.
+	self assert: aGame spaceShipsPositionsRanking first tileNumber equals: 1.
 	self assert: aGame spaceShipsPositionsRanking first lap equals: 2
 ]
 
@@ -778,11 +776,7 @@ LaScalonetaGameTest >> testJorgeMovesBackFourTilesWhenLandingOnAWormholeEffect [
 
 	aGame playNextTurn.
 
-	self
-		assert: 'Jorge'
-		isAt: 1
-		with: 1
-		in: aGame
+	self assert: 'Jorge' isAt: 1 with: 1 in: aGame
 ]
 
 { #category : #tests }
@@ -958,27 +952,15 @@ LaScalonetaGameTest >> testJorgeMovesFowardOneParsecThenJulianMovesFowardTwoPars
 
 	aGame playNextTurn.
 
-	self
-		assert: 'Jorge'
-		isAt: 2
-		with: 2
-		in: aGame.
+	self assert: 'Jorge' isAt: 2 with: 2 in: aGame.
 
 	aGame playNextTurn.
 
-	self
-		assert: 'Julian'
-		isAt: 6
-		with: 1
-		in: aGame.
+	self assert: 'Julian' isAt: 6 with: 1 in: aGame.
 
 	aGame playNextTurn.
 
-	self
-		assert: 'Hernan'
-		isAt: 2
-		with: 2
-		in: aGame
+	self assert: 'Hernan' isAt: 2 with: 2 in: aGame
 ]
 
 { #category : #tests }
@@ -1020,6 +1002,133 @@ LaScalonetaGameTest >> testJorgeWinsLaScalonetaGameWhenJorgeReachesTheEndFirst [
 ]
 
 { #category : #tests }
+LaScalonetaGameTest >> testJulianCancelsASpeedCardWhenIsNotHisTurn [
+
+	| aGame aBoard aDie1 aDie2 aDiceCup aCancellationCard aSpeedCard aDeck |
+	
+	aBoard := Board
+		          with: { 
+				          NoEffect new.
+				          NoEffect new.
+				          DeliveryCardEffect new.
+				          NoEffect new.
+				          NoEffect new }
+		          and: 12
+		          finishingAfter: 2.
+		
+	aDie1 := LoadedDie with: 1.
+	aDie2 := LoadedDie with: 1.
+
+	aDiceCup := DiceCup withAll: { 
+			            aDie1.
+			            aDie2}.
+			
+	aCancellationCard := CancellationCard new.
+	aSpeedCard := SpeedCard new.
+	
+	aDeck := LoadedDeck withCards: {aSpeedCard. aCancellationCard}.
+
+	aGame := LaScalonetaGame
+		         playedBy: { 'Jorge'. 'Julian' }
+		         on: aBoard
+		         rolling: aDiceCup
+		         usingCardsFrom: aDeck.
+		
+	self assert: 'Jorge' isAt: 1 with: 1 in: aGame. 
+	self assert: 'Julian' isAt: 1 with: 1 in: aGame. 
+		
+	aGame affect: 'Julian' using: aSpeedCard by: 'Jorge'.
+	aGame affect: aSpeedCard using: aCancellationCard by: 'Julian'.
+	
+	aGame playNextTurn.
+	
+	self assert: 'Jorge' isAt: 3 with: 1 in: aGame. 
+	self assert: 'Julian' isAt: 1 with: 1 in: aGame.
+
+
+]
+
+{ #category : #tests }
+LaScalonetaGameTest >> testJulianCannotCancelACardThatIsNotInTheGame [
+
+	| aGame aBoard aDie1 aDie2 aDiceCup aCancellationCard aSpeedCard aDeck |
+	
+	aBoard := Board
+		          with: { 
+				          NoEffect new.
+				          NoEffect new.
+				          DeliveryCardEffect new.
+				          NoEffect new.
+				          NoEffect new }
+		          and: 12
+		          finishingAfter: 2.
+		
+	aDie1 := LoadedDie with: 1.
+	aDie2 := LoadedDie with: 1.
+
+	aDiceCup := DiceCup withAll: { 
+			            aDie1.
+			            aDie2}.
+			
+	aCancellationCard := CancellationCard new.
+	aSpeedCard := SpeedCard new.
+	
+	aDeck := LoadedDeck withCards: {aCancellationCard}.
+
+	aGame := LaScalonetaGame
+		         playedBy: { 'Jorge'. 'Julian' }
+		         on: aBoard
+		         rolling: aDiceCup
+		         usingCardsFrom: aDeck.
+	
+	aGame playNextTurn.
+	
+	self
+		should: [ aGame affect: aSpeedCard using: aCancellationCard by: 'Julian' ]
+		raise: Error
+		withMessage: 'There is no Card Handler with the card to be removed'
+]
+
+{ #category : #tests }
+LaScalonetaGameTest >> testJulianCannotThrowAReDoCardBecauseThereWasNoCardPlayedBefore [
+
+	| aGame aBoard aDie1 aDie2 aDiceCup aReDoCard aDeck |
+	
+	aBoard := Board
+		          with: { 
+				          NoEffect new.
+				          NoEffect new.
+				          DeliveryCardEffect new.
+				          NoEffect new.
+				          NoEffect new }
+		          and: 12
+		          finishingAfter: 2.
+		
+	aDie1 := LoadedDie with: 1.
+	aDie2 := LoadedDie with: 1.
+
+	aDiceCup := DiceCup withAll: { 
+			            aDie1.
+			            aDie2}.
+			
+	aReDoCard := ReDoCard new.
+	
+	aDeck := LoadedDeck withCards: {aReDoCard}.
+
+	aGame := LaScalonetaGame
+		         playedBy: { 'Jorge'. 'Julian' }
+		         on: aBoard
+		         rolling: aDiceCup
+		         usingCardsFrom: aDeck.	
+		
+	self
+		should: [ aGame affect: 'Jorge' using: aReDoCard by: 'Jorge' ]
+		raise: Error
+		withMessage: 'This card cannot be played because there was no card played before'
+	
+]
+
+{ #category : #tests }
 LaScalonetaGameTest >> testJulianDoesNotGoBackFurtherThanFirstPositionOfFirstLapWhenAffectedByAWormholeOnSecondPositionOfFirstLap [
 
 | aGame aBoard aDie1 aDeck anAccelerationCard |
@@ -1049,6 +1158,102 @@ LaScalonetaGameTest >> testJulianDoesNotGoBackFurtherThanFirstPositionOfFirstLap
 	aGame playNextTurn.
 	
 	self assert: 'Jorge' isAt: 1 with: 1 in: aGame
+]
+
+{ #category : #tests }
+LaScalonetaGameTest >> testJulianGetsACancellationCardAndGetsRidOfSpeedCard [
+
+	| aGame aBoard aDie1 aDie2 aDiceCup aCancellationCard aSpeedCard aDeck |
+	
+	aBoard := Board
+		          with: { 
+				          NoEffect new.
+				          NoEffect new.
+				          DeliveryCardEffect new.
+				          NoEffect new.
+				          NoEffect new }
+		          and: 12
+		          finishingAfter: 2.
+		
+	aDie1 := LoadedDie with: 1.
+	aDie2 := LoadedDie with: 1.
+
+	aDiceCup := DiceCup withAll: { 
+			            aDie1.
+			            aDie2}.
+			
+	aCancellationCard := CancellationCard new.
+	aSpeedCard := SpeedCard new.
+	
+	aDeck := LoadedDeck withCards: {aSpeedCard. aCancellationCard}.
+
+	aGame := LaScalonetaGame
+		         playedBy: { 'Jorge'. 'Julian' }
+		         on: aBoard
+		         rolling: aDiceCup
+		         usingCardsFrom: aDeck.
+	
+	aGame affect: 'Julian' using: aSpeedCard by: 'Jorge'.
+	
+	aGame playNextTurn.
+	aGame playNextTurn.
+	aGame playNextTurn.
+	
+	self assert: 'Jorge' isAt: 5 with: 1 in: aGame.
+	self assert: 'Julian' isAt: 4 with: 1 in: aGame.
+	
+	aGame affect: aSpeedCard using: aCancellationCard by: 'Julian'.
+
+	aGame playNextTurn.
+	aGame playNextTurn.
+	
+	self assert: 'Jorge' isAt: 2 with: 2 in: aGame.
+	self assert: 'Julian' isAt: 1 with: 2 in: aGame.	
+]
+
+{ #category : #tests }
+LaScalonetaGameTest >> testJulianGetsAReDoCardAfterJorgeThrewAnSpeedCardAndPlaysIt [
+
+	| aGame aBoard aDie1 aDie2 aDiceCup aReDoCard aSpeedCard aDeck |
+	
+	aBoard := Board
+		          with: { 
+				          NoEffect new.
+				          NoEffect new.
+				          DeliveryCardEffect new.
+				          NoEffect new.
+				          NoEffect new }
+		          and: 12
+		          finishingAfter: 2.
+		
+	aDie1 := LoadedDie with: 1.
+	aDie2 := LoadedDie with: 1.
+
+	aDiceCup := DiceCup withAll: { 
+			            aDie1.
+			            aDie2}.
+			
+	aReDoCard := ReDoCard new.
+	aSpeedCard := SpeedCard new.
+	
+	aDeck := LoadedDeck withCards: {aSpeedCard. aReDoCard}.
+
+	aGame := LaScalonetaGame
+		         playedBy: { 'Jorge'. 'Julian' }
+		         on: aBoard
+		         rolling: aDiceCup
+		         usingCardsFrom: aDeck.
+	
+	aGame affect: 'Jorge' using: aSpeedCard by: 'Jorge'.
+					
+	aGame playNextTurn.
+	
+	aGame affect: 'Julian' using: aReDoCard by: 'Julian'.
+	
+	aGame playNextTurn.
+
+	self assert: 'Jorge' isAt: 4 with: 1 in: aGame.
+	self assert: 'Julian' isAt: 4 with: 1 in: aGame.
 ]
 
 { #category : #tests }
