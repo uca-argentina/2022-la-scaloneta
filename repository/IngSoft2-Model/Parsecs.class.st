@@ -21,6 +21,12 @@ Parsecs class >> with: value [
 	^ self new initializeWith: value
 ]
 
+{ #category : #comparing }
+Parsecs >> <= aParsec [
+
+	^self value <= aParsec value
+]
+
 { #category : #action }
 Parsecs >> convertToParsecs [
 
@@ -31,4 +37,10 @@ Parsecs >> convertToParsecs [
 Parsecs >> initializeWith: valueInParsecs [
 
       value := valueInParsecs 
+]
+
+{ #category : #accessing }
+Parsecs >> value [
+
+^value
 ]

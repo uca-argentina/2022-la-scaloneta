@@ -21,6 +21,12 @@ LightYears class >> with: value [
 	^ self new initializeWith: value
 ]
 
+{ #category : #comparing }
+LightYears >> <= aLightYear [
+
+	^self value <= aLightYear  value
+]
+
 { #category : #action }
 LightYears >> convertToParsecs [ 
 
