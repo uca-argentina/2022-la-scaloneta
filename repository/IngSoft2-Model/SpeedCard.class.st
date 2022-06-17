@@ -5,9 +5,9 @@ Class {
 }
 
 { #category : #action }
-SpeedCard >> applyTo: aTarget in: aGame from: aPlayer [
+SpeedCard >> applyTo: aTarget in: aGame from: aSpaceShip [
 
-	aGame validateThrowOfAPermanent: self from: aPlayer.
+	aGame validateThrowOfAPermanent: self from: aSpaceShip.
 	aGame addEffectOf: self to: aTarget.
 ]
 

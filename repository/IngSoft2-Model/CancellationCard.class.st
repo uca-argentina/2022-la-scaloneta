@@ -5,8 +5,8 @@ Class {
 }
 
 { #category : #action }
-CancellationCard >> applyTo: aTarget in: aGame from: aPlayer [
+CancellationCard >> applyTo: aTarget in: aGame from: aSpaceShip [
 
-	aGame validateThrowOfAnInstantaneous: self from: aPlayer.
-	aGame removeToAllPlayersPermanent: aTarget.
+	aGame validateThrowOfAnInstantaneous: self from: aSpaceShip.
+	aGame removeToAllSpaceShipsPermanent: aTarget.
 ]
