@@ -30,11 +30,17 @@ LightYears >> <= aLightYear [
 { #category : #action }
 LightYears >> convertToParsecs [ 
 
-      ^ value*3
+      ^ value/3
 ]
 
 { #category : #initialization }
 LightYears >> initializeWith: valueInLightYears [
 
       value := valueInLightYears
+]
+
+{ #category : #accessing }
+LightYears >> value [
+
+^value
 ]

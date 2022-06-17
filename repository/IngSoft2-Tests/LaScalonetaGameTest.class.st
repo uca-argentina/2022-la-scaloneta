@@ -820,6 +820,39 @@ LaScalonetaGameTest >> testJorgeMovesBackTwoPositionsAndBacksALapWhenJorgeLandsO
 	self assert: 'Julian' isAt: 1 with: 2 in: aGame.
 ]
 
+{ #category : #running }
+LaScalonetaGameTest >> testJorgeMovesForwardFourParsecsWhenLandingOnAHyperJumpEffectWithMValueEqualsToOneLightYear [
+
+	| aGame aBoard aDie1 aDeck anAccelerationCard |
+	
+	aBoard := Board
+		          with: { 
+				          NoEffect new.
+				          (HyperJumpEffect with: {LightYears  with: 12. Parsecs with: 2. Parsecs with: 3.}).
+				          NoEffect new.
+				          NoEffect new.
+				          NoEffect new.
+				          NoEffect new }
+		          and: 3
+		          finishingAfter: 2.
+		
+	aDie1 := LoadedDie with: 1.
+	
+	anAccelerationCard := AccelerationCard new.
+
+	aDeck := Deck with: {anAccelerationCard}.
+
+	aGame := LaScalonetaGame
+		         playedBy: { 'Jorge' }
+		         on: aBoard
+		         rolling: aDie1
+		         usingCardsFrom: aDeck.
+
+	aGame playNextTurn.
+
+	self assert: 'Jorge' isAt: 4 with: 2 in: aGame.
+]
+
 { #category : #tests }
 LaScalonetaGameTest >> testJorgeMovesForwardFourTilesWhenLandingOnASpeedUpEffect [
 
