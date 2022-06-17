@@ -11,7 +11,7 @@ Class {
 		'cardHandlers',
 		'deck',
 		'lastCardPlayed',
-		'lastSquarePlayed'
+		'lastTilePlayed'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -68,16 +68,16 @@ LaScalonetaGame >> affect: aTarget using: aCard by: aSpaceShip [
 ]
 
 { #category : #'as yet unclassified' }
-LaScalonetaGame >> applyEffectOfTheLastPlayedSquareTo: aSpaceship from: aCard [
+LaScalonetaGame >> applyEffectOfTheLastPlayedTileTo: aSpaceship from: aCard [
 
-	lastSquarePlayed applyTo: aSpaceship for: self.
+	lastTilePlayed applyTo: aSpaceship for: self.
 	lastCardPlayed:= aCard.
 ]
 
 { #category : #private }
 LaScalonetaGame >> applyEffectTo: aSpaceShips [
 
-	lastSquarePlayed := (self board tiles at: (self positionOf: aSpaceShips first) tileNumber).
+	lastTilePlayed := (self board tiles at: (self positionOf: aSpaceShips first) tileNumber).
 
 	(self board tiles at: (self positionOf: aSpaceShips first) tileNumber)
 		applyTo: aSpaceShips
@@ -137,9 +137,9 @@ LaScalonetaGame >> giveCardFromDeckTo: aSpaceShip [
 { #category : #asserting }
 LaScalonetaGame >> has: aSpaceShip the: aCard [
 
-	| playerCardHandler |
-	playerCardHandler := self cardHandlerOf: aSpaceShip.
-	^ playerCardHandler hasInHand: aCard
+	| spaceShipCardHandler |
+	spaceShipCardHandler := self cardHandlerOf: aSpaceShip.
+	^ spaceShipCardHandler hasInHand: aCard
 ]
 
 { #category : #testing }
@@ -161,7 +161,7 @@ LaScalonetaGame >> initializeWith: aBoard rolling: aDiceCollection playedBy: aSp
 	cardHandlers := aSpaceShips
 		collect: [ :spaceShip | CardHandler with: spaceShip ].
 	lastCardPlayed := nil.
-	lastSquarePlayed := NoEffect new.
+	lastTilePlayed := NoEffect new.
 	self distributeCardsFrom: aDeck.
 ]
 
@@ -195,13 +195,13 @@ LaScalonetaGame >> move: aSpaceShip withParsecs: aParsecs [
 { #category : #private }
 LaScalonetaGame >> move: aSpaceShip withRolling: aResult [
 
-	| newPosition oldPosition squares |
+	| newPosition oldPosition tiles |
 	
-	squares := aResult + (self cardHandlerOf: aSpaceShip) totalEffectsOnPlayer.
+	tiles := aResult + (self cardHandlerOf: aSpaceShip) totalEffectsOnSpaceShip.
 	
 	oldPosition := self positionOf: aSpaceShip.
 
-	newPosition := board move: squares from: oldPosition.
+	newPosition := board move: tiles from: oldPosition.
 	
 	self add: newPosition
 ]
@@ -257,19 +257,19 @@ LaScalonetaGame >> quantityOfCardInHandOf: aSpaceShip [
 ]
 
 { #category : #removing }
-LaScalonetaGame >> removeFromHand: aCard of: aPlayer [
+LaScalonetaGame >> removeFromHand: aCard of: aSpaceShip [
 
-	(self cardHandlerOf: aPlayer) removeFromHand: aCard.
+	(self cardHandlerOf: aSpaceShip ) removeFromHand: aCard.
 	
 ]
 
 { #category : #removing }
-LaScalonetaGame >> removeToAllPlayersPermanent: card [
+LaScalonetaGame >> removeToAllSpaceShipsPermanent: card [
 
 	| handlersWithCardToBeRemoved |
 	
 	handlersWithCardToBeRemoved := cardHandlers
-		select: [ :cardHandler | cardHandler affectsPlayer: card ].
+		select: [ :cardHandler | cardHandler affectsSpaceShip: card ].
 	
 	(handlersWithCardToBeRemoved isEmpty) ifTrue: [ Error signal: 'There is no Card Handler with the card to be removed' ].
 	

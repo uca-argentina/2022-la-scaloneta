@@ -8,5 +8,5 @@ Class {
 RepeatCard >> applyTo: aTarget in: aGame from: aSpaceship [
 
 	aGame validateThrowOfAnInstantaneous: self from: aSpaceship.
-	aGame applyEffectOfTheLastPlayedSquareTo: (aGame spaceShips) from:self.
+	aGame applyEffectOfTheLastPlayedTileTo: (aGame spaceShips) from:self.
 ]

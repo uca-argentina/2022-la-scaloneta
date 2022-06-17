@@ -28,7 +28,7 @@ CardHandler >> addToHand: aCard [
 ]
 
 { #category : #'as yet unclassified' }
-CardHandler >> affectsPlayer: aCard [ 
+CardHandler >> affectsSpaceShip: aCard [ 
 
 	^ cardsThatAffect includes: aCard.
 ]
@@ -72,7 +72,7 @@ CardHandler >> spaceShip [
 ]
 
 { #category : #accessing }
-CardHandler >> totalEffectsOnPlayer [
+CardHandler >> totalEffectsOnSpaceShip [
 
 	cardsThatAffect isEmpty ifTrue:[^0].
 	^cardsThatAffect sum:[:card| card effect ].
