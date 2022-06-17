@@ -134,14 +134,6 @@ LaScalonetaGame >> giveCardFromDeckTo: aSpaceShip [
 	(self cardHandlerOf: aSpaceShip) addToHand: card.
 ]
 
-{ #category : #asserting }
-LaScalonetaGame >> has: aSpaceShip the: aCard [
-
-	| spaceShipCardHandler |
-	spaceShipCardHandler := self cardHandlerOf: aSpaceShip.
-	^ spaceShipCardHandler hasInHand: aCard
-]
-
 { #category : #testing }
 LaScalonetaGame >> hasEnded [
 
@@ -298,7 +290,9 @@ LaScalonetaGame >> spaceShipsPositionsRanking [
 { #category : #asserting }
 LaScalonetaGame >> validate: aSpaceShip has: aCard [ 
 
-	(self has: aSpaceShip the: aCard)
+		| spaceShipCardHandler |
+	spaceShipCardHandler := self cardHandlerOf: aSpaceShip.
+	 (spaceShipCardHandler hasInHand: aCard)
         ifFalse: [ Error signal: 'The SpaceShip cannot throw this card because he does not have it'].
 ]
 

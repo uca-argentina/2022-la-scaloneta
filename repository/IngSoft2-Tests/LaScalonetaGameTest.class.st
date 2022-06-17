@@ -363,11 +363,12 @@ LaScalonetaGameTest >> testJorgeCannotThrowAnOverloadCardWhenItIsNotHisTurn [
 { #category : #tests }
 LaScalonetaGameTest >> testJorgeDoesNotMoveFowardAsTheNumberOfParsecsIsNotEnoughToMoveOneTile [
 
-	| aGame aBoard aDie1 aDeck anAccelerationCard |
+	| aGame aBoard aDie1 aDeck anAccelerationCard aParsec|
+	aParsec := Parsecs with: 1.
 	aBoard := Board
 		          with: { 
 				          NoEffect new.
-				          (HyperJumpEffect with: #( 1 )).
+				          (HyperJumpEffect with: { aParsec. }  ).
 				          NoEffect new.
 				          NoEffect new.
 				          NoEffect new.
@@ -819,6 +820,39 @@ LaScalonetaGameTest >> testJorgeMovesBackTwoPositionsAndBacksALapWhenJorgeLandsO
 	self assert: 'Julian' isAt: 1 with: 2 in: aGame.
 ]
 
+{ #category : #running }
+LaScalonetaGameTest >> testJorgeMovesForwardFourParsecsWhenLandingOnAHyperJumpEffectWithMValueEqualsToOneLightYear [
+
+	| aGame aBoard aDie1 aDeck anAccelerationCard |
+	
+	aBoard := Board
+		          with: { 
+				          NoEffect new.
+				          (HyperJumpEffect with: {LightYears  with: 12. Parsecs with: 2. Parsecs with: 3.}).
+				          NoEffect new.
+				          NoEffect new.
+				          NoEffect new.
+				          NoEffect new }
+		          and: 3
+		          finishingAfter: 2.
+		
+	aDie1 := LoadedDie with: 1.
+	
+	anAccelerationCard := AccelerationCard new.
+
+	aDeck := Deck with: {anAccelerationCard}.
+
+	aGame := LaScalonetaGame
+		         playedBy: { 'Jorge' }
+		         on: aBoard
+		         rolling: aDie1
+		         usingCardsFrom: aDeck.
+
+	aGame playNextTurn.
+
+	self assert: 'Jorge' isAt: 4 with: 2 in: aGame.
+]
+
 { #category : #tests }
 LaScalonetaGameTest >> testJorgeMovesForwardFourTilesWhenLandingOnASpeedUpEffect [
 
@@ -861,7 +895,7 @@ LaScalonetaGameTest >> testJorgeMovesForwardOneParsecWhenLandingOnAHyperJumpEffe
 	aBoard := Board
 		          with: { 
 				          NoEffect new.
-				          (HyperJumpEffect with: #( 1 2 3 )).
+				          (HyperJumpEffect with: {Parsecs with: 1. Parsecs with: 2. Parsecs with: 3.}).
 				          NoEffect new.
 				          NoEffect new.
 				          NoEffect new.
@@ -894,7 +928,7 @@ LaScalonetaGameTest >> testJorgeMovesFowardOneParsecAndThenJulianMovesFowardTwoP
 	aBoard := Board
 		          with: { 
 				          NoEffect new.
-				          (HyperJumpEffect with: #( 1 2 3 )).
+				          (HyperJumpEffect with: {Parsecs with: 1. Parsecs with: 2. Parsecs with: 3.}).
 				          NoEffect new.
 				          NoEffect new.
 				          NoEffect new.
@@ -930,7 +964,7 @@ LaScalonetaGameTest >> testJorgeMovesFowardOneParsecThenJulianMovesFowardTwoPars
 	aBoard := Board
 		          with: { 
 				          NoEffect new.
-				          (HyperJumpEffect with: #( 2 3 )).
+				          (HyperJumpEffect with: {Parsecs with: 2. Parsecs with: 3.}).
 				          NoEffect new.
 				          NoEffect new.
 				          NoEffect new.

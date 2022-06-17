@@ -17,7 +17,7 @@ HyperJumpEffect class >> assertIsNotEmptyFor: aParsecsSequence [
 HyperJumpEffect class >> assertValidValuesFor: aParsecsSequence [
 
 	aParsecsSequence do: [ :m | 
-		m < 0 ifTrue: [ 
+		(m value) < 0 ifTrue: [ 
 			Error signal: 'Values of the collection must be positive!' ] ]
 ]
 
@@ -32,16 +32,18 @@ HyperJumpEffect class >> with: aParsecsSequence [
 { #category : #private }
 HyperJumpEffect >> applyTo: aSpaceShips for: aGame [
 
-	| value_MCollection |
+	| value_MCollection valueInParsecs |
 	value_MCollection := parsecsSequence first.
 
 	parsecsSequence := (parsecsSequence reject: [ :each | 
 		                  each = value_MCollection ])
 	                 , { value_MCollection }.
+	
+	valueInParsecs := value_MCollection convertToParsecs.
 
 	^ aGame
 		  move: aSpaceShips first
-		  withParsecs: value_MCollection
+		  withParsecs: valueInParsecs 
 ]
 
 { #category : #initialization }
