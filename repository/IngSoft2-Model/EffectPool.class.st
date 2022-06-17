@@ -8,28 +8,18 @@ Class {
 }
 
 { #category : #asserting }
-EffectPool class >> assertProbabilitiesAreBetwenZeroAndOneHoundred: probabilities [
+EffectPool class >> assertSumOfProbabilitiesEqualsToOne: probabilisticEventList [
 
-	probabilities do: [ :proba | 
-		(proba between: 0 and: 100) ifFalse: [ 
-			Error signal: 'Probabilities must be betwen 0 and 100!' ] ]
-]
-
-{ #category : #asserting }
-EffectPool class >> assertSumOfProbabilitiesEqualsToOneHoundred: probabilities [
-
-	((probabilities inject: 0 into: [:inicial :aux | inicial + aux]) = 100) ifFalse: [Error signal: 'The sum of the probabilities must be equal to 100!'].
+	((probabilisticEventList inject: 0 into: [:inicial :probabilisticEvent | inicial + probabilisticEvent probability]) = 1) ifFalse: [Error signal: 'The sum of the probabilities must be equal to 1!'].
 ]
 
 { #category : #initialize }
-EffectPool class >> with: effects and: probabilities [
+EffectPool class >> with: probabilisticEventList [
 
-	self assertProbabilitiesAreBetwenZeroAndOneHoundred: probabilities.
-	self assertSumOfProbabilitiesEqualsToOneHoundred: probabilities.
+	self assertSumOfProbabilitiesEqualsToOne: probabilisticEventList.
 
 	^ self new
-		  initializeWith: effects
-		  and: probabilities
+		  initializeWith: probabilisticEventList 
 ]
 
 { #category : #accessing }
@@ -39,13 +29,11 @@ EffectPool >> effectPoolCollection [
 ]
 
 { #category : #initialization }
-EffectPool >> initializeWith: effects and: probabilities [
+EffectPool >> initializeWith: probabilityEventList [
 
 	effectPoolCollection := {  }.
 
-	effects with: probabilities do: [ :effect :probability | 
-		probability + 1 timesRepeat: [ 
-			effectPoolCollection := effectPoolCollection copyWith: effect ] ]
+	probabilityEventList do: [ :probabilisticEvent | ((probabilisticEvent probability) *100) asInteger timesRepeat:[ effectPoolCollection := effectPoolCollection copyWith: (probabilisticEvent event)] ]
 ]
 
 { #category : #accessing }
