@@ -1,11 +1,11 @@
 Class {
-	#name : #DistanceTests,
+	#name : #DistanceTest,
 	#superclass : #TestCase,
 	#category : #'IngSoft2-Tests'
 }
 
 { #category : #tests }
-DistanceTests >> testLightYearsValueCannotBeLowerThanZero [
+DistanceTest >> testLightYearsValueCannotBeLowerThanZero [
 	self
 		should: [ LightYears with: -1 ]
 		raise: Error
@@ -13,7 +13,7 @@ DistanceTests >> testLightYearsValueCannotBeLowerThanZero [
 ]
 
 { #category : #running }
-DistanceTests >> testParsecsCannotBeLowerThanZero [
+DistanceTest >> testParsecsCannotBeLowerThanZero [
 
 	self
 		should: [ Parsecs with: -1 ]

@@ -60,14 +60,14 @@ LaScalonetaGame >> addToAllEffectOf: aCard [
 	spaceShips do:[:aSpaceship | self addEffectOf: aCard to:aSpaceship].
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #action }
 LaScalonetaGame >> affect: aTarget using: aCard by: aSpaceShip [
 
 	aCard applyTo: aTarget in: self from: aSpaceShip.
-	self removeFromHand: aCard of: aSpaceShip.
+	(self cardHandlerOf: aSpaceShip) removeFromHand: aCard.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #act }
 LaScalonetaGame >> applyEffectOfTheLastPlayedTileTo: aSpaceship from: aCard [
 
 	lastTilePlayed applyTo: aSpaceship for: self.
@@ -240,19 +240,6 @@ LaScalonetaGame >> positionOf: aSpaceShip [
 
 	^ (spaceShipPositions select: [ :position | 
 		   position spaceShip = aSpaceShip ]) last
-]
-
-{ #category : #'as yet unclassified' }
-LaScalonetaGame >> quantityOfCardInHandOf: aSpaceShip [
-
-	^ (self cardHandlerOf: aSpaceShip) quantityOfCardsInHand
-]
-
-{ #category : #removing }
-LaScalonetaGame >> removeFromHand: aCard of: aSpaceShip [
-
-	(self cardHandlerOf: aSpaceShip ) removeFromHand: aCard.
-	
 ]
 
 { #category : #removing }

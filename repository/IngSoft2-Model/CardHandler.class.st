@@ -27,7 +27,7 @@ CardHandler >> addToHand: aCard [
 	cardsInHand add: aCard.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #action }
 CardHandler >> affectsSpaceShip: aCard [ 
 
 	^ cardsThatAffect includes: aCard.
@@ -45,12 +45,6 @@ CardHandler >> initializeWith: aSpaceShip [
 	spaceShip := aSpaceShip.
 	cardsInHand := OrderedCollection new.
 	cardsThatAffect := OrderedCollection new.
-]
-
-{ #category : #'as yet unclassified' }
-CardHandler >> quantityOfCardsInHand [ 
-
-	^ cardsInHand size
 ]
 
 { #category : #removing }

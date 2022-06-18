@@ -225,45 +225,6 @@ LaScalonetaGameTest >> testHyperJumpEffectMValuesCollectionCanNotContainsNegativ
 ]
 
 { #category : #tests }
-LaScalonetaGameTest >> testJorgeAndJulianHaveTwoCardsInHandWhenTheGameStarts [
-
-
-	| aGame aBoard aDie1 aDie2 aDiceCup anAccelerationCard aDeck |
-
-	anAccelerationCard := AccelerationCard new.
-	
-	aBoard := Board
-		          with: { 
-				          NoEffect new.
-				          NoEffect new.
-				          DeliveryCardEffect new.
-				          NoEffect new.
-				          NoEffect new }
-		          and: 12
-		          finishingAfter: 2.
-		
-	aDie1 := LoadedDie with: 1.
-	aDie2 := LoadedDie with: 1.
-
-	aDiceCup := DiceCup withAll: { 
-			            aDie1.
-			            aDie2}.
-
-	anAccelerationCard := AccelerationCard new.
-
-	aDeck := Deck with: {anAccelerationCard}.
-
-	aGame := LaScalonetaGame
-		         playedBy: { 'Jorge'. 'Julian' }
-		         on: aBoard
-		         rolling: aDiceCup
-		         usingCardsFrom: aDeck.
-	
-	self assert: (aGame quantityOfCardInHandOf: 'Jorge') equals: 2.
-	self assert: (aGame quantityOfCardInHandOf: 'Julian') equals: 2.
-]
-
-{ #category : #tests }
 LaScalonetaGameTest >> testJorgeCannotThrowAnAccelerationCardThatHeDoesNotHaveInHisHand [
 
 	| aGame aBoard aDie1 aDie2 aDiceCup anAccelerationCard aSpeedCard aDeck |
@@ -394,7 +355,7 @@ LaScalonetaGameTest >> testJorgeDoesNotMoveFowardAsTheNumberOfParsecsIsNotEnough
 ]
 
 { #category : #tests }
-LaScalonetaGameTest >> testJorgeGetsARepeatCardAndPlaysItWithSpeedUpSquare [
+LaScalonetaGameTest >> testJorgeGetsARepeatCardAndPlaysItWithSpeedUpCard [
 
 	| aGame aBoard aDie1 aDie2 aDiceCup aRepeatCard aDeck |
 	
@@ -1452,9 +1413,9 @@ LaScalonetaGameTest >> testPlayingAfterWinningIsNotAllowed [
 ]
 
 { #category : #tests }
-LaScalonetaGameTest >> testScalonetaGamePlayedWithRandomBoard [
+LaScalonetaGameTest >> testScalonetaGamePlayedWithRandomBoardRandomDieAndDeck [
 
-	| tilesCollection board aGame pool aDie1 aDie2 aDiceCup aDeck anAccelerationCard |
+	| tilesCollection board aGame pool aDie1 aDie2 aDiceCup aDeck anAccelerationCard aSpeedCard aReDoCard anOverloadCard |
 	pool := EffectPool with:
 				        { 
 				(ProbabilisticEvent with: NoEffect new and: 0.40).
@@ -1465,28 +1426,33 @@ LaScalonetaGameTest >> testScalonetaGamePlayedWithRandomBoard [
 				(ProbabilisticEvent with:  SpeedUpEffect new and: 0.2).
 				  }.
 	tilesCollection := pool randomCollectionOfEffectsWith: 5.
-
 	board := Board with: tilesCollection and: 2 finishingAfter: 2.
-
-	aDie1 := LoadedDie with: 3.
-	aDie2 := LoadedDie with: 4.
+	
+	aDie1 := RandomDie with: 3.
+	aDie2 := RandomDie with: 4.
 	aDiceCup := DiceCup withAll: { 
 			            aDie1.
 			            aDie2 }.
 			
 	anAccelerationCard := AccelerationCard new.
-
-	aDeck := Deck with: {anAccelerationCard}.
+	aSpeedCard := SpeedCard new.
+	aReDoCard := ReDoCard new.
+	anOverloadCard := OverloadCard new.
+	
+	aDeck := Deck with: {anAccelerationCard. aSpeedCard. aReDoCard. anOverloadCard }.
 
 	aGame := LaScalonetaGame
 		         playedBy: { 'Jorge'. 'Julian' }
 		         on: board
 		         rolling: aDiceCup
 		         usingCardsFrom: aDeck.
+	
 
 	self playUntilFinished: aGame.
 
 	self assert: aGame hasEnded
+	
+
 ]
 
 { #category : #tests }
