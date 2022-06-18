@@ -1455,15 +1455,15 @@ LaScalonetaGameTest >> testPlayingAfterWinningIsNotAllowed [
 LaScalonetaGameTest >> testScalonetaGamePlayedWithRandomBoard [
 
 	| tilesCollection board aGame pool aDie1 aDie2 aDiceCup aDeck anAccelerationCard |
-	pool := EffectPool
-		        with: { 
-				        NoEffect new.
-				        (MoonWalkEffect with: -2).
-				        (HyperJumpEffect with: #( 1 2 3 )).
-				        SpeedUpEffect new.
-				        AtomicBombEffect new.
-				        WormHoleEffect new }
-		        and: { 40. 10. 8. 20. 2. 20 }.
+	pool := EffectPool with:
+				        { 
+				(ProbabilisticEvent with: NoEffect new and: 0.40).
+				(ProbabilisticEvent with: (MoonWalkEffect with: -2) and: 0.10).
+				(ProbabilisticEvent with: (HyperJumpEffect with: {LightYears  with: 12. Parsecs with: 2. Parsecs with: 3.}) and: 0.08).
+				(ProbabilisticEvent with:  AtomicBombEffect new and: 0.02).
+				(ProbabilisticEvent with: WormHoleEffect new and: 0.2).
+				(ProbabilisticEvent with:  SpeedUpEffect new and: 0.2).
+				  }.
 	tilesCollection := pool randomCollectionOfEffectsWith: 5.
 
 	board := Board with: tilesCollection and: 2 finishingAfter: 2.
