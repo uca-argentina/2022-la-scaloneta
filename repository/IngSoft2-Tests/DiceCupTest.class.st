@@ -6,12 +6,9 @@ Class {
 
 { #category : #tests }
 DiceCupTest >> testDiceCupShouldHaveAtLeastOneDie [
-	
-	
+
 	self
-		should: [ 
-				DiceCup withAll: {  }
-			]
+		should: [ DiceCup withAll: {  } ]
 		raise: Error
 		withMessage: 'A DiceCup should have at least one die.'
 ]

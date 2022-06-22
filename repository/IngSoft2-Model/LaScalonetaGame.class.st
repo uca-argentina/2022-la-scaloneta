@@ -147,7 +147,7 @@ LaScalonetaGame >> initializeWith: aBoard rolling: aDiceCollection playedBy: aSp
 	diceCollection := aDiceCollection.
 	spaceShips := aSpaceShips.
 	hasEnded := false.
-	spaceShipPositions := board initializePositionsFor: aSpaceShips.
+	spaceShipPositions := board startingPositionsForAll: aSpaceShips.
 	spaceShipCurrentTurn := spaceShips first.
 	deck := aDeck.
 	cardHandlers := aSpaceShips

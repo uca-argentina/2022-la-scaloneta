@@ -22,29 +22,22 @@ EffectPool class >> with: probabilisticEventList [
 		  initializeWith: probabilisticEventList 
 ]
 
-{ #category : #accessing }
-EffectPool >> effectPoolCollection [
-
-      ^  effectPoolCollection 
-]
-
 { #category : #initialization }
 EffectPool >> initializeWith: probabilityEventList [
 
-	effectPoolCollection := {  }.
+	effectPoolCollection := OrderedCollection new.
 
-	probabilityEventList do: [ :probabilisticEvent | ((probabilisticEvent probability) *100) asInteger timesRepeat:[ effectPoolCollection := effectPoolCollection copyWith: (probabilisticEvent event)] ]
+	probabilityEventList do: [ :probabilisticEvent | ((probabilisticEvent probability) *100) asInteger timesRepeat:[ effectPoolCollection add: (probabilisticEvent event)] ]
 ]
 
 { #category : #accessing }
 EffectPool >> randomCollectionOfEffectsWith: length [
 
 	| randomEffectsCollection |
-	randomEffectsCollection := {  }.
+	randomEffectsCollection := OrderedCollection new.
 
 	1 to: length do: [ :i | 
-		randomEffectsCollection := randomEffectsCollection copyWith:
-			                           self randomEffect ].
+	randomEffectsCollection add: self randomEffect ].
 
 	^ randomEffectsCollection
 ]
@@ -52,7 +45,5 @@ EffectPool >> randomCollectionOfEffectsWith: length [
 { #category : #accessing }
 EffectPool >> randomEffect [
 
-	| effectIndex |
-	effectIndex := effectPoolCollection size atRandom.
-	^ self effectPoolCollection at: effectIndex
+	^ effectPoolCollection atRandom.
 ]

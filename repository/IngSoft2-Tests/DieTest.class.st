@@ -7,35 +7,38 @@ Class {
 { #category : #tests }
 DieTest >> testDiceCupRollResultIsTheSumOfTheRollOfEachIndividualDie [
 
-
 	| die1 die2 die3 diceCup rollResult |
-	
 	die1 := LoadedDie with: 4.
 	die2 := LoadedDie with: 7.
-	die3 := LoadedDie with: 2.	
-	
-	diceCup := DiceCup withAll: {die1. die2. die3 }.
+	die3 := LoadedDie with: 2.
+
+	diceCup := DiceCup withAll: { 
+			           die1.
+			           die2.
+			           die3 }.
 
 	rollResult := diceCup roll.
-	
+
 	self assert: rollResult equals: 13
 ]
 
 { #category : #tests }
 DieTest >> testDiceCupRollResultIsTheSumOfTheRollOfEachIndividualDieInItself [
 
-
 	| die1 die2 die3 diceCup rollResult aDiceCup |
-	
 	die1 := LoadedDie with: 4.
 	die2 := LoadedDie with: 7.
-	die3 := LoadedDie with: 2.	
-	
-	aDiceCup := DiceCup withAll: {die1. die2}.
-	diceCup := DiceCup withAll: {die3. aDiceCup}.
-	
+	die3 := LoadedDie with: 2.
+
+	aDiceCup := DiceCup withAll: { 
+			            die1.
+			            die2 }.
+	diceCup := DiceCup withAll: { 
+			           die3.
+			           aDiceCup }.
+
 	rollResult := diceCup roll.
-	
+
 	self assert: rollResult equals: 13
 ]
 
@@ -49,15 +52,14 @@ DieTest >> testDieCannotBeCreatedWithNumberOfSidesMinorThanThree [
 ]
 
 { #category : #tests }
-DieTest >> testDieRollResultIsBetweenOneAndTheNumberOfFaces [ 
+DieTest >> testDieRollResultIsBetweenOneAndTheNumberOfFaces [
 
 	| numberOfSides die rollResult |
-
 	numberOfSides := 6.
 	die := RandomDie with: numberOfSides.
-	
+
 	rollResult := die roll.
-	
+
 	self assert: (rollResult between: 1 and: numberOfSides)
 ]
 
@@ -71,13 +73,12 @@ DieTest >> testLoadedDieCannotBeLoadedWithResultLowerThanOne [
 ]
 
 { #category : #tests }
-DieTest >> testLoadedDieRollsFiveWhenLoadedWithFive [ 
+DieTest >> testLoadedDieRollsFiveWhenLoadedWithFive [
 
 	| die rollResult |
-
 	die := LoadedDie with: 5.
 
 	rollResult := die roll.
-	
+
 	self assert: rollResult equals: 5
 ]
