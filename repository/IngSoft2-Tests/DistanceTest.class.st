@@ -6,6 +6,7 @@ Class {
 
 { #category : #tests }
 DistanceTest >> testLightYearsValueCannotBeLowerThanZero [
+
 	self
 		should: [ LightYears with: -1 ]
 		raise: Error

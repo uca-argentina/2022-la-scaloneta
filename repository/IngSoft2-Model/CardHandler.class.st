@@ -68,6 +68,5 @@ CardHandler >> spaceShip [
 { #category : #accessing }
 CardHandler >> totalEffectsOnSpaceShip [
 
-	cardsThatAffect isEmpty ifTrue:[^0].
-	^cardsThatAffect sum:[:card| card effect ].
+	^ cardsThatAffect sum: [ :card | card effect ]	
 ]

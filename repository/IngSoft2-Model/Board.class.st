@@ -46,16 +46,6 @@ Board >> firstTileNumber [
 ]
 
 { #category : #initialization }
-Board >> initializePositionsFor: aGroupOfSpaceShip [
-
-	^ (aGroupOfSpaceShip collect: [ :spaceShip | 
-		                       SpaceShipPosition
-			                       startingOf: spaceShip
-			                       for: self
-			                       at: 1 ]) asOrderedCollection.
-]
-
-{ #category : #initialization }
 Board >> initializeWith: aTiles and: aParsecs finishingAfter: aLaps [
 
 	tiles := aTiles.
@@ -135,8 +125,19 @@ Board >> size [
 Board >> spaceShipPositionIsTheLastOne: aSpaceShipPosition [
 
 	(laps = aSpaceShipPosition lap and: [ 
-		 self size = aSpaceShipPosition tileNumber ]) ifTrue: [ ^ true ]
-																	ifFalse: [ ^ false ]
+		 self size = aSpaceShipPosition tileNumber ])
+		ifTrue: [ ^ true ]
+		ifFalse: [ ^ false ]
+]
+
+{ #category : #initialization }
+Board >> startingPositionsForAll: aGroupOfSpaceShip [
+
+	^ (aGroupOfSpaceShip collect: [ :spaceShip | 
+		                       SpaceShipPosition
+			                       startingOf: spaceShip
+			                       for: self
+			                       at: 1 ]) asOrderedCollection.
 ]
 
 { #category : #accessing }

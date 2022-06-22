@@ -23,7 +23,6 @@ Deck >> initializeWith: aGroupOfCards [
 
 { #category : #actions }
 Deck >> pick [ 
-	| cardToPick |
-	cardToPick := cards at: (Random new nextInteger: (cards size)).
-	^ cardToPick
+
+	^ cards atRandom.
 ]

@@ -4,7 +4,7 @@ Class {
 	#category : #'IngSoft2-Tests'
 }
 
-{ #category : #accessing }
+{ #category : #asserting }
 LaScalonetaGameTest >> assert: aSpaceship isAt: aPostion with: aLap in: aGame [
 
 	self assert: (aGame positionOf: aSpaceship) tileNumber equals: aPostion .
@@ -781,7 +781,7 @@ LaScalonetaGameTest >> testJorgeMovesBackTwoPositionsAndBacksALapWhenJorgeLandsO
 	self assert: 'Julian' isAt: 1 with: 2 in: aGame.
 ]
 
-{ #category : #running }
+{ #category : #tests }
 LaScalonetaGameTest >> testJorgeMovesForwardFourParsecsWhenLandingOnAHyperJumpEffectWithMValueEqualsToOneLightYear [
 
 	| aGame aBoard aDie1 aDeck anAccelerationCard |
