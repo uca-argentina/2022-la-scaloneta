@@ -2,34 +2,34 @@ Class {
 	#name : #MoonWalkEffect,
 	#superclass : #Effect,
 	#instVars : [
-		'numberOfSquaresToMoveBackwards'
+		'backwardsDistance'
 	],
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #asserting }
-MoonWalkEffect class >> assertNumberOfSquaresToMoveBackwardsIsANegativeNumber: aN [
+MoonWalkEffect class >> assertaBackwardsDistanceIsANegativeNumber: aBackwardsDistance [
 
-	aN > 0 ifTrue: [ 
-		Error signal: 'MoonWalk effect N must be a negative number' ]
+	aBackwardsDistance > 0 ifTrue: [ 
+		Error signal: 'aBackwardsDistance must be a negative number' ]
 ]
 
 { #category : #private }
-MoonWalkEffect class >> with: aNumberOfSquaresToMoveBackwards [
+MoonWalkEffect class >> with: aBackwardsDistance [
 
-	self assertNumberOfSquaresToMoveBackwardsIsANegativeNumber: aNumberOfSquaresToMoveBackwards.
-	^ self new initializeWith: aNumberOfSquaresToMoveBackwards
+	self assertaBackwardsDistanceIsANegativeNumber: aBackwardsDistance.
+	^ self new initializeWith: aBackwardsDistance
 ]
 
 { #category : #private }
 MoonWalkEffect >> applyTo: aSpaceShips for: aGame [
 
 	^ aSpaceShips allButFirst do: [ :spaceShip | 
-		  aGame move: spaceShip withoutCardsEffect: numberOfSquaresToMoveBackwards ]
+		  aGame move: spaceShip during: backwardsDistance ]
 ]
 
 { #category : #initialization }
-MoonWalkEffect >> initializeWith: aNumberOfSquaresToMoveBackwards [
+MoonWalkEffect >> initializeWith: aBackwardsDistance [
 	
-	numberOfSquaresToMoveBackwards := aNumberOfSquaresToMoveBackwards.
+	backwardsDistance := aBackwardsDistance.
 ]

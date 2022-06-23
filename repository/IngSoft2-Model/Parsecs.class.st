@@ -2,45 +2,45 @@ Class {
 	#name : #Parsecs,
 	#superclass : #Object,
 	#instVars : [
-		'value'
+		'amount'
 	],
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #asserting }
-Parsecs class >> assertValueIsHigherThanZero: value [
+Parsecs class >> assertAmountIsHigherThanZero: amount [
 
-	value > 0 ifFalse: [ 
-		Error signal: 'Parsecs value should be greater than zero' ]
+	amount > 0 ifFalse: [ 
+		Error signal: 'Parsecs amount should be greater than zero' ]
 ]
 
 { #category : #'instance creation' }
-Parsecs class >> with: value [
+Parsecs class >> with: amount [
 
-	self assertValueIsHigherThanZero:  value.
-	^ self new initializeWith: value
+	self assertAmountIsHigherThanZero:  amount.
+	^ self new initializeWith: amount
 ]
 
 { #category : #comparing }
 Parsecs >> <= aParsec [
 
-	^self value <= aParsec value
+	^ self amount <= aParsec amount
+]
+
+{ #category : #accessing }
+Parsecs >> amount [
+
+	^ amount
 ]
 
 { #category : #action }
 Parsecs >> convertToParsecs [
 
-      ^ value
+      ^ amount
 ]
 
 { #category : #initialization }
 Parsecs >> initializeWith: valueInParsecs [
 
-      value := valueInParsecs 
-]
-
-{ #category : #accessing }
-Parsecs >> value [
-
-^value
+      amount := valueInParsecs 
 ]

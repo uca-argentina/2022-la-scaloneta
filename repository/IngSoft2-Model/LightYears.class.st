@@ -2,45 +2,45 @@ Class {
 	#name : #LightYears,
 	#superclass : #Object,
 	#instVars : [
-		'value'
+		'amount'
 	],
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #asserting }
-LightYears class >> assertValueIsHigherThanZero: value [
+LightYears class >> assertAmountIsHigherThanZero: amount [
 
-	value > 0 ifFalse: [ 
-		Error signal: 'Light Years value should be greater than zero' ]
+	amount > 0 ifFalse: [ 
+		Error signal: 'Light Years amount should be greater than zero' ]
 ]
 
 { #category : #'instance creation' }
-LightYears class >> with: value [
+LightYears class >> with: amount [
 
-	self assertValueIsHigherThanZero:  value.
-	^ self new initializeWith: value
+	self assertAmountIsHigherThanZero:  amount.
+	^ self new initializeWith: amount
 ]
 
 { #category : #comparing }
 LightYears >> <= aLightYear [
 
-	^self value <= aLightYear  value
-]
-
-{ #category : #action }
-LightYears >> convertToParsecs [ 
-
-      ^ value/3
-]
-
-{ #category : #initialization }
-LightYears >> initializeWith: valueInLightYears [
-
-      value := valueInLightYears
+	^ self amount <= aLightYear amount
 ]
 
 { #category : #accessing }
-LightYears >> value [
+LightYears >> amount [
 
-^value
+	^ amount
+]
+
+{ #category : #action }
+LightYears >> convertToParsecs [
+
+	^ amount / 3
+]
+
+{ #category : #initialization }
+LightYears >> initializeWith: amountInLightYears [
+
+      amount := amountInLightYears
 ]
