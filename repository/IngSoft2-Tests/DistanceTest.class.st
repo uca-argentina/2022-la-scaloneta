@@ -10,7 +10,7 @@ DistanceTest >> testLightYearsValueCannotBeLowerThanZero [
 	self
 		should: [ LightYears with: -1 ]
 		raise: Error
-		withMessage: 'Light Years value should be greater than zero'
+		withMessage: 'Light Years amount should be greater than zero'
 ]
 
 { #category : #running }
@@ -19,5 +19,5 @@ DistanceTest >> testParsecsCannotBeLowerThanZero [
 	self
 		should: [ Parsecs with: -1 ]
 		raise: Error
-		withMessage: 'Parsecs value should be greater than zero'
+		withMessage: 'Parsecs amount should be greater than zero'
 ]

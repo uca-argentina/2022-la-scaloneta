@@ -2,44 +2,44 @@ Class {
 	#name : #HyperJumpEffect,
 	#superclass : #Effect,
 	#instVars : [
-		'parsecsSequence'
+		'distancies'
 	],
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #asserting }
-HyperJumpEffect class >> assertIsNotEmptyFor: aParsecsSequence [
+HyperJumpEffect class >> assertIsNotEmptyFor: aDistanceSequence [
 
-	aParsecsSequence ifEmpty: [ Error signal: 'HyperJumpEffect can not be initalize with empty collection!' ] 
+	aDistanceSequence ifEmpty: [ Error signal: 'HyperJumpEffect can not be initalize with empty collection!' ] 
 ]
 
 { #category : #asserting }
-HyperJumpEffect class >> assertValidValuesFor: aParsecsSequence [
+HyperJumpEffect class >> assertValidValuesFor: aDistanceSequence [
 
-	aParsecsSequence do: [ :m | 
-		(m value) < 0 ifTrue: [ 
+	aDistanceSequence do: [ :distance | 
+		(distance amount) < 0 ifTrue: [ 
 			Error signal: 'Values of the collection must be positive!' ] ]
 ]
 
 { #category : #'instance creation' }
-HyperJumpEffect class >> with: aParsecsSequence [
+HyperJumpEffect class >> with: aDistanceSequence [
 
-	self assertIsNotEmptyFor: aParsecsSequence.
-	self assertValidValuesFor: aParsecsSequence.
-	^ self new initializeWith: aParsecsSequence
+	self assertIsNotEmptyFor: aDistanceSequence.
+	self assertValidValuesFor: aDistanceSequence.
+	^ self new initializeWith: aDistanceSequence
 ]
 
 { #category : #private }
 HyperJumpEffect >> applyTo: aSpaceShips for: aGame [
 
-	| value_MCollection valueInParsecs |
-	value_MCollection := parsecsSequence first.
+	| value valueInParsecs |
+	value := distancies first.
 
-	parsecsSequence := (parsecsSequence reject: [ :each | 
-		                  each = value_MCollection ])
-	                 , { value_MCollection }.
+	distancies := (distancies reject: [ :each | 
+		                  each = value ])
+	                 , { value }.
 	
-	valueInParsecs := value_MCollection convertToParsecs.
+	valueInParsecs := value convertToParsecs.
 
 	^ aGame
 		  move: aSpaceShips first
@@ -47,9 +47,9 @@ HyperJumpEffect >> applyTo: aSpaceShips for: aGame [
 ]
 
 { #category : #initialization }
-HyperJumpEffect >> initializeWith: aParsecsSequence [
+HyperJumpEffect >> initializeWith: aDistanceSequence [
 
-	parsecsSequence := aParsecsSequence sorted reverse.
+	distancies := aDistanceSequence sorted reverse.
 	
 	
 	
