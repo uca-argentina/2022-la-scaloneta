@@ -25,7 +25,7 @@ MoonWalkEffect class >> with: aNumberOfSquaresToMoveBackwards [
 MoonWalkEffect >> applyTo: aSpaceShips for: aGame [
 
 	^ aSpaceShips allButFirst do: [ :spaceShip | 
-		  aGame move: spaceShip withRolling: numberOfSquaresToMoveBackwards ]
+		  aGame move: spaceShip withoutCardsEffect: numberOfSquaresToMoveBackwards ]
 ]
 
 { #category : #initialization }
