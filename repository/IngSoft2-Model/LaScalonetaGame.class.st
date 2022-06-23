@@ -199,6 +199,18 @@ LaScalonetaGame >> move: aSpaceShip withRolling: aResult [
 ]
 
 { #category : #private }
+LaScalonetaGame >> move: aSpaceShip withoutCardsEffect: aNumberOfTiles [
+
+	| newPosition oldPosition |
+	
+	oldPosition := self positionOf: aSpaceShip.
+
+	newPosition := board move: aNumberOfTiles from: oldPosition.
+	
+	self add: newPosition
+]
+
+{ #category : #private }
 LaScalonetaGame >> moveToFirstPositionOnSameLap: aSpaceShip [
 
 	self add: (SpaceShipPosition

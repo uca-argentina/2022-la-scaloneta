@@ -7,5 +7,5 @@ Class {
 { #category : #private }
 SpeedUpEffect >> applyTo: aSpaceShips for: aGame [
 
-	^ aGame move: aSpaceShips first withRolling: 4
+	^ aGame move: aSpaceShips first withoutCardsEffect: 4
 ]

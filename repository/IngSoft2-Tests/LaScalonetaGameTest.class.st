@@ -959,6 +959,43 @@ LaScalonetaGameTest >> testJorgeMovesFowardOneParsecThenJulianMovesFowardTwoPars
 ]
 
 { #category : #tests }
+LaScalonetaGameTest >> testJorgeThrowsTwoSpeedCardsSoWhenHeRollsTheLoadedDieWithOneHeMovesFowardToTheSpeedUpEffectSoHisFinalPositionIsTileNumberEight [
+
+	| aGame aBoard aDie1 aDeck aSpeedCard |
+	aBoard := Board
+		          with: { 
+				          NoEffect new.
+				          NoEffect new.
+				          NoEffect new.
+				          SpeedUpEffect new.
+				          NoEffect new.
+				          NoEffect new.
+				          NoEffect new.
+				          NoEffect new.
+				          NoEffect new.
+				          NoEffect new.
+				          NoEffect new }
+		          and: 6
+		          finishingAfter: 2.
+	aDie1 := LoadedDie with: 1.
+	aSpeedCard := SpeedCard new.
+	aDeck := Deck with: { aSpeedCard }.
+	aGame := LaScalonetaGame
+		         playedBy: { 'Jorge' }
+		         on: aBoard
+		         rolling: aDie1
+		         usingCardsFrom: aDeck.
+	aGame affect: 'Jorge' using: aSpeedCard by: 'Jorge'.
+	aGame affect: 'Jorge' using: aSpeedCard by: 'Jorge'.
+	aGame playNextTurn.
+	self
+		assert: 'Jorge'
+		isAt: 8
+		with: 1
+		in: aGame
+]
+
+{ #category : #tests }
 LaScalonetaGameTest >> testJorgeWinsLaScalonetaGameWhenJorgeReachesTheEndFirst [
 
 	| aGame aBoard aDie1 aDie2 aDie3 aDiceCup aDeck anAccelerationCard |
