@@ -12,7 +12,7 @@ LaScalonetaGameTest >> assert: aSpaceship isAt: aPostion with: aLap in: aGame [
 ]
 
 { #category : #creating }
-LaScalonetaGameTest >> laScalonetaGamePlayedByJorgeAndJulianWithALoadedDieWithOneOnABoardOfFourNoEffectTilesAndTwoParsecsDuringTwoLaps [
+LaScalonetaGameTest >> gamePlayedByJorgeAndJulian [
 
 	| aGame aBoard aDie1 aDeck anAccelerationCard |
 
@@ -1529,7 +1529,7 @@ LaScalonetaGameTest >> testSpaceShipMovesThreeTilesFowardWhenRollingResultEquals
 LaScalonetaGameTest >> testSpaceShipStartsAtTileNumberOneAndLapNumberOne [
 
 	| aGame |
-	aGame := self laScalonetaGamePlayedByJorgeAndJulianWithALoadedDieWithOneOnABoardOfFourNoEffectTilesAndTwoParsecsDuringTwoLaps.
+	aGame := self gamePlayedByJorgeAndJulian.
 
 	self assert: 'Jorge' isAt: 1 with: 1 in: aGame.
 	self assert: 'Julian' isAt: 1 with: 1 in: aGame.
