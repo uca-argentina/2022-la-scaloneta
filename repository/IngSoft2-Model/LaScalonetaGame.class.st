@@ -198,10 +198,11 @@ LaScalonetaGame >> move: aSpaceShip withParsecs: aParsecs [
 { #category : #private }
 LaScalonetaGame >> moveToFirstPositionOnSameLap: aSpaceShip [
 
-	self add: (SpaceShipPosition
-			 ofSpaceShip: (self positionOf: aSpaceShip) spaceShip
-			 tileNumber: board firstTileNumber
-			 lap: (self positionOf: aSpaceShip) lap)
+	| oldPosition newPosition |
+	oldPosition := self positionOf: aSpaceShip.
+	newPosition := board moveToFirstPositionOnSameLapFrom: oldPosition.
+
+	self add: newPosition
 ]
 
 { #category : #playing }
