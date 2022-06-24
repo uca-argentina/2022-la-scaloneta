@@ -45,7 +45,7 @@ LaScalonetaGame >> add: aSpaceShipPosition [
 LaScalonetaGame >> addEffectOf: aCard to: aSpaceShip [
 
 	(self cardHandlerOf: aSpaceShip) addEffectOf: aCard.
-	lastCardPlayed:= aCard.
+	lastCardPlayed := aCard
 ]
 
 { #category : #adding }
@@ -57,7 +57,8 @@ LaScalonetaGame >> addInHand: aCard to: aSpaceShip [
 { #category : #adding }
 LaScalonetaGame >> addToAllEffectOf: aCard [
 
-	spaceShips do:[:aSpaceship | self addEffectOf: aCard to:aSpaceship].
+	spaceShips do: [ :aSpaceship | 
+		self addEffectOf: aCard to: aSpaceship ]
 ]
 
 { #category : #action }
@@ -71,7 +72,7 @@ LaScalonetaGame >> affect: aTarget using: aCard by: aSpaceShip [
 LaScalonetaGame >> applyEffectOfTheLastPlayedTileTo: aSpaceship from: aCard [
 
 	lastTilePlayed applyTo: aSpaceship for: self.
-	lastCardPlayed:= aCard.
+	lastCardPlayed := aCard
 ]
 
 { #category : #private }
@@ -79,11 +80,7 @@ LaScalonetaGame >> applyEffectTo: aSpaceShips [
 
 	lastTilePlayed := (self board tiles at: (self positionOf: aSpaceShips first) tileNumber).
 
-	(self board tiles at: (self positionOf: aSpaceShips first) tileNumber)
-		applyTo: aSpaceShips
-		for: self.
-		
-	
+	lastTilePlayed applyTo: aSpaceShips for: self.
 ]
 
 { #category : #asserting }
@@ -128,10 +125,8 @@ LaScalonetaGame >> distributeCardsFrom: aDeck [
 LaScalonetaGame >> giveCardFromDeckTo: aSpaceShip [
 
 	| card |
-	
 	card := deck pick.
-
-	(self cardHandlerOf: aSpaceShip) addToHand: card.
+	(self cardHandlerOf: aSpaceShip) addToHand: card
 ]
 
 { #category : #testing }
@@ -157,20 +152,10 @@ LaScalonetaGame >> initializeWith: aBoard rolling: aDiceCollection playedBy: aSp
 	self distributeCardsFrom: aDeck.
 ]
 
-{ #category : #private }
-LaScalonetaGame >> laScalonetaGameContinuesDependingOnWhetherTheSpaceShipWonOrNot: aSpaceShip [
-
-	(board spaceShipPositionIsTheLastOne: (self positionOf: aSpaceShip))
-		ifTrue: [ hasEnded := true ]
-		ifFalse: [ 
-			self applyEffectTo: spaceShips.
-			self nextSpaceShipTurn: aSpaceShip ]
-]
-
 { #category : #accessing }
 LaScalonetaGame >> lastCardPlayed [
 
-	^lastCardPlayed
+	^ lastCardPlayed
 ]
 
 { #category : #private }
@@ -178,9 +163,7 @@ LaScalonetaGame >> move: aSpaceShip during: aNumberOfTiles [
 
 	| oldPosition newPosition |
 	oldPosition := self positionOf: aSpaceShip.
-
 	newPosition := board move: aNumberOfTiles from: oldPosition.
-
 	self add: newPosition
 ]
 
@@ -189,26 +172,23 @@ LaScalonetaGame >> move: aSpaceShip withParsecs: aParsecs [
 
 	| newPosition oldPosition |
 	oldPosition := self positionOf: aSpaceShip.
-
 	newPosition := board movePasecs: aParsecs from: oldPosition.
-
 	self add: newPosition
 ]
 
 { #category : #private }
 LaScalonetaGame >> moveToFirstPositionOnSameLap: aSpaceShip [
 
-	self add: (SpaceShipPosition
-			 ofSpaceShip: (self positionOf: aSpaceShip) spaceShip
-			 tileNumber: board firstTileNumber
-			 lap: (self positionOf: aSpaceShip) lap)
+	| oldPosition newPosition |
+	oldPosition := self positionOf: aSpaceShip.
+	newPosition := board moveToFirstPositionOnSameLapFrom: oldPosition.
+	self add: newPosition
 ]
 
 { #category : #playing }
 LaScalonetaGame >> nextSpaceShipTurn: aSpaceShip [
 
-	spaceShips := (spaceShips reject: [ :each | each = aSpaceShip ])
-	              , { aSpaceShip }.
+	spaceShips := (spaceShips reject: [ :each | each = aSpaceShip ]), { aSpaceShip }.
 
 	spaceShipCurrentTurn := spaceShips first
 ]
@@ -229,7 +209,7 @@ LaScalonetaGame >> playTurnFor: aSpaceShip [
 	rollingResult := diceCollection roll.
 
 	self move: aSpaceShip during: rollingResult + (self cardHandlerOf: aSpaceShip) totalEffectsOnSpaceShip.
-	self laScalonetaGameContinuesDependingOnWhetherTheSpaceShipWonOrNot: aSpaceShip
+	self selfContinuesDependingOnWhetherTheSpaceShipWonOrNot: aSpaceShip
 ]
 
 { #category : #accessing }
@@ -254,10 +234,20 @@ LaScalonetaGame >> removeToAllSpaceShipsPermanent: card [
 		lastCardPlayed := CancellationCard  new.
 ]
 
+{ #category : #private }
+LaScalonetaGame >> selfContinuesDependingOnWhetherTheSpaceShipWonOrNot: aSpaceShip [
+
+	(board spaceShipPositionIsTheLastOne: (self positionOf: aSpaceShip))
+		ifTrue: [ hasEnded := true ]
+		ifFalse: [ 
+			self applyEffectTo: spaceShips.
+			self nextSpaceShipTurn: aSpaceShip ]
+]
+
 { #category : #accessing }
 LaScalonetaGame >> spaceShips [
 
-	^spaceShips
+	^ spaceShips
 ]
 
 { #category : #classification }
@@ -272,12 +262,12 @@ LaScalonetaGame >> spaceShipsPositionsRanking [
 ]
 
 { #category : #asserting }
-LaScalonetaGame >> validate: aSpaceShip has: aCard [ 
+LaScalonetaGame >> validate: aSpaceShip has: aCard [
 
-		| spaceShipCardHandler |
+	| spaceShipCardHandler |
 	spaceShipCardHandler := self cardHandlerOf: aSpaceShip.
-	 (spaceShipCardHandler hasInHand: aCard)
-        ifFalse: [ Error signal: 'The SpaceShip cannot throw this card because he does not have it'].
+	(spaceShipCardHandler hasInHand: aCard) ifFalse: [ 
+		Error signal:'The SpaceShip cannot throw this card because he does not have it' ]
 ]
 
 { #category : #asserting }
@@ -289,14 +279,14 @@ LaScalonetaGame >> validateThrowOfAPermanent: aCard from: aSpaceShip [
 
 { #category : #asserting }
 LaScalonetaGame >> validateThrowOfAnInstantaneous: aCard from: aSpaceShip [
-		self validate: aSpaceShip has: aCard.
+
+	self validate: aSpaceShip has: aCard
 ]
 
 { #category : #accessing }
 LaScalonetaGame >> winner [
 
 	self hasEnded
-		ifFalse: [ 
-		Error signal: 'There is no winner as the game has not ended yet.' ]
+		ifFalse: [ Error signal: 'There is no winner as the game has not ended yet.' ]
 		ifTrue: [ ^ self spaceShipsPositionsRanking first spaceShip ]
 ]

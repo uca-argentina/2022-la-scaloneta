@@ -39,7 +39,7 @@ HyperJumpEffect >> applyTo: aSpaceShips for: aGame [
 		                  each = value ])
 	                 , { value }.
 	
-	valueInParsecs := value convertToParsecs.
+	valueInParsecs := value valueAsParsec.
 
 	^ aGame
 		  move: aSpaceShips first

@@ -24,7 +24,7 @@ LightYears class >> with: amount [
 { #category : #comparing }
 LightYears >> <= aLightYear [
 
-	^ self amount <= aLightYear amount
+	^ self valueAsParsec <= aLightYear valueAsParsec
 ]
 
 { #category : #accessing }
@@ -33,14 +33,14 @@ LightYears >> amount [
 	^ amount
 ]
 
-{ #category : #action }
-LightYears >> convertToParsecs [
-
-	^ amount / 3
-]
-
 { #category : #initialization }
 LightYears >> initializeWith: amountInLightYears [
 
       amount := amountInLightYears
+]
+
+{ #category : #action }
+LightYears >> valueAsParsec [
+
+	^ amount / 3
 ]

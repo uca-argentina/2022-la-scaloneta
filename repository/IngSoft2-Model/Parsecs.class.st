@@ -24,7 +24,7 @@ Parsecs class >> with: amount [
 { #category : #comparing }
 Parsecs >> <= aParsec [
 
-	^ self amount <= aParsec amount
+	^ self valueAsParsec <= aParsec valueAsParsec
 ]
 
 { #category : #accessing }
@@ -33,14 +33,14 @@ Parsecs >> amount [
 	^ amount
 ]
 
-{ #category : #action }
-Parsecs >> convertToParsecs [
-
-      ^ amount
-]
-
 { #category : #initialization }
 Parsecs >> initializeWith: valueInParsecs [
 
       amount := valueInParsecs 
+]
+
+{ #category : #action }
+Parsecs >> valueAsParsec [
+
+      ^ amount
 ]

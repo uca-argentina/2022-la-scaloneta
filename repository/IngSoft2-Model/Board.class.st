@@ -109,6 +109,15 @@ Board >> movePasecs: aParsecs from: oldPosition [
 		  lap: newLap
 ]
 
+{ #category : #private }
+Board >> moveToFirstPositionOnSameLapFrom: aSpaceShipPosition [
+
+	^ (SpaceShipPosition
+			 ofSpaceShip: aSpaceShipPosition spaceShip
+			 tileNumber: self firstTileNumber
+			 lap: aSpaceShipPosition lap)
+]
+
 { #category : #accessing }
 Board >> parsecs [
 
