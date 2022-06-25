@@ -1,11 +1,11 @@
 Class {
 	#name : #AccelerationCard,
-	#superclass : #Card,
+	#superclass : #Object,
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #action }
-AccelerationCard >> applyTo: aTarget in: aGame from: aSpaceShip [ 
+AccelerationCard >> applyIn: aGame from: aSpaceShip [ 
 
 	aGame validateThrowOfAPermanent: self  from: aSpaceShip.
 	aGame addToAllEffectOf:self.
