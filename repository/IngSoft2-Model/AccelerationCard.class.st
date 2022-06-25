@@ -7,8 +7,7 @@ Class {
 { #category : #action }
 AccelerationCard >> applyIn: aGame from: aSpaceShip [ 
 
-	aGame validateThrowOfAPermanent: self  from: aSpaceShip.
-	aGame addToAllEffectOf:self.
+	aGame addToAllEffectOf: self from: aSpaceShip.
 ]
 
 { #category : #accessing }

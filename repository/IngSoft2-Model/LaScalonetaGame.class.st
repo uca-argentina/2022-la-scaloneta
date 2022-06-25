@@ -36,13 +36,9 @@ LaScalonetaGame class >> playedBy: spaceShips on: board rolling: dice usingCards
 ]
 
 { #category : #adding }
-LaScalonetaGame >> add: aSpaceShipPosition [
+LaScalonetaGame >> addEffectOf: aCard to: aSpaceShip from: spaceShip [
 
-	spaceShipPositions add: aSpaceShipPosition
-]
-
-{ #category : #adding }
-LaScalonetaGame >> addEffectOf: aCard to: aSpaceShip [
+	self validateThrowOfAPermanent: aCard from: spaceShip.
 
 	(self cardHandlerOf: aSpaceShip) addEffectOf: aCard.
 	lastCardPlayed := aCard
@@ -55,10 +51,10 @@ LaScalonetaGame >> addInHand: aCard to: aSpaceShip [
 ]
 
 { #category : #adding }
-LaScalonetaGame >> addToAllEffectOf: aCard [
+LaScalonetaGame >> addToAllEffectOf: aCard from: spaceShip [
 
 	spaceShips do: [ :aSpaceship | 
-		self addEffectOf: aCard to: aSpaceship ]
+		self addEffectOf: aCard to: aSpaceship from: spaceShip]
 ]
 
 { #category : #action }
@@ -171,16 +167,16 @@ LaScalonetaGame >> move: aSpaceShip during: aNumberOfTiles [
 	| oldPosition newPosition |
 	oldPosition := self positionOf: aSpaceShip.
 	newPosition := board move: aNumberOfTiles from: oldPosition.
-	self add: newPosition
+	spaceShipPositions add: newPosition
 ]
 
 { #category : #private }
 LaScalonetaGame >> move: aSpaceShip withParsecs: aParsecs [
 
-	| newPosition oldPosition |
+	| oldPosition newPosition |
 	oldPosition := self positionOf: aSpaceShip.
 	newPosition := board movePasecs: aParsecs from: oldPosition.
-	self add: newPosition
+	spaceShipPositions add: newPosition
 ]
 
 { #category : #private }
@@ -189,7 +185,7 @@ LaScalonetaGame >> moveToFirstPositionOnSameLap: aSpaceShip [
 	| oldPosition newPosition |
 	oldPosition := self positionOf: aSpaceShip.
 	newPosition := board moveToFirstPositionOnSameLapFrom: oldPosition.
-	self add: newPosition
+	spaceShipPositions add: newPosition
 ]
 
 { #category : #playing }
@@ -227,9 +223,11 @@ LaScalonetaGame >> positionOf: aSpaceShip [
 ]
 
 { #category : #removing }
-LaScalonetaGame >> removeToAllSpaceShipsPermanent: card [
+LaScalonetaGame >> removeToAllSpaceShipsPermanent: card from: aSpaceShip using: aCard [
 
 	| handlersWithCardToBeRemoved |
+	
+	self validate: aSpaceShip has: aCard.
 	
 	handlersWithCardToBeRemoved := cardHandlers
 		select: [ :cardHandler | cardHandler affectsSpaceShip: card ].
