@@ -74,10 +74,10 @@ Board >> move: aResult from: oldPosition [
 	(newPosition = 0 or: [ auxLap > laps ]) ifTrue: [ 
 		newPosition := boardSize ].
 	
-	^ (SpaceShipPosition
+	^ SpaceShipPosition
 			 ofSpaceShip: oldPosition spaceShip
 			 tileNumber: newPosition
-			 lap: newLap)
+			 lap: newLap
 ]
 
 { #category : #private }
@@ -112,10 +112,10 @@ Board >> movePasecs: aParsecs from: oldPosition [
 { #category : #private }
 Board >> moveToFirstPositionOnSameLapFrom: aSpaceShipPosition [
 
-	^ (SpaceShipPosition
+	^ SpaceShipPosition
 			 ofSpaceShip: aSpaceShipPosition spaceShip
 			 tileNumber: self firstTileNumber
-			 lap: aSpaceShipPosition lap)
+			 lap: aSpaceShipPosition lap
 ]
 
 { #category : #accessing }

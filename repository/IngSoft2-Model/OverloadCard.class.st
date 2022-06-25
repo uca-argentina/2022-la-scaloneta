@@ -5,10 +5,9 @@ Class {
 }
 
 { #category : #action }
-OverloadCard >> applyTo: aTarget in: aGame from: aPlayer [
+OverloadCard >> applyTo: aTarget in: aGame from: aSpaceShip [
 
-	aGame validateThrowOfAPermanent: self from: aPlayer.
-	aGame addEffectOf: self to: aTarget. 
+	aGame addEffectOf: self to: aTarget from: aSpaceShip. 
 ]
 
 { #category : #accessing }
