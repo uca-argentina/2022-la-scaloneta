@@ -1,11 +1,11 @@
 Class {
 	#name : #RepeatCard,
-	#superclass : #Card,
+	#superclass : #Object,
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #action }
-RepeatCard >> applyTo: aTarget in: aGame from: aSpaceship [
+RepeatCard >> applyIn: aGame from: aSpaceship [
 
 	aGame validateThrowOfAnInstantaneous: self from: aSpaceship.
 	aGame applyEffectOfTheLastPlayedTileTo: (aGame spaceShips) from:self.

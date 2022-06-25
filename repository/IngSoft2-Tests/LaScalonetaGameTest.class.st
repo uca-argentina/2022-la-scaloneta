@@ -266,7 +266,7 @@ LaScalonetaGameTest >> testJorgeCannotThrowAnAccelerationCardThatHeDoesNotHaveIn
 	aGame playNextTurn.
 	
 	self
-		should: [ aGame affect: { 'Jorge'. 'Julian' } using: anAccelerationCard by: 'Julian' ]
+		should: [ aGame apply: anAccelerationCard by: 'Julian' ]
 		raise: Error
 		withMessage: 'The SpaceShip cannot throw this card because he does not have it'
 ]
@@ -311,7 +311,7 @@ LaScalonetaGameTest >> testJorgeCannotThrowAnOverloadCardWhenItIsNotHisTurn [
 	aGame playNextTurn.
 	
 	self
-		should: [ aGame affect: { 'Jorge'. 'Julian' } using: anAccelerationCard by: 'Jorge' ]
+		should: [ aGame apply: anAccelerationCard by: 'Jorge' ]
 		raise: Error
 		withMessage: 'Its not your turn!'
 	
@@ -324,12 +324,12 @@ LaScalonetaGameTest >> testJorgeCannotThrowAnOverloadCardWhenItIsNotHisTurn [
 { #category : #tests }
 LaScalonetaGameTest >> testJorgeDoesNotMoveFowardAsTheNumberOfParsecsIsNotEnoughToMoveOneTile [
 
-	| aGame aBoard aDie1 aDeck anAccelerationCard aParsec|
-	aParsec := Parsecs with: 1.
+	| aGame aBoard aDie1 aDeck anAccelerationCard |
+
 	aBoard := Board
 		          with: { 
 				          NoEffect new.
-				          (HyperJumpEffect with: { aParsec. }  ).
+				          (HyperJumpEffect with: { Parsecs with: 1. }  ).
 				          NoEffect new.
 				          NoEffect new.
 				          NoEffect new.
@@ -392,7 +392,7 @@ LaScalonetaGameTest >> testJorgeGetsARepeatCardAndPlaysItWithSpeedUpCard [
 	
 	self assert: 'Jorge' isAt: 2 with: 2 in: aGame. 
 	
-	aGame affect: 'Jorge' using: aRepeatCard by: 'Jorge'.
+	aGame apply: aRepeatCard by: 'Jorge'.
 	
 	self assert: 'Jorge' isAt: 1 with: 3 in: aGame. 
 ]
@@ -434,7 +434,7 @@ LaScalonetaGameTest >> testJorgeGetsAndThrowsAnAccelerationAffectingAllSpaceShip
 	self assert: 'Jorge' isAt: 1 with: 1 in: aGame. 
 	self assert: 'Julian' isAt: 1 with: 1 in: aGame.
 	
-	aGame affect: { 'Jorge'. 'Julian' } using: anAccelerationCard by: 'Jorge'.
+	aGame apply: anAccelerationCard by: 'Jorge'.
 	aGame playNextTurn.
 	
 	self assert: 'Jorge' isAt: 4 with: 1 in: aGame.
@@ -849,7 +849,7 @@ LaScalonetaGameTest >> testJorgeMovesForwardFourTilesWhenLandingOnASpeedUpEffect
 ]
 
 { #category : #tests }
-LaScalonetaGameTest >> testJorgeMovesForwardOneParsecWhenLandingOnAHyperJumpEffectDistanciesEqualsToOneParsec [
+LaScalonetaGameTest >> testJorgeMovesForwardThreeParsecsWhenLandingOnAHyperJumpEffectDistanciesEqualsToThreeParsecs [
 
 	| aGame aBoard aDie1 aDeck anAccelerationCard |
 	
@@ -882,7 +882,7 @@ LaScalonetaGameTest >> testJorgeMovesForwardOneParsecWhenLandingOnAHyperJumpEffe
 ]
 
 { #category : #tests }
-LaScalonetaGameTest >> testJorgeMovesFowardOneParsecAndThenJulianMovesFowardTwoParsecsSinceTheyBothLandedOnAHyperJumpEffectAndOneAndTwoWhereTheFirstValuesOfDistancies [
+LaScalonetaGameTest >> testJorgeMovesFowardThreeParsecsAndThenJulianMovesFowardTwoParsecsSinceTheyBothLandedOnAHyperJumpEffectAndThreeAndTwoWhereTheFirstDistanciesValues [
 
 	| aGame aBoard aDie1 aDeck anAccelerationCard |
 	
@@ -919,7 +919,7 @@ LaScalonetaGameTest >> testJorgeMovesFowardOneParsecAndThenJulianMovesFowardTwoP
 ]
 
 { #category : #tests }
-LaScalonetaGameTest >> testJorgeMovesFowardOneParsecThenJulianMovesFowardTwoParsecsAndFinallyHernanMovesFowardOneParsecAgainWhenLadingOnAHyperJumpEffectInitializeWithATwoValuesDistancies [
+LaScalonetaGameTest >> testJorgeMovesFowardThreeParsecsThenJulianMovesFowardTwoParsecsAndFinallyHernanMovesFowardThreeParsecsAgainWhenLadingOnAHyperJumpEffectInitializeWithTwoDistanciesValues [
 
 	| aGame aBoard aDie1 aDeck anAccelerationCard |
 	aBoard := Board

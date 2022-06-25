@@ -68,7 +68,14 @@ LaScalonetaGame >> affect: aTarget using: aCard by: aSpaceShip [
 	(self cardHandlerOf: aSpaceShip) removeFromHand: aCard.
 ]
 
-{ #category : #act }
+{ #category : #action }
+LaScalonetaGame >> apply: aCard by: aSpaceShip [
+
+	aCard applyIn: self from: aSpaceShip.
+	(self cardHandlerOf: aSpaceShip) removeFromHand: aCard.
+]
+
+{ #category : #action }
 LaScalonetaGame >> applyEffectOfTheLastPlayedTileTo: aSpaceship from: aCard [
 
 	lastTilePlayed applyTo: aSpaceship for: self.
