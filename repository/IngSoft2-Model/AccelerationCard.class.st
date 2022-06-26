@@ -5,9 +5,9 @@ Class {
 }
 
 { #category : #action }
-AccelerationCard >> applyIn: aGame from: aSpaceShip [ 
+AccelerationCard >> applyIn: aGame from: aSpaceShip [
 
-	aGame addToAllEffectOf: self from: aSpaceShip.
+	aGame addToAllEffectOf: self from: aSpaceShip
 ]
 
 { #category : #accessing }

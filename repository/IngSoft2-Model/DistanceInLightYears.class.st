@@ -1,5 +1,5 @@
 Class {
-	#name : #LightYears,
+	#name : #DistanceInLightYears,
 	#superclass : #Object,
 	#instVars : [
 		'amount'
@@ -8,39 +8,39 @@ Class {
 }
 
 { #category : #asserting }
-LightYears class >> assertAmountIsHigherThanZero: amount [
+DistanceInLightYears class >> assertAmountIsHigherThanZero: amount [
 
 	amount > 0 ifFalse: [ 
 		Error signal: 'Light Years amount should be greater than zero' ]
 ]
 
 { #category : #'instance creation' }
-LightYears class >> with: amount [
+DistanceInLightYears class >> with: amount [
 
 	self assertAmountIsHigherThanZero:  amount.
 	^ self new initializeWith: amount
 ]
 
 { #category : #comparing }
-LightYears >> <= aLightYear [
+DistanceInLightYears >> <= aLightYear [
 
 	^ self valueAsParsec <= aLightYear valueAsParsec
 ]
 
 { #category : #accessing }
-LightYears >> amount [
+DistanceInLightYears >> amount [
 
 	^ amount
 ]
 
 { #category : #initialization }
-LightYears >> initializeWith: amountInLightYears [
+DistanceInLightYears >> initializeWith: amountInLightYears [
 
       amount := amountInLightYears
 ]
 
 { #category : #action }
-LightYears >> valueAsParsec [
+DistanceInLightYears >> valueAsParsec [
 
 	^ amount / 3
 ]

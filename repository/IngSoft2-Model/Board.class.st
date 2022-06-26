@@ -39,6 +39,14 @@ Board class >> with: tiles and: parsecs finishingAfter: laps [
 	^ self new initializeWith: tiles and: parsecs finishingAfter: laps
 ]
 
+{ #category : #conversion }
+Board >> convertDistanceToDistanceInTiles: aDistance [
+
+	(aDistance isMemberOf: DistanceInParsecs) ifTrue: [ 
+		^ (aDistance amount / (self parsecs / self size)) floor ].
+	^ aDistance amount
+]
+
 { #category : #accessing }
 Board >> firstTileNumber [
 
@@ -54,9 +62,11 @@ Board >> initializeWith: aTiles and: aParsecs finishingAfter: aLaps [
 ]
 
 { #category : #private }
-Board >> move: aResult from: oldPosition [
+Board >> move: aDistance from: oldPosition [
 
-	| boardSize quantityOfSquaresAdvanced auxLap newLap newPosition |
+	| boardSize quantityOfSquaresAdvanced auxLap newLap newPosition aResult|
+	
+	aResult := self convertDistanceToDistanceInTiles: aDistance.
 	boardSize := self size.
 
 	quantityOfSquaresAdvanced := (oldPosition lap - 1) * boardSize
@@ -78,35 +88,6 @@ Board >> move: aResult from: oldPosition [
 			 ofSpaceShip: oldPosition spaceShip
 			 tileNumber: newPosition
 			 lap: newLap
-]
-
-{ #category : #private }
-Board >> movePasecs: aParsecs from: oldPosition [
-
-	| boardSize quantityOfSquaresAdvanced auxLap newLap newPosition aResult |
-	boardSize := self size.
-
-	aResult := (aParsecs / (self parsecs / boardSize)) floor.
-
-	quantityOfSquaresAdvanced := (oldPosition lap - 1) * boardSize
-	                             + aResult + oldPosition tileNumber.
-
-	quantityOfSquaresAdvanced <= 0 ifTrue: [ 
-		quantityOfSquaresAdvanced := 1 ].
-
-	auxLap := quantityOfSquaresAdvanced - 1 // boardSize + 1.
-
-	newLap := auxLap min: laps.
-
-	newPosition := quantityOfSquaresAdvanced % boardSize.
-
-	(newPosition = 0 or: [ auxLap > laps ]) ifTrue: [ 
-		newPosition := boardSize ].
-
-	^ SpaceShipPosition
-		  ofSpaceShip: oldPosition spaceShip
-		  tileNumber: newPosition
-		  lap: newLap
 ]
 
 { #category : #private }

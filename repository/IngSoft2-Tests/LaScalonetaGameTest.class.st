@@ -210,7 +210,7 @@ LaScalonetaGameTest >> testGameHasEndedAsOneSpaceShipReachedTheEnd [
 LaScalonetaGameTest >> testHyperJumpEffecDistanciesCanNotContainsNegativeValues [
 
 	self
-		should: [ HyperJumpEffect with: {Parsecs with: 2. Parsecs with: -3. Parsecs with: 3.} ]
+		should: [ HyperJumpEffect with: {DistanceInParsecs with: 2. DistanceInParsecs with: -3. DistanceInParsecs with: 3.} ]
 		raise: Error
 		withMessage: 'Parsecs amount should be greater than zero'
 ]
@@ -329,7 +329,7 @@ LaScalonetaGameTest >> testJorgeDoesNotMoveFowardAsTheNumberOfParsecsIsNotEnough
 	aBoard := Board
 		          with: { 
 				          NoEffect new.
-				          (HyperJumpEffect with: { Parsecs with: 1. }  ).
+				          (HyperJumpEffect with: { DistanceInParsecs with: 1. }  ).
 				          NoEffect new.
 				          NoEffect new.
 				          NoEffect new.
@@ -789,7 +789,7 @@ LaScalonetaGameTest >> testJorgeMovesForwardFourParsecsWhenLandingOnAHyperJumpEf
 	aBoard := Board
 		          with: { 
 				          NoEffect new.
-				          (HyperJumpEffect with: {LightYears  with: 12. Parsecs with: 2. Parsecs with: 3.}).
+				          (HyperJumpEffect with: {DistanceInLightYears  with: 12. DistanceInParsecs with: 2. DistanceInParsecs with: 3.}).
 				          NoEffect new.
 				          NoEffect new.
 				          NoEffect new.
@@ -856,7 +856,7 @@ LaScalonetaGameTest >> testJorgeMovesForwardThreeParsecsWhenLandingOnAHyperJumpE
 	aBoard := Board
 		          with: { 
 				          NoEffect new.
-				          (HyperJumpEffect with: {Parsecs with: 1. Parsecs with: 2. Parsecs with: 3.}).
+				          (HyperJumpEffect with: {DistanceInParsecs with: 1. DistanceInParsecs with: 2. DistanceInParsecs with: 3.}).
 				          NoEffect new.
 				          NoEffect new.
 				          NoEffect new.
@@ -889,7 +889,7 @@ LaScalonetaGameTest >> testJorgeMovesFowardThreeParsecsAndThenJulianMovesFowardT
 	aBoard := Board
 		          with: { 
 				          NoEffect new.
-				          (HyperJumpEffect with: {Parsecs with: 1. Parsecs with: 2. Parsecs with: 3.}).
+				          (HyperJumpEffect with: {DistanceInParsecs with: 1. DistanceInParsecs with: 2. DistanceInParsecs with: 3.}).
 				          NoEffect new.
 				          NoEffect new.
 				          NoEffect new.
@@ -925,7 +925,7 @@ LaScalonetaGameTest >> testJorgeMovesFowardThreeParsecsThenJulianMovesFowardTwoP
 	aBoard := Board
 		          with: { 
 				          NoEffect new.
-				          (HyperJumpEffect with: {Parsecs with: 2. Parsecs with: 3.}).
+				          (HyperJumpEffect with: {DistanceInParsecs with: 2. DistanceInParsecs with: 3.}).
 				          NoEffect new.
 				          NoEffect new.
 				          NoEffect new.
@@ -1457,7 +1457,7 @@ LaScalonetaGameTest >> testScalonetaGamePlayedWithRandomBoardRandomDieAndDeck [
 				        { 
 				(ProbabilisticEvent with: NoEffect new and: 0.40).
 				(ProbabilisticEvent with: (MoonWalkEffect with: -2) and: 0.10).
-				(ProbabilisticEvent with: (HyperJumpEffect with: {LightYears  with: 12. Parsecs with: 2. Parsecs with: 3.}) and: 0.08).
+				(ProbabilisticEvent with: (HyperJumpEffect with: {DistanceInLightYears  with: 12. DistanceInParsecs with: 2. DistanceInParsecs with: 3.}) and: 0.08).
 				(ProbabilisticEvent with:  AtomicBombEffect new and: 0.02).
 				(ProbabilisticEvent with: WormHoleEffect new and: 0.2).
 				(ProbabilisticEvent with:  SpeedUpEffect new and: 0.2).

@@ -5,8 +5,7 @@ Class {
 }
 
 { #category : #action }
-RepeatCard >> applyIn: aGame from: aSpaceship [
+RepeatCard >> applyIn: aGame from: aSpaceShip [
 
-	aGame validateThrowOfAnInstantaneous: self from: aSpaceship.
-	aGame applyEffectOfTheLastPlayedTileTo: (aGame spaceShips) from:self.
+	aGame applyEffectOfTheLastPlayedTileUsing: self from: aSpaceShip
 ]

@@ -17,9 +17,9 @@ EffectPoolTest >> testEffectPoolSumOfProbabilitiesMustBeEqualsToOne [
 						         and: 0.10).
 					        (ProbabilisticEvent
 						         with: (HyperJumpEffect with: { 
-									          (LightYears with: 12).
-									          (Parsecs with: 2).
-									          (Parsecs with: 3) })
+									          (DistanceInLightYears with: 12).
+									          (DistanceInParsecs with: 2).
+									          (DistanceInParsecs with: 3) })
 						         and: 0.08).
 					        (ProbabilisticEvent with: AtomicBombEffect new and: 0.02).
 					        (ProbabilisticEvent with: WormHoleEffect new and: 0.2).
@@ -47,9 +47,9 @@ EffectPoolTest >> testThatIfHyperJumpEffectHasPointOneProbabilityWhenCreatingEff
 	noEffect := NoEffect new.
 	moonWalkEffect := MoonWalkEffect with: -2.
 	hyperJumpEffect := HyperJumpEffect with: { 
-			                   (LightYears with: 12).
-			                   (Parsecs with: 2).
-			                   (Parsecs with: 3) }.
+			                   (DistanceInLightYears with: 12).
+			                   (DistanceInParsecs with: 2).
+			                   (DistanceInParsecs with: 3) }.
 	atomicBombEffect := AtomicBombEffect new.
 	wormHoleEffect := WormHoleEffect new.
 	speedUpEffect := SpeedUpEffect new.
@@ -78,9 +78,9 @@ EffectPoolTest >> testThatIfMoonWalkEffectHasPointOneProbabilityWhenCreatingEffe
 	noEffect := NoEffect new.
 	moonWalkEffect := MoonWalkEffect with: -2.
 	hyperJumpEffect := HyperJumpEffect with: { 
-			                   (LightYears with: 12).
-			                   (Parsecs with: 2).
-			                   (Parsecs with: 3) }.
+			                   (DistanceInLightYears with: 12).
+			                   (DistanceInParsecs with: 2).
+			                   (DistanceInParsecs with: 3) }.
 	atomicBombEffect := AtomicBombEffect new.
 	wormHoleEffect := WormHoleEffect new.
 	speedUpEffect := SpeedUpEffect new.
@@ -109,9 +109,9 @@ EffectPoolTest >> testThatIfNoEffectHasPointFourProbabilityWhenCreatingEffectPoo
 	noEffect := NoEffect new.
 	moonWalkEffect := MoonWalkEffect with: -2.
 	hyperJumpEffect := HyperJumpEffect with: { 
-			                   (LightYears with: 12).
-			                   (Parsecs with: 2).
-			                   (Parsecs with: 3) }.
+			                   (DistanceInLightYears with: 12).
+			                   (DistanceInParsecs with: 2).
+			                   (DistanceInParsecs with: 3) }.
 	atomicBombEffect := AtomicBombEffect new.
 	wormHoleEffect := WormHoleEffect new.
 	speedUpEffect := SpeedUpEffect new.
@@ -140,9 +140,9 @@ EffectPoolTest >> testThatIfSpeedUpEffectHasPointOneProbabilityWhenCreatingEffec
 	noEffect := NoEffect new.
 	moonWalkEffect := MoonWalkEffect with: -2.
 	hyperJumpEffect := HyperJumpEffect with: { 
-			                   (LightYears with: 12).
-			                   (Parsecs with: 2).
-			                   (Parsecs with: 3) }.
+			                   (DistanceInLightYears with: 12).
+			                   (DistanceInParsecs with: 2).
+			                   (DistanceInParsecs with: 3) }.
 	atomicBombEffect := AtomicBombEffect new.
 	wormHoleEffect := WormHoleEffect new.
 	speedUpEffect := SpeedUpEffect new.
