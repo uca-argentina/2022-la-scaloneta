@@ -39,16 +39,12 @@ Board class >> with: tiles and: parsecs finishingAfter: laps [
 	^ self new initializeWith: tiles and: parsecs finishingAfter: laps
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #conversion }
 Board >> convertDistanceToDistanceInTiles: aDistance [
 
-
-	(aDistance isMemberOf: Parsecs) ifTrue: [ 
-		^ (aDistance amount / (self parsecs / self size)) floor.
-		 ].
+	(aDistance isMemberOf: DistanceInParsecs) ifTrue: [ 
+		^ (aDistance amount / (self parsecs / self size)) floor ].
 	^ aDistance amount
-	
-	
 ]
 
 { #category : #accessing }

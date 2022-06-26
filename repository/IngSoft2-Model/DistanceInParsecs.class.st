@@ -1,5 +1,5 @@
 Class {
-	#name : #Parsecs,
+	#name : #DistanceInParsecs,
 	#superclass : #Object,
 	#instVars : [
 		'amount'
@@ -8,39 +8,39 @@ Class {
 }
 
 { #category : #asserting }
-Parsecs class >> assertAmountIsHigherThanZero: amount [
+DistanceInParsecs class >> assertAmountIsHigherThanZero: amount [
 
 	amount > 0 ifFalse: [ 
 		Error signal: 'Parsecs amount should be greater than zero' ]
 ]
 
 { #category : #'instance creation' }
-Parsecs class >> with: amount [
+DistanceInParsecs class >> with: amount [
 
 	self assertAmountIsHigherThanZero:  amount.
 	^ self new initializeWith: amount
 ]
 
 { #category : #comparing }
-Parsecs >> <= aParsec [
+DistanceInParsecs >> <= aParsec [
 
 	^ self valueAsParsec <= aParsec valueAsParsec
 ]
 
 { #category : #accessing }
-Parsecs >> amount [
+DistanceInParsecs >> amount [
 
 	^ amount
 ]
 
 { #category : #initialization }
-Parsecs >> initializeWith: valueInParsecs [
+DistanceInParsecs >> initializeWith: valueInParsecs [
 
       amount := valueInParsecs 
 ]
 
 { #category : #action }
-Parsecs >> valueAsParsec [
+DistanceInParsecs >> valueAsParsec [
 
       ^ amount
 ]

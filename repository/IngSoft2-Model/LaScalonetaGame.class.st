@@ -39,7 +39,6 @@ LaScalonetaGame class >> playedBy: spaceShips on: board rolling: dice usingCards
 LaScalonetaGame >> addEffectOf: aCard to: aSpaceShip from: spaceShip [
 
 	self validateThrowOfAPermanent: aCard from: spaceShip.
-
 	(self cardHandlerOf: aSpaceShip) addEffectOf: aCard.
 	lastCardPlayed := aCard
 ]
@@ -47,7 +46,7 @@ LaScalonetaGame >> addEffectOf: aCard to: aSpaceShip from: spaceShip [
 { #category : #adding }
 LaScalonetaGame >> addInHand: aCard to: aSpaceShip [
 
-	(self cardHandlerOf: aSpaceShip) addToHand: aCard.
+	(self cardHandlerOf: aSpaceShip) addToHand: aCard
 ]
 
 { #category : #adding }
@@ -72,9 +71,10 @@ LaScalonetaGame >> apply: aCard by: aSpaceShip [
 ]
 
 { #category : #action }
-LaScalonetaGame >> applyEffectOfTheLastPlayedTileTo: aSpaceship from: aCard [
+LaScalonetaGame >> applyEffectOfTheLastPlayedTileUsing: aCard from: aSpaceShip [
 
-	lastTilePlayed applyTo: aSpaceship for: self.
+	self validate: aSpaceShip has: aCard.
+	lastTilePlayed applyTo: spaceShips for: self.
 	lastCardPlayed := aCard
 ]
 
@@ -82,7 +82,6 @@ LaScalonetaGame >> applyEffectOfTheLastPlayedTileTo: aSpaceship from: aCard [
 LaScalonetaGame >> applyEffectTo: aSpaceShips [
 
 	lastTilePlayed := (self board tiles at: (self positionOf: aSpaceShips first) tileNumber).
-
 	lastTilePlayed applyTo: aSpaceShips for: self.
 ]
 
@@ -183,14 +182,13 @@ LaScalonetaGame >> moveToFirstPositionOnSameLap: aSpaceShip [
 LaScalonetaGame >> nextSpaceShipTurn: aSpaceShip [
 
 	spaceShips := (spaceShips reject: [ :each | each = aSpaceShip ]), { aSpaceShip }.
-
-	spaceShipCurrentTurn := spaceShips first
+	spaceShipCurrentTurn := spaceShips first.
 ]
 
 { #category : #playing }
 LaScalonetaGame >> playNextTurn [
 
-	self playTurnFor: spaceShipCurrentTurn
+	self playTurnFor: spaceShipCurrentTurn.
 ]
 
 { #category : #private }
@@ -199,9 +197,7 @@ LaScalonetaGame >> playTurnFor: aSpaceShip [
 	| rollingResult |
 	self assertSpaceShipTurn: aSpaceShip.
 	self assertGameHasNotEnded.
-
 	rollingResult := diceCollection roll.
-
 	self move: aSpaceShip during: (DistanceInTiles with: (rollingResult + (self cardHandlerOf: aSpaceShip) totalEffectsOnSpaceShip)).
 	self selfContinuesDependingOnWhetherTheSpaceShipWonOrNot: aSpaceShip
 ]
@@ -240,12 +236,6 @@ LaScalonetaGame >> selfContinuesDependingOnWhetherTheSpaceShipWonOrNot: aSpaceSh
 			self nextSpaceShipTurn: aSpaceShip ]
 ]
 
-{ #category : #accessing }
-LaScalonetaGame >> spaceShips [
-
-	^ spaceShips
-]
-
 { #category : #classification }
 LaScalonetaGame >> spaceShipsPositionsRanking [
 
@@ -271,12 +261,6 @@ LaScalonetaGame >> validateThrowOfAPermanent: aCard from: aSpaceShip [
 
 	self assertSpaceShipTurn: aSpaceShip.
 	self validate: aSpaceShip has: aCard.
-]
-
-{ #category : #asserting }
-LaScalonetaGame >> validateThrowOfAnInstantaneous: aCard from: aSpaceShip [
-
-	self validate: aSpaceShip has: aCard
 ]
 
 { #category : #accessing }
