@@ -162,20 +162,11 @@ LaScalonetaGame >> lastCardPlayed [
 ]
 
 { #category : #private }
-LaScalonetaGame >> move: aSpaceShip during: aNumberOfTiles [
+LaScalonetaGame >> move: aSpaceShip during: aDistance [
 
 	| oldPosition newPosition |
 	oldPosition := self positionOf: aSpaceShip.
-	newPosition := board move: aNumberOfTiles from: oldPosition.
-	spaceShipPositions add: newPosition
-]
-
-{ #category : #private }
-LaScalonetaGame >> move: aSpaceShip withParsecs: aParsecs [
-
-	| oldPosition newPosition |
-	oldPosition := self positionOf: aSpaceShip.
-	newPosition := board movePasecs: aParsecs from: oldPosition.
+	newPosition := board move: aDistance from: oldPosition.
 	spaceShipPositions add: newPosition
 ]
 
@@ -211,7 +202,7 @@ LaScalonetaGame >> playTurnFor: aSpaceShip [
 
 	rollingResult := diceCollection roll.
 
-	self move: aSpaceShip during: rollingResult + (self cardHandlerOf: aSpaceShip) totalEffectsOnSpaceShip.
+	self move: aSpaceShip during: (DistanceInTiles with: (rollingResult + (self cardHandlerOf: aSpaceShip) totalEffectsOnSpaceShip)).
 	self selfContinuesDependingOnWhetherTheSpaceShipWonOrNot: aSpaceShip
 ]
 

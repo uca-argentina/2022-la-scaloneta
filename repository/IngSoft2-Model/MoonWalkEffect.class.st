@@ -25,7 +25,7 @@ MoonWalkEffect class >> with: aBackwardsDistance [
 MoonWalkEffect >> applyTo: aSpaceShips for: aGame [
 
 	^ aSpaceShips allButFirst do: [ :spaceShip | 
-		  aGame move: spaceShip during: backwardsDistance ]
+		  aGame move: spaceShip during: (DistanceInTiles  with: backwardsDistance)  ]
 ]
 
 { #category : #initialization }

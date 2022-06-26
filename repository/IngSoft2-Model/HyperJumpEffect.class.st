@@ -43,7 +43,7 @@ HyperJumpEffect >> applyTo: aSpaceShips for: aGame [
 
 	^ aGame
 		  move: aSpaceShips first
-		  withParsecs: valueInParsecs 
+		  during: (Parsecs with: valueInParsecs )
 ]
 
 { #category : #initialization }
