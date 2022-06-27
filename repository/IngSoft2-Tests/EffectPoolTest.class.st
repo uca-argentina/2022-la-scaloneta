@@ -40,7 +40,7 @@ EffectPoolTest >> testProbabilityEventProbabilityMustBeBetwenZeroAndOne [
 ]
 
 { #category : #tests }
-EffectPoolTest >> testThatIfHyperJumpEffectHasPointOneProbabilityWhenCreatingEffectPoolThatItHasBetweenPointThreeAndPointThirteenInAOneHundredPool [
+EffectPoolTest >> testThatIfHyperJumpEffectHasPointOneProbabilityWhenCreatingEffectPoolThatItHasBetweenZeroAndEighteenPool [
 
 	| pool count effectCollection noEffect moonWalkEffect hyperJumpEffect atomicBombEffect wormHoleEffect speedUpEffect |
 	
@@ -67,11 +67,11 @@ EffectPoolTest >> testThatIfHyperJumpEffectHasPointOneProbabilityWhenCreatingEff
 
 	count := effectCollection count: [ :effect | effect = hyperJumpEffect ].
 
-	self assert: (count between: 3 and: 13)
+	self assert: (count between: 0 and: 18)
 ]
 
 { #category : #tests }
-EffectPoolTest >> testThatIfMoonWalkEffectHasPointOneProbabilityWhenCreatingEffectPoolThatItHasBetweenPointFiveAndPointFifteenInAOneHundredPool [
+EffectPoolTest >> testThatIfMoonWalkEffectHasPointOneProbabilityWhenCreatingEffectPoolThatItHasBetweenZeroAndTwentyPool [
 
 	| pool count effectCollection noEffect moonWalkEffect hyperJumpEffect atomicBombEffect wormHoleEffect speedUpEffect |
 	
@@ -98,11 +98,11 @@ EffectPoolTest >> testThatIfMoonWalkEffectHasPointOneProbabilityWhenCreatingEffe
 
 	count := effectCollection count: [ :effect | effect = moonWalkEffect ].
 
-	self assert: (count between: 5 and: 15)
+	self assert: (count between: 0 and: 20)
 ]
 
 { #category : #running }
-EffectPoolTest >> testThatIfNoEffectHasPointFourProbabilityWhenCreatingEffectPoolThatItHasBetweenPointhirtyFiveAndPointFourtyFiveInAOneHundredPool [
+EffectPoolTest >> testThatIfNoEffectHasPointFourProbabilityWhenCreatingEffectPoolThatItHasBetweenThirtyAndFiftyPool [
 
 	| pool count effectCollection noEffect moonWalkEffect hyperJumpEffect atomicBombEffect wormHoleEffect speedUpEffect |
 	
@@ -129,11 +129,11 @@ EffectPoolTest >> testThatIfNoEffectHasPointFourProbabilityWhenCreatingEffectPoo
 
 	count := effectCollection count: [ :effect | effect = noEffect ].
 
-	self assert: (count between: 35 and: 45)
+	self assert: (count between: 30 and: 50)
 ]
 
 { #category : #tests }
-EffectPoolTest >> testThatIfSpeedUpEffectHasPointOneProbabilityWhenCreatingEffectPoolThatItHasBetweenPointFifteenAndPointTwentyFiveInAOneHundredPool [
+EffectPoolTest >> testThatIfSpeedUpEffectHasPointOneProbabilityWhenCreatingEffectPoolThatItHasBetweenTenAndThirtyPool [
 
 	| pool count effectCollection noEffect moonWalkEffect hyperJumpEffect atomicBombEffect wormHoleEffect speedUpEffect |
 	
@@ -160,5 +160,5 @@ EffectPoolTest >> testThatIfSpeedUpEffectHasPointOneProbabilityWhenCreatingEffec
 
 	count := effectCollection count: [ :effect | effect = speedUpEffect ].
 
-	self assert: (count between: 15 and: 25)
+	self assert: (count between: 10 and: 30)
 ]

@@ -48,6 +48,12 @@ Board >> convertDistanceToDistanceInTiles: aDistance [
 ]
 
 { #category : #accessing }
+Board >> effectAt: aSpaceShipPosition [
+
+	^ tiles at: (aSpaceShipPosition tileNumber).
+]
+
+{ #category : #accessing }
 Board >> firstTileNumber [
 
 	^ 1
