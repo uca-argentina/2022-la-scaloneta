@@ -22,5 +22,5 @@ DistanceInTiles >> amount [
 { #category : #initialization }
 DistanceInTiles >> initializeWith: distanceAmountInTiles [
 
-      amount := distanceAmountInTiles 
+	amount := distanceAmountInTiles
 ]

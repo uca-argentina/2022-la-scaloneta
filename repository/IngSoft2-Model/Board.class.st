@@ -39,12 +39,12 @@ Board class >> with: tiles and: parsecs finishingAfter: laps [
 	^ self new initializeWith: tiles and: parsecs finishingAfter: laps
 ]
 
-{ #category : #conversion }
+{ #category : #converting }
 Board >> convertDistanceToDistanceInTiles: aDistance [
 
 	(aDistance isMemberOf: DistanceInParsecs) ifTrue: [ 
-		^ (aDistance amount / (self parsecs / self size)) floor ].
-	^ aDistance amount
+		^ (aDistance amount / (parsecs / self size)) floor ].
+	^ aDistance amount.
 ]
 
 { #category : #accessing }
@@ -56,7 +56,7 @@ Board >> effectAt: aSpaceShipPosition [
 { #category : #accessing }
 Board >> firstTileNumber [
 
-	^ 1
+	^ 1.
 ]
 
 { #category : #initialization }
@@ -106,38 +106,23 @@ Board >> moveToFirstPositionOnSameLapFrom: aSpaceShipPosition [
 ]
 
 { #category : #accessing }
-Board >> parsecs [
-
-	^ parsecs
-]
-
-{ #category : #accessing }
 Board >> size [ 
 	
-	^ self tiles size
+	^ tiles size.
 ]
 
 { #category : #asserting }
 Board >> spaceShipPositionIsTheLastOne: aSpaceShipPosition [
 
 	(laps = aSpaceShipPosition lap and: [ 
-		 self size = aSpaceShipPosition tileNumber ])
-		ifTrue: [ ^ true ]
-		ifFalse: [ ^ false ]
+		 self size = aSpaceShipPosition tileNumber ]) ifTrue: [ ^ true ].
+	^ false
 ]
 
 { #category : #initialization }
 Board >> startingPositionsForAll: aGroupOfSpaceShip [
 
 	^ (aGroupOfSpaceShip collect: [ :spaceShip | 
-		                       SpaceShipPosition
-			                       startingOf: spaceShip
-			                       for: self
-			                       at: 1 ]) asOrderedCollection.
-]
-
-{ #category : #accessing }
-Board >> tiles [
-
-	^ tiles
+		   SpaceShipPosition startingOf: spaceShip for: self at: 1 ])
+		  asOrderedCollection
 ]

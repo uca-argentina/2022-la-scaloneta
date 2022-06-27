@@ -27,7 +27,9 @@ EffectPool >> initializeWith: probabilityEventList [
 
 	effectPoolCollection := OrderedCollection new.
 
-	probabilityEventList do: [ :probabilisticEvent | ((probabilisticEvent probability) *100) asInteger timesRepeat:[ effectPoolCollection add: (probabilisticEvent event)] ]
+	probabilityEventList do: [ :probabilisticEvent | 
+		(probabilisticEvent probability * 100) asInteger timesRepeat: [ 
+			effectPoolCollection add: probabilisticEvent event ] ]
 ]
 
 { #category : #accessing }

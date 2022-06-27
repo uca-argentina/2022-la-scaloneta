@@ -24,7 +24,7 @@ RandomDie class >> with: numberOfSides [
 { #category : #initialization }
 RandomDie >> initializeWith: aNumberOfSides [
 
-      numberOfSides := aNumberOfSides.
+	numberOfSides := aNumberOfSides
 ]
 
 { #category : #rolling }

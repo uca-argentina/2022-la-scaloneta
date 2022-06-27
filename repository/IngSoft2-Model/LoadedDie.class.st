@@ -24,11 +24,11 @@ LoadedDie class >> with: result [
 { #category : #initialization }
 LoadedDie >> initializeWith: loadedResult [
 
-      result := loadedResult
+	result := loadedResult
 ]
 
 { #category : #rolling }
 LoadedDie >> roll [
 
-      ^ result
+	^ result
 ]
