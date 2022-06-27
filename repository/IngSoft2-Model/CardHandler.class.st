@@ -10,9 +10,9 @@ Class {
 }
 
 { #category : #'instance creation' }
-CardHandler class >> with: aSpaceShip [
+CardHandler class >> with: aSpaceShip using: aDeck [
  
-	^ self new initializeWith: aSpaceShip
+	^ self new initializeWith: aSpaceShip using: aDeck.
 ]
 
 { #category : #adding }
@@ -33,6 +33,13 @@ CardHandler >> affectsSpaceShip: aCard [
 	^ cardsThatAffect includes: aCard.
 ]
 
+{ #category : #initialization }
+CardHandler >> distributeCardsFrom: aDeck [
+
+	self addToHand: aDeck pick.
+	self addToHand: aDeck pick.
+]
+
 { #category : #testing }
 CardHandler >> hasInHand: aCard [ 
 
@@ -40,11 +47,13 @@ CardHandler >> hasInHand: aCard [
 ]
 
 { #category : #initialization }
-CardHandler >> initializeWith: aSpaceShip [
+CardHandler >> initializeWith: aSpaceShip using: aDeck [
 
 	spaceShip := aSpaceShip.
 	cardsInHand := OrderedCollection new.
 	cardsThatAffect := OrderedCollection new.
+	
+	self distributeCardsFrom: aDeck.
 ]
 
 { #category : #removing }

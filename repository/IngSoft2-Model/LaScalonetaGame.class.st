@@ -80,7 +80,7 @@ LaScalonetaGame >> applyEffectOfTheLastPlayedTileUsing: aCard from: aSpaceShip [
 { #category : #private }
 LaScalonetaGame >> applyEffectTo: aSpaceShips [
 
-	lastTilePlayed := (self board tiles at: (self positionOf: turnHandler currentTurn) tileNumber).
+	lastTilePlayed := (self board effectAt: (self positionOf: turnHandler currentTurn)).
 	lastTilePlayed applyTo: aSpaceShips for: self.
 ]
 
@@ -104,15 +104,6 @@ LaScalonetaGame >> cardHandlerOf: aSpaceShip [
 	spaceShipCardHandler := cardHandlers
 		detect: [ :handler | handler spaceShip = aSpaceShip ].
 	^ spaceShipCardHandler
-]
-
-{ #category : #initialization }
-LaScalonetaGame >> distributeCardsFrom: aDeck [
-
-	cardHandlers
-		do: [ :cardHandler | 
-			cardHandler addToHand: aDeck pick.
-			cardHandler addToHand: aDeck pick ]
 ]
 
 { #category : #action }
@@ -139,10 +130,9 @@ LaScalonetaGame >> initializeWith: aBoard rolling: aDiceCollection playedBy: aSp
 	turnHandler := TurnHandler with: aSpaceShips.
 	deck := aDeck.
 	cardHandlers := aSpaceShips
-		collect: [ :spaceShip | CardHandler with: spaceShip ].
+		collect: [ :spaceShip | CardHandler with: spaceShip using: aDeck].
 	lastCardPlayed := nil.
 	lastTilePlayed := NoEffect new.
-	self distributeCardsFrom: aDeck.
 ]
 
 { #category : #accessing }
