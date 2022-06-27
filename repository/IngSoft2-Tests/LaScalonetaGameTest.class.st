@@ -225,6 +225,56 @@ LaScalonetaGameTest >> testHyperJumpEffectDistanciesCanNotBeEmpty [
 ]
 
 { #category : #tests }
+LaScalonetaGameTest >> testJorgeAndJulianMovesFowardThreeTilesButThenAfterJulianApplyACancellationCardToTheAccelerationCardThatJorgeAppliedTheyOnlyMoveFowardTwoTiles [
+
+	| aGame aBoard aDie1 aDie2 aDiceCup aCancellationCard anAccelerationCard aDeck |
+	
+	aBoard := Board
+		          with: { 
+				          NoEffect new.
+				          NoEffect new.
+				          DeliveryCardEffect new.
+				          NoEffect new.
+				          NoEffect new }
+		          and: 12
+		          finishingAfter: 2.
+		
+	aDie1 := LoadedDie with: 1.
+	aDie2 := LoadedDie with: 1.
+
+	aDiceCup := DiceCup withAll: { 
+			            aDie1.
+			            aDie2}.
+			
+	aCancellationCard := CancellationCard new.
+	anAccelerationCard := AccelerationCard  new.
+	
+	aDeck := LoadedDeck withCards: {anAccelerationCard. aCancellationCard}.
+
+	aGame := LaScalonetaGame
+		         playedBy: { 'Jorge'. 'Julian' }
+		         on: aBoard
+		         rolling: aDiceCup
+		         usingCardsFrom: aDeck.
+		
+	aGame apply: anAccelerationCard by: 'Jorge'.
+	
+	aGame playNextTurn.
+	aGame playNextTurn.
+	
+	self assert: 'Jorge' isAt: 4 with: 1 in: aGame. 
+	self assert: 'Julian' isAt: 4 with: 1 in: aGame. 
+		
+	aGame affect: anAccelerationCard using: aCancellationCard by: 'Julian'.
+	
+	aGame playNextTurn.
+	aGame playNextTurn.
+	
+	self assert: 'Jorge' isAt: 1 with: 2 in: aGame.
+	self assert: 'Julian' isAt: 1 with: 2 in: aGame.
+]
+
+{ #category : #tests }
 LaScalonetaGameTest >> testJorgeCannotThrowAnAccelerationCardThatHeDoesNotHaveInHisHand [
 
 	| aGame aBoard aDie1 aDie2 aDiceCup anAccelerationCard aSpeedCard aDeck |
@@ -1081,7 +1131,7 @@ LaScalonetaGameTest >> testJulianCancelsASpeedCardWhenIsNotHisTurn [
 ]
 
 { #category : #tests }
-LaScalonetaGameTest >> testJulianCannotCancelACardThatIsNotInTheGame [
+LaScalonetaGameTest >> testJulianCannotCancelACardThatIsNotAffectingTheGame [
 
 	| aGame aBoard aDie1 aDie2 aDiceCup aCancellationCard aSpeedCard aDeck |
 	

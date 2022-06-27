@@ -197,7 +197,7 @@ LaScalonetaGame >> removeToAllSpaceShipsPermanent: card from: aSpaceShip using: 
 	
 	handlersWithCardToBeRemoved
 		do: [ :cardHandler | cardHandler removeEffectOf: card ].
-		lastCardPlayed := CancellationCard  new.
+		lastCardPlayed := aCard.
 ]
 
 { #category : #private }
