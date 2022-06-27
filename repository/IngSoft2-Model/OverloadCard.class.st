@@ -13,5 +13,5 @@ OverloadCard >> applyTo: aTarget in: aGame from: aSpaceShip [
 { #category : #accessing }
 OverloadCard >> effect [
 
-	^-2.
+	^ -2
 ]

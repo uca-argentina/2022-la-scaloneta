@@ -13,5 +13,5 @@ SpeedCard >> applyTo: aTarget in: aGame from: aSpaceShip [
 { #category : #accessing }
 SpeedCard >> effect [
 
-	^1.
+	^ 1
 ]

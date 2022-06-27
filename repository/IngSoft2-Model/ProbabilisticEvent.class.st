@@ -27,17 +27,19 @@ ProbabilisticEvent class >> with: event and: probability [
 
 { #category : #accessing }
 ProbabilisticEvent >> event [
-^event
+
+	^ event
 ]
 
 { #category : #initialization }
 ProbabilisticEvent >> initializeWith: aEvent and: aProbability [
 
-      event := aEvent.
-		probability  := aProbability 
+	event := aEvent.
+	probability := aProbability
 ]
 
 { #category : #accessing }
 ProbabilisticEvent >> probability [
-^probability
+
+	^ probability
 ]

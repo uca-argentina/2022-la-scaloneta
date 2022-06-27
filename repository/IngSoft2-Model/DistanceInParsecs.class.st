@@ -36,11 +36,11 @@ DistanceInParsecs >> amount [
 { #category : #initialization }
 DistanceInParsecs >> initializeWith: valueInParsecs [
 
-      amount := valueInParsecs 
+	amount := valueInParsecs
 ]
 
 { #category : #action }
 DistanceInParsecs >> valueAsParsec [
 
-      ^ amount
+	^ amount
 ]

@@ -43,7 +43,7 @@ CardHandler >> distributeCardsFrom: aDeck [
 { #category : #testing }
 CardHandler >> hasInHand: aCard [ 
 
-	^ cardsInHand includes: aCard
+	^ cardsInHand includes: aCard.
 ]
 
 { #category : #initialization }
@@ -52,7 +52,6 @@ CardHandler >> initializeWith: aSpaceShip using: aDeck [
 	spaceShip := aSpaceShip.
 	cardsInHand := OrderedCollection new.
 	cardsThatAffect := OrderedCollection new.
-	
 	self distributeCardsFrom: aDeck.
 ]
 
@@ -63,19 +62,19 @@ CardHandler >> removeEffectOf: aCard [
 ]
 
 { #category : #action }
-CardHandler >> removeFromHand: aCard [ 
+CardHandler >> removeFromHand: aCard [
 
-	cardsInHand remove:aCard.
+	cardsInHand remove: aCard.
 ]
 
 { #category : #accessing }
 CardHandler >> spaceShip [
 
-	^spaceShip 
+	^ spaceShip.
 ]
 
 { #category : #accessing }
 CardHandler >> totalEffectsOnSpaceShip [
 
-	^ cardsThatAffect sum: [ :card | card effect ]	
+	^ cardsThatAffect sum: [ :card | card effect ]	.
 ]

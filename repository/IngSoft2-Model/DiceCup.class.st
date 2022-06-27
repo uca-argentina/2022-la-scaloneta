@@ -24,11 +24,11 @@ DiceCup class >> withAll: dice [
 { #category : #initialization }
 DiceCup >> initializeWithAll: aDice [
 
-      dice := aDice
+	dice := aDice
 ]
 
 { #category : #rolling }
 DiceCup >> roll [
 
-	^ dice sum: [ :die | die roll ]
+	^ dice sum: [ :die | die roll ].
 ]
