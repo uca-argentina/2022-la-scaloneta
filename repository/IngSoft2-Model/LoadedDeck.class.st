@@ -8,14 +8,14 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #'as yet unclassified' }
-LoadedDeck class >> withCards: cards [
+{ #category : #'instance creation' }
+LoadedDeck class >> with: cards [
 
-	^self new initializeWithCards: cards.
+	^self new initializeWith: cards.
 ]
 
 { #category : #actions }
-LoadedDeck >> initializeWithCards: aGroupOfCards [
+LoadedDeck >> initializeWith: aGroupOfCards [
 
 	nextCard := 1.
 	cards := aGroupOfCards
