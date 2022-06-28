@@ -42,21 +42,22 @@ Board class >> with: tiles and: parsecs finishingAfter: laps [
 { #category : #converting }
 Board >> convertDistanceToDistanceInTiles: aDistance [
 
-	(aDistance isMemberOf: DistanceInParsecs) ifTrue: [ 
-		^ (aDistance amount / (parsecs / self size)) floor ].
-	^ aDistance amount.
+	^ (BoardDistanceInTileResolver
+		   from: aDistance
+		   with: self size
+		   and: parsecs) resolve
 ]
 
 { #category : #accessing }
 Board >> effectAt: aSpaceShipPosition [
 
-	^ tiles at: (aSpaceShipPosition tileNumber).
+	^ tiles at: aSpaceShipPosition tileNumber
 ]
 
 { #category : #accessing }
 Board >> firstTileNumber [
 
-	^ 1.
+	^ 1
 ]
 
 { #category : #initialization }
@@ -64,7 +65,7 @@ Board >> initializeWith: aTiles and: aParsecs finishingAfter: aLaps [
 
 	tiles := aTiles.
 	parsecs := aParsecs.
-	laps := aLaps.
+	laps := aLaps
 ]
 
 { #category : #private }
