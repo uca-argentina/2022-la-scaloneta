@@ -10,7 +10,8 @@ Class {
 		'cardHandlers',
 		'deck',
 		'lastCardPlayed',
-		'lastTilePlayed'
+		'lastTilePlayed',
+		'cardPlayResolver'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -48,18 +49,17 @@ LaScalonetaGame >> addInHand: aCard to: aSpaceShip [
 	(self cardHandlerOf: aSpaceShip) addToHand: aCard
 ]
 
-{ #category : #adding }
-LaScalonetaGame >> addToAllEffectOf: aCard from: spaceShip [
-
-	turnHandler spaceShips do: [ :aSpaceship | 
-		self addEffectOf: aCard to: aSpaceship from: spaceShip]
-]
-
 { #category : #action }
 LaScalonetaGame >> affect: aTarget using: aCard by: aSpaceShip [
 
 	aCard applyTo: aTarget in: self from: aSpaceShip.
 	(self cardHandlerOf: aSpaceShip) removeFromHand: aCard
+]
+
+{ #category : #'target resize' }
+LaScalonetaGame >> apply: aCardPlay [
+
+	^ (CardPlayResolver from: aCardPlay in: self) resolve
 ]
 
 { #category : #action }
@@ -75,7 +75,7 @@ LaScalonetaGame >> applyEffectDependingOnWhetherTheSpaceShipWonOrNot: aSpaceShip
 	(board spaceShipPositionIsTheLastOne: (self positionOf: aSpaceShip))
 		ifTrue: [ hasEnded := true ]
 		ifFalse: [ 
-			self applyEffectTo: (turnHandler spaceShips).
+			self applyTileEffectTo: (turnHandler spaceShips).
 			turnHandler next ]
 ]
 
@@ -88,7 +88,7 @@ LaScalonetaGame >> applyEffectOfTheLastPlayedTileUsing: aCard from: aSpaceShip [
 ]
 
 { #category : #private }
-LaScalonetaGame >> applyEffectTo: aSpaceShips [
+LaScalonetaGame >> applyTileEffectTo: aSpaceShips [
 
 	lastTilePlayed := (board effectAt: (self positionOf: turnHandler spaceShipPlaying)).
 	lastTilePlayed applyTo: aSpaceShips for: self.
@@ -213,6 +213,18 @@ LaScalonetaGame >> spaceShipsPositionsRanking [
 
 	^ spaceShipsPositions asSortedCollection: [ :spaceShipA :spaceShipB | 
 		  spaceShipA >= spaceShipB ]
+]
+
+{ #category : #accessing }
+LaScalonetaGame >> turnHandler [
+
+	^ turnHandler
+]
+
+{ #category : #updating }
+LaScalonetaGame >> updateLastCardPlayed: aCard [
+
+	lastCardPlayed := aCard
 ]
 
 { #category : #asserting }

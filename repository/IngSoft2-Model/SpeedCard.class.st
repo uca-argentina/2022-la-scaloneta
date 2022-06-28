@@ -4,6 +4,12 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
+{ #category : #visiting }
+SpeedCard >> accept: aVisitor [ 
+	
+	^ aVisitor visitAsASpeedUpCardPlay.
+]
+
 { #category : #action }
 SpeedCard >> applyTo: aTarget in: aGame from: aSpaceShip [
 
