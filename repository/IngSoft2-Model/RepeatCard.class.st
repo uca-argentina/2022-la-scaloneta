@@ -4,8 +4,8 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #action }
-RepeatCard >> applyIn: aGame from: aSpaceShip [
-
-	aGame applyEffectOfTheLastPlayedTileUsing: self from: aSpaceShip
+{ #category : #visiting }
+RepeatCard >> accept: aVisitor [ 
+	
+	^ aVisitor visitAsARepeatCardPlay.
 ]

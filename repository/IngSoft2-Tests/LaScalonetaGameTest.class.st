@@ -412,7 +412,7 @@ LaScalonetaGameTest >> testJorgeDoesNotMoveFowardAsTheNumberOfParsecsIsNotEnough
 { #category : #tests }
 LaScalonetaGameTest >> testJorgeGetsARepeatCardAndPlaysItWithSpeedUpCard [
 
-	| aGame aBoard aDie1 aDie2 aDiceCup aRepeatCard aDeck |
+	| aGame aBoard aDie1 aDie2 aDiceCup aRepeatCard aDeck cardPlay |
 	
 	aBoard := Board
 		          with: { 
@@ -447,7 +447,8 @@ LaScalonetaGameTest >> testJorgeGetsARepeatCardAndPlaysItWithSpeedUpCard [
 	
 	self assert: 'Jorge' isAt: 2 with: 2 in: aGame. 
 	
-	aGame apply: aRepeatCard by: 'Jorge'.
+	cardPlay :=  CardPlay with: aRepeatCard appliedBy: 'Jorge'.
+	aGame apply: cardPlay.
 	
 	self assert: 'Jorge' isAt: 1 with: 3 in: aGame. 
 ]
@@ -1136,7 +1137,7 @@ LaScalonetaGameTest >> testJulianCannotCancelACardThatIsNotAffectingTheGame [
 { #category : #tests }
 LaScalonetaGameTest >> testJulianCannotThrowAReDoCardBecauseThereWasNoCardPlayedBefore [
 
-	| aGame aBoard aDie1 aDie2 aDiceCup aReDoCard aDeck |
+	| aGame aBoard aDie1 aDie2 aDiceCup aReDoCard aDeck cardPlay |
 	
 	aBoard := Board
 		          with: { 
@@ -1163,10 +1164,12 @@ LaScalonetaGameTest >> testJulianCannotThrowAReDoCardBecauseThereWasNoCardPlayed
 		         playedBy: { 'Jorge'. 'Julian' }
 		         on: aBoard
 		         rolling: aDiceCup
-		         usingCardsFrom: aDeck.	
+		         usingCardsFrom: aDeck.
 		
+	cardPlay := CardPlay with: aReDoCard appliedTo: 'Jorge' by: 'Jorge'.
+
 	self
-		should: [ aGame affect: 'Jorge' using: aReDoCard by: 'Jorge' ]
+		should: [ aGame apply: cardPlay. ]
 		raise: Error
 		withMessage: 'This card cannot be played because there was no card played before'
 	
@@ -1260,7 +1263,7 @@ LaScalonetaGameTest >> testJulianGetsACancellationCardAndGetsRidOfSpeedCard [
 { #category : #tests }
 LaScalonetaGameTest >> testJulianGetsAReDoCardAfterJorgeThrewAnSpeedCardAndPlaysIt [
 
-	| aGame aBoard aDie1 aDie2 aDiceCup aReDoCard aSpeedCard aDeck cardPlay |
+	| aGame aBoard aDie1 aDie2 aDiceCup aReDoCard aSpeedCard aDeck cardPlay cardPlay1 |
 	
 	aBoard := Board
 		          with: { 
@@ -1295,8 +1298,9 @@ LaScalonetaGameTest >> testJulianGetsAReDoCardAfterJorgeThrewAnSpeedCardAndPlays
 				
 	aGame playNextTurn.
 	
-	aGame affect: 'Julian' using: aReDoCard by: 'Julian'.
-	
+	cardPlay1 := CardPlay with: aReDoCard appliedTo: 'Julian' by: 'Julian'.
+	aGame apply: cardPlay1. 
+		
 	aGame playNextTurn.
 
 	self assert: 'Jorge' isAt: 4 with: 1 in: aGame.
@@ -1514,6 +1518,50 @@ LaScalonetaGameTest >> testRefactorACancellationCard [
 	
 	self assert: 'Jorge' isAt: 5 with: 1 in: aGame.
 	self assert: 'Julian' isAt: 1 with: 2 in: aGame.	
+]
+
+{ #category : #tests }
+LaScalonetaGameTest >> testRefactorARepeatCard [
+
+	| aGame aBoard aDie1 aDie2 aDiceCup aRepeatCard aDeck cardPlay |
+	
+	aBoard := Board
+		          with: { 
+				          NoEffect new.
+				          NoEffect new.
+				          SpeedUpEffect new.
+				          NoEffect new.
+				          NoEffect new }
+		          and: 12
+		          finishingAfter: 3.
+		
+	aDie1 := LoadedDie with: 1.
+	aDie2 := LoadedDie with: 1.
+
+	aDiceCup := DiceCup withAll: { 
+			            aDie1.
+			            aDie2}.
+			
+	aRepeatCard := RepeatCard new.
+	
+	
+	aDeck := LoadedDeck withCards: {aRepeatCard}.
+
+	aGame := LaScalonetaGame
+		         playedBy: { 'Jorge'. 'Julian' }
+		         on: aBoard
+		         rolling: aDiceCup
+		         usingCardsFrom: aDeck.
+		
+	aGame playNextTurn.
+	aGame playNextTurn.
+	
+	self assert: 'Jorge' isAt: 2 with: 2 in: aGame. 
+	
+	cardPlay :=  CardPlay with: aRepeatCard appliedBy: 'Jorge'.
+	aGame apply: cardPlay.
+	
+	self assert: 'Jorge' isAt: 1 with: 3 in: aGame. 
 ]
 
 { #category : #tests }

@@ -34,30 +34,10 @@ LaScalonetaGame class >> playedBy: spaceShips on: board rolling: dice usingCards
 		  usingCardsFrom: aDeck.
 ]
 
-{ #category : #adding }
-LaScalonetaGame >> addInHand: aCard to: aSpaceShip [
-
-	(self cardHandlerOf: aSpaceShip) addToHand: aCard
-]
-
-{ #category : #action }
-LaScalonetaGame >> affect: aTarget using: aCard by: aSpaceShip [
-
-	aCard applyTo: aTarget in: self from: aSpaceShip.
-	(self cardHandlerOf: aSpaceShip) removeFromHand: aCard
-]
-
 { #category : #'target resize' }
 LaScalonetaGame >> apply: aCardPlay [
 
 	^ (CardPlayResolver from: aCardPlay in: self) resolve
-]
-
-{ #category : #action }
-LaScalonetaGame >> apply: aCard by: aSpaceShip [
-
-	aCard applyIn: self from: aSpaceShip.
-	(self cardHandlerOf: aSpaceShip) removeFromHand: aCard.
 ]
 
 { #category : #private }
@@ -68,14 +48,6 @@ LaScalonetaGame >> applyEffectDependingOnWhetherTheSpaceShipWonOrNot: aSpaceShip
 		ifFalse: [ 
 			self applyTileEffectTo: (turnHandler spaceShips).
 			turnHandler next ]
-]
-
-{ #category : #action }
-LaScalonetaGame >> applyEffectOfTheLastPlayedTileUsing: aCard from: aSpaceShip [
-
-	self validate: aSpaceShip has: aCard.
-	lastTilePlayed applyTo: (turnHandler spaceShips) for: self.
-	lastCardPlayed := aCard
 ]
 
 { #category : #private }
@@ -142,6 +114,12 @@ LaScalonetaGame >> lastCardPlayed [
 	^ lastCardPlayed
 ]
 
+{ #category : #accessing }
+LaScalonetaGame >> lastTilePlayed [
+
+	^ lastTilePlayed
+]
+
 { #category : #private }
 LaScalonetaGame >> move: aSpaceShip during: aDistance [
 
@@ -205,22 +183,6 @@ LaScalonetaGame >> turnHandler [
 LaScalonetaGame >> updateLastCardPlayed: aCard [
 
 	lastCardPlayed := aCard
-]
-
-{ #category : #asserting }
-LaScalonetaGame >> validate: aSpaceShip has: aCard [
-
-	| spaceShipCardHandler |
-	spaceShipCardHandler := self cardHandlerOf: aSpaceShip.
-	(spaceShipCardHandler hasInHand: aCard) ifFalse: [ 
-		Error signal:'The SpaceShip cannot throw this card because he does not have it' ]
-]
-
-{ #category : #asserting }
-LaScalonetaGame >> validateThrowOfAPermanent: aCard from: aSpaceShip [
-
-	turnHandler assertSpaceShipTurn: aSpaceShip.
-	self validate: aSpaceShip has: aCard.
 ]
 
 { #category : #accessing }
