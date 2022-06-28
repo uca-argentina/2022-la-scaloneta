@@ -4,10 +4,10 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #action }
-SpeedCard >> applyTo: aTarget in: aGame from: aSpaceShip [
-
-	aGame addEffectOf: self to: aTarget from: aSpaceShip.
+{ #category : #visiting }
+SpeedCard >> accept: aVisitor [ 
+	
+	^ aVisitor visitAsASpeedCardPlay.
 ]
 
 { #category : #accessing }

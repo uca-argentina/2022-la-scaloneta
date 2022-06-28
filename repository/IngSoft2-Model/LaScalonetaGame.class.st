@@ -34,39 +34,10 @@ LaScalonetaGame class >> playedBy: spaceShips on: board rolling: dice usingCards
 		  usingCardsFrom: aDeck.
 ]
 
-{ #category : #adding }
-LaScalonetaGame >> addEffectOf: aCard to: aSpaceShip from: spaceShip [
+{ #category : #'target resize' }
+LaScalonetaGame >> apply: aCardPlay [
 
-	self validateThrowOfAPermanent: aCard from: spaceShip.
-	(self cardHandlerOf: aSpaceShip) addEffectOf: aCard.
-	lastCardPlayed := aCard
-]
-
-{ #category : #adding }
-LaScalonetaGame >> addInHand: aCard to: aSpaceShip [
-
-	(self cardHandlerOf: aSpaceShip) addToHand: aCard
-]
-
-{ #category : #adding }
-LaScalonetaGame >> addToAllEffectOf: aCard from: spaceShip [
-
-	turnHandler spaceShips do: [ :aSpaceship | 
-		self addEffectOf: aCard to: aSpaceship from: spaceShip]
-]
-
-{ #category : #action }
-LaScalonetaGame >> affect: aTarget using: aCard by: aSpaceShip [
-
-	aCard applyTo: aTarget in: self from: aSpaceShip.
-	(self cardHandlerOf: aSpaceShip) removeFromHand: aCard
-]
-
-{ #category : #action }
-LaScalonetaGame >> apply: aCard by: aSpaceShip [
-
-	aCard applyIn: self from: aSpaceShip.
-	(self cardHandlerOf: aSpaceShip) removeFromHand: aCard.
+	^ (CardPlayResolver from: aCardPlay in: self) resolve
 ]
 
 { #category : #private }
@@ -75,20 +46,12 @@ LaScalonetaGame >> applyEffectDependingOnWhetherTheSpaceShipWonOrNot: aSpaceShip
 	(board spaceShipPositionIsTheLastOne: (self positionOf: aSpaceShip))
 		ifTrue: [ hasEnded := true ]
 		ifFalse: [ 
-			self applyEffectTo: (turnHandler spaceShips).
+			self applyTileEffectTo: (turnHandler spaceShips).
 			turnHandler next ]
 ]
 
-{ #category : #action }
-LaScalonetaGame >> applyEffectOfTheLastPlayedTileUsing: aCard from: aSpaceShip [
-
-	self validate: aSpaceShip has: aCard.
-	lastTilePlayed applyTo: (turnHandler spaceShips) for: self.
-	lastCardPlayed := aCard
-]
-
 { #category : #private }
-LaScalonetaGame >> applyEffectTo: aSpaceShips [
+LaScalonetaGame >> applyTileEffectTo: aSpaceShips [
 
 	lastTilePlayed := (board effectAt: (self positionOf: turnHandler spaceShipPlaying)).
 	lastTilePlayed applyTo: aSpaceShips for: self.
@@ -108,6 +71,12 @@ LaScalonetaGame >> cardHandlerOf: aSpaceShip [
 	spaceShipCardHandler := cardHandlers
 		detect: [ :handler | handler spaceShip = aSpaceShip ].
 	^ spaceShipCardHandler
+]
+
+{ #category : #accessing }
+LaScalonetaGame >> cardHandlers [
+
+	^ cardHandlers
 ]
 
 { #category : #action }
@@ -143,6 +112,12 @@ LaScalonetaGame >> initializeWith: aBoard rolling: aDiceCollection playedBy: aSp
 LaScalonetaGame >> lastCardPlayed [
 
 	^ lastCardPlayed
+]
+
+{ #category : #accessing }
+LaScalonetaGame >> lastTilePlayed [
+
+	^ lastTilePlayed
 ]
 
 { #category : #private }
@@ -187,23 +162,6 @@ LaScalonetaGame >> positionOf: aSpaceShip [
 		   position spaceShip = aSpaceShip ]) last
 ]
 
-{ #category : #removing }
-LaScalonetaGame >> removeToAllSpaceShipsPermanent: card from: aSpaceShip using: aCard [
-
-	| handlersWithCardToBeRemoved |
-	
-	self validate: aSpaceShip has: aCard.
-	
-	handlersWithCardToBeRemoved := cardHandlers
-		select: [ :cardHandler | cardHandler affectsSpaceShip: card ].
-	
-	(handlersWithCardToBeRemoved isEmpty) ifTrue: [ Error signal: 'There is no Card Handler with the card to be removed' ].
-	
-	handlersWithCardToBeRemoved
-		do: [ :cardHandler | cardHandler removeEffectOf: card ].
-		lastCardPlayed := aCard.
-]
-
 { #category : #classification }
 LaScalonetaGame >> spaceShipsPositionsRanking [
 
@@ -215,20 +173,16 @@ LaScalonetaGame >> spaceShipsPositionsRanking [
 		  spaceShipA >= spaceShipB ]
 ]
 
-{ #category : #asserting }
-LaScalonetaGame >> validate: aSpaceShip has: aCard [
+{ #category : #accessing }
+LaScalonetaGame >> turnHandler [
 
-	| spaceShipCardHandler |
-	spaceShipCardHandler := self cardHandlerOf: aSpaceShip.
-	(spaceShipCardHandler hasInHand: aCard) ifFalse: [ 
-		Error signal:'The SpaceShip cannot throw this card because he does not have it' ]
+	^ turnHandler
 ]
 
-{ #category : #asserting }
-LaScalonetaGame >> validateThrowOfAPermanent: aCard from: aSpaceShip [
+{ #category : #updating }
+LaScalonetaGame >> updateLastCardPlayed: aCard [
 
-	turnHandler assertSpaceShipTurn: aSpaceShip.
-	self validate: aSpaceShip has: aCard.
+	lastCardPlayed := aCard
 ]
 
 { #category : #accessing }

@@ -4,10 +4,10 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #action }
-OverloadCard >> applyTo: aTarget in: aGame from: aSpaceShip [
-
-	aGame addEffectOf: self to: aTarget from: aSpaceShip. 
+{ #category : #visiting }
+OverloadCard >> accept: aVisitor [ 
+	
+	^ aVisitor visitAsAnOverloadCardPlay.
 ]
 
 { #category : #accessing }
