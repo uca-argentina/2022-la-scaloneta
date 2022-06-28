@@ -227,7 +227,7 @@ LaScalonetaGameTest >> testHyperJumpEffectDistanciesCanNotBeEmpty [
 { #category : #tests }
 LaScalonetaGameTest >> testJorgeAndJulianMovesFowardThreeTilesButThenAfterJulianApplyACancellationCardToTheAccelerationCardThatJorgeAppliedTheyOnlyMoveFowardTwoTiles [
 
-	| aGame aBoard aDie1 aDie2 aDiceCup aCancellationCard anAccelerationCard aDeck cardPlay |
+	| aGame aBoard aDie1 aDie2 aDiceCup aCancellationCard anAccelerationCard aDeck cardPlay cardPlay1 |
 	
 	aBoard := Board
 		          with: { 
@@ -267,7 +267,8 @@ LaScalonetaGameTest >> testJorgeAndJulianMovesFowardThreeTilesButThenAfterJulian
 	self assert: 'Jorge' isAt: 4 with: 1 in: aGame. 
 	self assert: 'Julian' isAt: 4 with: 1 in: aGame. 
 		
-	aGame affect: anAccelerationCard using: aCancellationCard by: 'Julian'.
+	cardPlay1 := CardPlay with: aCancellationCard appliedTo: anAccelerationCard by: 'Julian'.
+	aGame apply: cardPlay1.
 	
 	aGame playNextTurn.
 	aGame playNextTurn.
@@ -506,9 +507,7 @@ LaScalonetaGameTest >> testJorgeGetsAndThrowsAnAccelerationAffectingAllSpaceShip
 { #category : #tests }
 LaScalonetaGameTest >> testJorgeGetsAndThrowsAnOverloadCardAffectingJulianSoJuliaStaysAtTheFirstPositionWhenHisRollingResultIsOneAsHeCanNotMoveFurtherBackThanFirstPosition [
 
-	| aGame aBoard aDie1 aOverloadCard aDeck |
-
-	aOverloadCard := OverloadCard new.
+	| aGame aBoard aDie1 anOverloadCard aDeck cardPlay |
 	
 	aBoard := Board
 		          with: { 
@@ -522,9 +521,9 @@ LaScalonetaGameTest >> testJorgeGetsAndThrowsAnOverloadCardAffectingJulianSoJuli
 		
 	aDie1 := LoadedDie with: 1.
 	
-	aOverloadCard := OverloadCard new.
+	anOverloadCard := OverloadCard new.
 
-	aDeck := Deck with: {aOverloadCard}.
+	aDeck := Deck with: {anOverloadCard}.
 
 	aGame := LaScalonetaGame
 		         playedBy: { 'Jorge'. 'Julian' }
@@ -535,7 +534,9 @@ LaScalonetaGameTest >> testJorgeGetsAndThrowsAnOverloadCardAffectingJulianSoJuli
 	self assert: 'Jorge' isAt: 1 with: 1 in: aGame. 
 	self assert: 'Julian' isAt: 1 with: 1 in: aGame.
 	
-	aGame affect: 'Julian' using: aOverloadCard by: 'Jorge'.
+	cardPlay := CardPlay with: anOverloadCard appliedTo: 'Julian' by: 'Jorge'.
+	aGame apply: cardPlay.
+	
 	aGame playNextTurn.
 	
 	self assert: 'Jorge' isAt: 2 with: 1 in: aGame.
@@ -545,9 +546,9 @@ LaScalonetaGameTest >> testJorgeGetsAndThrowsAnOverloadCardAffectingJulianSoJuli
 { #category : #tests }
 LaScalonetaGameTest >> testJorgeGetsAndThrowsAnOverloadCardAffectingJulianSoJulianMovesOneTileBackwardsWhenHisRollingResultIsOne [
 
-	| aGame aBoard aDie1 aOverloadCard aDeck |
+	| aGame aBoard aDie1 anOverloadCard aDeck cardPlay |
 
-	aOverloadCard := OverloadCard new.
+	anOverloadCard := OverloadCard new.
 	
 	aBoard := Board
 		          with: { 
@@ -561,9 +562,9 @@ LaScalonetaGameTest >> testJorgeGetsAndThrowsAnOverloadCardAffectingJulianSoJuli
 		
 	aDie1 := LoadedDie with: 1.
 	
-	aOverloadCard := OverloadCard new.
+	anOverloadCard := OverloadCard new.
 
-	aDeck := Deck with: {aOverloadCard}.
+	aDeck := Deck with: {anOverloadCard}.
 
 	aGame := LaScalonetaGame
 		         playedBy: { 'Jorge'. 'Julian' }
@@ -574,7 +575,9 @@ LaScalonetaGameTest >> testJorgeGetsAndThrowsAnOverloadCardAffectingJulianSoJuli
 	aGame playNextTurn.
 	aGame playNextTurn.
 		
-	aGame affect: 'Julian' using: aOverloadCard by: 'Jorge'.
+	cardPlay := CardPlay with: anOverloadCard appliedTo: 'Julian' by: 'Jorge'.
+	aGame apply: cardPlay.
+	
 	aGame playNextTurn.
 	
 	self assert: 'Jorge' isAt: 3 with: 1 in: aGame.
@@ -589,9 +592,9 @@ LaScalonetaGameTest >> testJorgeGetsAndThrowsAnOverloadCardAffectingJulianSoJuli
 { #category : #tests }
 LaScalonetaGameTest >> testJorgeGetsAndThrowsAnOverloadCardAffectingJulianSoJulianMovesOneTileFowardWhenHisRollingResultIsThree [
 
-	| aGame aBoard aDie1 aOverloadCard aDeck aDie2 aDiceCup |
+	| aGame aBoard aDie1 anOverloadCard aDeck aDie2 aDiceCup cardPlay |
 
-	aOverloadCard := OverloadCard new.
+	anOverloadCard := OverloadCard new.
 	
 	aBoard := Board
 		          with: { 
@@ -610,9 +613,9 @@ LaScalonetaGameTest >> testJorgeGetsAndThrowsAnOverloadCardAffectingJulianSoJuli
 			            aDie1.
 			            aDie2}.
 	
-	aOverloadCard := OverloadCard new.
+	anOverloadCard := OverloadCard new.
 
-	aDeck := Deck with: {aOverloadCard}.
+	aDeck := Deck with: {anOverloadCard}.
 
 	aGame := LaScalonetaGame
 		         playedBy: { 'Jorge'. 'Julian' }
@@ -623,7 +626,9 @@ LaScalonetaGameTest >> testJorgeGetsAndThrowsAnOverloadCardAffectingJulianSoJuli
 	aGame playNextTurn.
 	aGame playNextTurn.
 		
-	aGame affect: 'Julian' using: aOverloadCard by: 'Jorge'.
+	cardPlay := CardPlay with: anOverloadCard appliedTo: 'Julian' by: 'Jorge'.
+	aGame apply: cardPlay.
+	
 	aGame playNextTurn.
 	
 	self assert: 'Jorge' isAt: 2 with: 2 in: aGame.
@@ -963,7 +968,7 @@ LaScalonetaGameTest >> testJorgeMovesFowardThreeParsecsThenJulianMovesFowardTwoP
 { #category : #tests }
 LaScalonetaGameTest >> testJorgeThrowsTwoSpeedCardsSoWhenHeRollsTheLoadedDieWithOneHeMovesFowardToTheSpeedUpEffectSoHisFinalPositionIsTileNumberEight [
 
-	| aGame aBoard aDie1 aDeck aSpeedCard |
+	| aGame aBoard aDie1 aDeck aSpeedCard cardPlay |
 	aBoard := Board
 		          with: { 
 				          NoEffect new.
@@ -987,14 +992,14 @@ LaScalonetaGameTest >> testJorgeThrowsTwoSpeedCardsSoWhenHeRollsTheLoadedDieWith
 		         on: aBoard
 		         rolling: aDie1
 		         usingCardsFrom: aDeck.
-	aGame affect: 'Jorge' using: aSpeedCard by: 'Jorge'.
-	aGame affect: 'Jorge' using: aSpeedCard by: 'Jorge'.
+		
+	cardPlay := CardPlay with: aSpeedCard appliedTo: 'Jorge' by: 'Jorge'.
+	aGame apply: cardPlay.	
+	aGame apply: cardPlay.	
+
 	aGame playNextTurn.
-	self
-		assert: 'Jorge'
-		isAt: 8
-		with: 1
-		in: aGame
+	
+	self assert: 'Jorge' isAt: 8 with: 1 in: aGame
 ]
 
 { #category : #tests }
@@ -1038,7 +1043,7 @@ LaScalonetaGameTest >> testJorgeWinsLaScalonetaGameWhenJorgeReachesTheEndFirst [
 { #category : #tests }
 LaScalonetaGameTest >> testJulianCancelsASpeedCardWhenIsNotHisTurn [
 
-	| aGame aBoard aDie1 aDie2 aDiceCup aCancellationCard aSpeedCard aDeck |
+	| aGame aBoard aDie1 aDie2 aDiceCup aCancellationCard aSpeedCard aDeck cardPlay cardPlay1 |
 	
 	aBoard := Board
 		          with: { 
@@ -1071,8 +1076,11 @@ LaScalonetaGameTest >> testJulianCancelsASpeedCardWhenIsNotHisTurn [
 	self assert: 'Jorge' isAt: 1 with: 1 in: aGame. 
 	self assert: 'Julian' isAt: 1 with: 1 in: aGame. 
 		
-	aGame affect: 'Julian' using: aSpeedCard by: 'Jorge'.
-	aGame affect: aSpeedCard using: aCancellationCard by: 'Julian'.
+	cardPlay := CardPlay with: aSpeedCard appliedTo: 'Julian' by: 'Jorge'.
+	aGame apply: cardPlay.
+	
+	cardPlay1 := CardPlay with: aCancellationCard appliedTo: aSpeedCard by: 'Julian'.
+	aGame apply: cardPlay1.
 	
 	aGame playNextTurn.
 	
@@ -1085,7 +1093,7 @@ LaScalonetaGameTest >> testJulianCancelsASpeedCardWhenIsNotHisTurn [
 { #category : #tests }
 LaScalonetaGameTest >> testJulianCannotCancelACardThatIsNotAffectingTheGame [
 
-	| aGame aBoard aDie1 aDie2 aDiceCup aCancellationCard aSpeedCard aDeck |
+	| aGame aBoard aDie1 aDie2 aDiceCup aCancellationCard aSpeedCard aDeck cardPlay1 |
 	
 	aBoard := Board
 		          with: { 
@@ -1117,8 +1125,10 @@ LaScalonetaGameTest >> testJulianCannotCancelACardThatIsNotAffectingTheGame [
 	
 	aGame playNextTurn.
 	
+	cardPlay1 := CardPlay with: aCancellationCard appliedTo: aSpeedCard by: 'Julian'.
+	
 	self
-		should: [ aGame affect: aSpeedCard using: aCancellationCard by: 'Julian' ]
+		should: [ aGame apply: cardPlay1. ]
 		raise: Error
 		withMessage: 'There is no Card Handler with the card to be removed'
 ]
@@ -1197,7 +1207,7 @@ LaScalonetaGameTest >> testJulianDoesNotGoBackFurtherThanFirstPositionOfFirstLap
 { #category : #tests }
 LaScalonetaGameTest >> testJulianGetsACancellationCardAndGetsRidOfSpeedCard [
 
-	| aGame aBoard aDie1 aDie2 aDiceCup aCancellationCard aSpeedCard aDeck |
+	| aGame aBoard aDie1 aDie2 aDiceCup aCancellationCard aSpeedCard aDeck cardPlay cardPlay1 |
 	
 	aBoard := Board
 		          with: { 
@@ -1227,7 +1237,8 @@ LaScalonetaGameTest >> testJulianGetsACancellationCardAndGetsRidOfSpeedCard [
 		         rolling: aDiceCup
 		         usingCardsFrom: aDeck.
 	
-	aGame affect: 'Julian' using: aSpeedCard by: 'Jorge'.
+	cardPlay := CardPlay with: aSpeedCard appliedTo: 'Julian' by: 'Jorge'.
+	aGame apply: cardPlay.
 	
 	aGame playNextTurn.
 	aGame playNextTurn.
@@ -1236,7 +1247,8 @@ LaScalonetaGameTest >> testJulianGetsACancellationCardAndGetsRidOfSpeedCard [
 	self assert: 'Jorge' isAt: 5 with: 1 in: aGame.
 	self assert: 'Julian' isAt: 4 with: 1 in: aGame.
 	
-	aGame affect: aSpeedCard using: aCancellationCard by: 'Julian'.
+	cardPlay1 := CardPlay with: aCancellationCard appliedTo: aSpeedCard by: 'Julian'.
+	aGame apply: cardPlay1.
 
 	aGame playNextTurn.
 	aGame playNextTurn.
@@ -1248,7 +1260,7 @@ LaScalonetaGameTest >> testJulianGetsACancellationCardAndGetsRidOfSpeedCard [
 { #category : #tests }
 LaScalonetaGameTest >> testJulianGetsAReDoCardAfterJorgeThrewAnSpeedCardAndPlaysIt [
 
-	| aGame aBoard aDie1 aDie2 aDiceCup aReDoCard aSpeedCard aDeck |
+	| aGame aBoard aDie1 aDie2 aDiceCup aReDoCard aSpeedCard aDeck cardPlay |
 	
 	aBoard := Board
 		          with: { 
@@ -1278,8 +1290,9 @@ LaScalonetaGameTest >> testJulianGetsAReDoCardAfterJorgeThrewAnSpeedCardAndPlays
 		         rolling: aDiceCup
 		         usingCardsFrom: aDeck.
 	
-	aGame affect: 'Jorge' using: aSpeedCard by: 'Jorge'.
-					
+	cardPlay := CardPlay with: aSpeedCard appliedTo: 'Jorge' by: 'Jorge'.
+	aGame apply: cardPlay.
+				
 	aGame playNextTurn.
 	
 	aGame affect: 'Julian' using: aReDoCard by: 'Julian'.
@@ -1452,6 +1465,58 @@ LaScalonetaGameTest >> testPlayingAfterWinningIsNotAllowed [
 ]
 
 { #category : #tests }
+LaScalonetaGameTest >> testRefactorACancellationCard [
+
+	| aGame aBoard aDie1 aDie2 aDiceCup aCancellationCard aSpeedCard aDeck cardPlay cardPlay1|
+	
+	aBoard := Board
+		          with: { 
+				          NoEffect new.
+				          NoEffect new.
+				          DeliveryCardEffect new.
+				          NoEffect new.
+				          NoEffect new }
+		          and: 12
+		          finishingAfter: 2.
+		
+	aDie1 := LoadedDie with: 1.
+	aDie2 := LoadedDie with: 1.
+
+	aDiceCup := DiceCup withAll: { 
+			            aDie1.
+			            aDie2}.
+			
+	aCancellationCard := CancellationCard new.
+	aSpeedCard := SpeedCard new.
+	
+	aDeck := LoadedDeck withCards: {aSpeedCard. aCancellationCard}.
+
+	aGame := LaScalonetaGame
+		         playedBy: { 'Jorge'. 'Julian' }
+		         on: aBoard
+		         rolling: aDiceCup
+		         usingCardsFrom: aDeck.
+	
+	cardPlay := CardPlay with: aSpeedCard appliedTo: 'Julian' by: 'Jorge'.
+	aGame apply: cardPlay.
+	
+	aGame playNextTurn.
+	aGame playNextTurn.
+	
+	self assert: 'Jorge' isAt: 3 with: 1 in: aGame.
+	self assert: 'Julian' isAt: 4 with: 1 in: aGame.
+	
+	cardPlay1 := CardPlay with: aCancellationCard appliedTo: aSpeedCard by: 'Julian'.
+	aGame apply: cardPlay1.
+
+	aGame playNextTurn.
+	aGame playNextTurn.
+	
+	self assert: 'Jorge' isAt: 5 with: 1 in: aGame.
+	self assert: 'Julian' isAt: 1 with: 2 in: aGame.	
+]
+
+{ #category : #tests }
 LaScalonetaGameTest >> testRefactorASpeedCard [
 
 	| aGame aBoard aDie1 aDie2 aDiceCup aSpeedCard aDeck cardPlay |
@@ -1539,6 +1604,51 @@ LaScalonetaGameTest >> testRefactorAnAccelerationCard [
 	
 	self assert: 'Jorge' isAt: 4 with: 1 in: aGame.
 	self assert: 'Julian' isAt: 4 with: 1 in: aGame.
+]
+
+{ #category : #tests }
+LaScalonetaGameTest >> testRefactorAnOverloadCard [
+
+	| aGame aBoard aDie1 aDie2 aDiceCup anOverloadCard aDeck cardPlay |
+
+	aBoard := Board
+		          with: { 
+				          NoEffect new.
+				          NoEffect new.
+				          DeliveryCardEffect new.
+				          NoEffect new.
+				          NoEffect new }
+		          and: 12
+		          finishingAfter: 2.
+		
+	aDie1 := LoadedDie with: 1.
+	aDie2 := LoadedDie with: 1.
+
+	aDiceCup := DiceCup withAll: { 
+			            aDie1.
+			            aDie2}.
+
+	anOverloadCard := OverloadCard new.
+
+	aDeck := Deck with: {anOverloadCard}.
+
+	aGame := LaScalonetaGame
+		         playedBy: { 'Jorge'. 'Julian' }
+		         on: aBoard
+		         rolling: aDiceCup
+		         usingCardsFrom: aDeck.
+	
+	self assert: 'Jorge' isAt: 1 with: 1 in: aGame. 
+	self assert: 'Julian' isAt: 1 with: 1 in: aGame.
+	
+	cardPlay := CardPlay with: anOverloadCard appliedTo: 'Julian' by: 'Jorge'.
+	aGame apply: cardPlay.
+	
+	aGame playNextTurn.
+	aGame playNextTurn.
+	
+	self assert: 'Jorge' isAt: 3 with: 1 in: aGame.
+	self assert: 'Julian' isAt: 1 with: 1 in: aGame.
 ]
 
 { #category : #tests }

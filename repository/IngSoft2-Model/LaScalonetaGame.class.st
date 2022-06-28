@@ -35,14 +35,6 @@ LaScalonetaGame class >> playedBy: spaceShips on: board rolling: dice usingCards
 ]
 
 { #category : #adding }
-LaScalonetaGame >> addEffectOf: aCard to: aSpaceShip from: spaceShip [
-
-	self validateThrowOfAPermanent: aCard from: spaceShip.
-	(self cardHandlerOf: aSpaceShip) addEffectOf: aCard.
-	lastCardPlayed := aCard
-]
-
-{ #category : #adding }
 LaScalonetaGame >> addInHand: aCard to: aSpaceShip [
 
 	(self cardHandlerOf: aSpaceShip) addToHand: aCard
@@ -107,6 +99,12 @@ LaScalonetaGame >> cardHandlerOf: aSpaceShip [
 	spaceShipCardHandler := cardHandlers
 		detect: [ :handler | handler spaceShip = aSpaceShip ].
 	^ spaceShipCardHandler
+]
+
+{ #category : #accessing }
+LaScalonetaGame >> cardHandlers [
+
+	^ cardHandlers
 ]
 
 { #category : #action }
@@ -184,23 +182,6 @@ LaScalonetaGame >> positionOf: aSpaceShip [
 
 	^ (spaceShipPositions select: [ :position | 
 		   position spaceShip = aSpaceShip ]) last
-]
-
-{ #category : #removing }
-LaScalonetaGame >> removeToAllSpaceShipsPermanent: card from: aSpaceShip using: aCard [
-
-	| handlersWithCardToBeRemoved |
-	
-	self validate: aSpaceShip has: aCard.
-	
-	handlersWithCardToBeRemoved := cardHandlers
-		select: [ :cardHandler | cardHandler affectsSpaceShip: card ].
-	
-	(handlersWithCardToBeRemoved isEmpty) ifTrue: [ Error signal: 'There is no Card Handler with the card to be removed' ].
-	
-	handlersWithCardToBeRemoved
-		do: [ :cardHandler | cardHandler removeEffectOf: card ].
-		lastCardPlayed := aCard.
 ]
 
 { #category : #classification }

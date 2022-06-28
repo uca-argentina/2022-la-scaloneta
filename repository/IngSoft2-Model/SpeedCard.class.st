@@ -7,13 +7,7 @@ Class {
 { #category : #visiting }
 SpeedCard >> accept: aVisitor [ 
 	
-	^ aVisitor visitAsASpeedUpCardPlay.
-]
-
-{ #category : #action }
-SpeedCard >> applyTo: aTarget in: aGame from: aSpaceShip [
-
-	aGame addEffectOf: self to: aTarget from: aSpaceShip.
+	^ aVisitor visitAsASpeedCardPlay.
 ]
 
 { #category : #accessing }
