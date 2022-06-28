@@ -10,8 +10,7 @@ Class {
 		'cardHandlers',
 		'deck',
 		'lastCardPlayed',
-		'lastTilePlayed',
-		'cardPlayResolver'
+		'lastTilePlayed'
 	],
 	#category : #'IngSoft2-Model'
 }
