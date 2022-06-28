@@ -6,11 +6,11 @@ Class {
 		'diceCollection',
 		'hasEnded',
 		'spaceShipPositions',
-		'turnHandler',
-		'cardHandlers',
 		'deck',
 		'lastCardPlayed',
-		'lastTilePlayed'
+		'lastTilePlayed',
+		'cardHands',
+		'turnsSequence'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -46,14 +46,14 @@ LaScalonetaGame >> applyEffectDependingOnWhetherTheSpaceShipWonOrNot: aSpaceShip
 	(board spaceShipPositionIsTheLastOne: (self positionOf: aSpaceShip))
 		ifTrue: [ hasEnded := true ]
 		ifFalse: [ 
-			self applyTileEffectTo: (turnHandler spaceShips).
-			turnHandler next ]
+			self applyTileEffectTo: (turnsSequence spaceShips).
+			turnsSequence next ]
 ]
 
 { #category : #private }
 LaScalonetaGame >> applyTileEffectTo: aSpaceShips [
 
-	lastTilePlayed := (board effectAt: (self positionOf: turnHandler spaceShipPlaying)).
+	lastTilePlayed := (board effectAt: (self positionOf: turnsSequence spaceShipPlaying)).
 	lastTilePlayed applyTo: aSpaceShips for: self.
 ]
 
@@ -65,18 +65,18 @@ LaScalonetaGame >> assertGameHasNotEnded [
 ]
 
 { #category : #accessing }
-LaScalonetaGame >> cardHandlerOf: aSpaceShip [
+LaScalonetaGame >> cardsHandOf: aSpaceShip [
 
 	| spaceShipCardHandler |
-	spaceShipCardHandler := cardHandlers
+	spaceShipCardHandler := cardHands
 		detect: [ :handler | handler spaceShip = aSpaceShip ].
 	^ spaceShipCardHandler
 ]
 
 { #category : #accessing }
-LaScalonetaGame >> cardHandlers [
+LaScalonetaGame >> cardsHands [
 
-	^ cardHandlers
+	^ cardHands
 ]
 
 { #category : #action }
@@ -84,7 +84,7 @@ LaScalonetaGame >> giveCardFromDeckTo: aSpaceShip [
 
 	| card |
 	card := deck pick.
-	(self cardHandlerOf: aSpaceShip) addToHand: card
+	(self cardsHandOf: aSpaceShip) addToHand: card
 ]
 
 { #category : #testing }
@@ -100,10 +100,10 @@ LaScalonetaGame >> initializeWith: aBoard rolling: aDiceCollection playedBy: aSp
 	diceCollection := aDiceCollection.
 	hasEnded := false.
 	spaceShipPositions := board startingPositionsForAll: aSpaceShips.
-	turnHandler := TurnHandler with: aSpaceShips.
+	turnsSequence := TurnsSequence with: aSpaceShips.
 	deck := aDeck.
-	cardHandlers := aSpaceShips
-		collect: [ :spaceShip | CardHandler with: spaceShip using: aDeck].
+	cardHands := aSpaceShips
+		collect: [ :spaceShip | CardsHand with: spaceShip using: aDeck].
 	lastCardPlayed := nil.
 	lastTilePlayed := NoEffect new.
 ]
@@ -141,17 +141,17 @@ LaScalonetaGame >> moveToFirstPositionOnSameLap: aSpaceShip [
 { #category : #playing }
 LaScalonetaGame >> playNextTurn [
 
-	self playTurnFor: turnHandler spaceShipPlaying.
+	self playTurnFor: turnsSequence spaceShipPlaying.
 ]
 
 { #category : #private }
 LaScalonetaGame >> playTurnFor: aSpaceShip [
 
 	| rollingResult |
-	turnHandler assertSpaceShipTurn: aSpaceShip.
+	turnsSequence assertSpaceShipTurn: aSpaceShip.
 	self assertGameHasNotEnded.
 	rollingResult := diceCollection roll.
-	self move: aSpaceShip during: (DistanceInTiles with: (rollingResult + (self cardHandlerOf: aSpaceShip) totalEffectsOnSpaceShip)).
+	self move: aSpaceShip during: (DistanceInTiles with: (rollingResult + (self cardsHandOf: aSpaceShip) totalEffectsOnSpaceShip)).
 	self applyEffectDependingOnWhetherTheSpaceShipWonOrNot: aSpaceShip
 ]
 
@@ -166,7 +166,7 @@ LaScalonetaGame >> positionOf: aSpaceShip [
 LaScalonetaGame >> spaceShipsPositionsRanking [
 
 	| spaceShipsPositions |
-	spaceShipsPositions := (turnHandler spaceShips) collect: [ :aSpaceShip | 
+	spaceShipsPositions := (turnsSequence spaceShips) collect: [ :aSpaceShip | 
 		                       self positionOf: aSpaceShip ].
 
 	^ spaceShipsPositions asSortedCollection: [ :spaceShipA :spaceShipB | 
@@ -174,9 +174,9 @@ LaScalonetaGame >> spaceShipsPositionsRanking [
 ]
 
 { #category : #accessing }
-LaScalonetaGame >> turnHandler [
+LaScalonetaGame >> tunsSequence [
 
-	^ turnHandler
+	^ turnsSequence
 ]
 
 { #category : #updating }

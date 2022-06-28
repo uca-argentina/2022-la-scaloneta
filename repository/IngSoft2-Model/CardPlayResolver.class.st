@@ -31,9 +31,15 @@ CardPlayResolver >> resolve [
 CardPlayResolver >> validate: aSpaceShip has: aCard [
 
 	| spaceShipCardHandler |
-	spaceShipCardHandler := game cardHandlerOf: aSpaceShip.
+	spaceShipCardHandler := game cardsHandOf: aSpaceShip.
 	(spaceShipCardHandler hasInHand: aCard) ifFalse: [ 
 		Error signal:'The SpaceShip cannot throw this card because he does not have it' ]
+]
+
+{ #category : #validating }
+CardPlayResolver >> validateIfIsPossibleToCancellACard: cardsHandCollection [
+
+	(cardsHandCollection isEmpty) ifTrue: [ Error signal: 'There is no CardsHand with the card to be removed' ]
 ]
 
 { #category : #validating }
@@ -45,64 +51,94 @@ CardPlayResolver >> validateIfIsPossibleToPlayReDoCard [
 { #category : #visiting }
 CardPlayResolver >> visitAsACancellationCardPlay [
 
-	| handlersWithCardToBeRemoved |
+	| filteredCardsHandsCollection playedBy target card |
+		
+	playedBy := cardPlay playedBy.
+	target := cardPlay target.
+	card := cardPlay card.
 	
-	self validate: (cardPlay playedBy) has: (cardPlay card).
-	handlersWithCardToBeRemoved := (game cardHandlers) select: [ :cardHandler | cardHandler affectsSpaceShip: (cardPlay target) ].
-	(handlersWithCardToBeRemoved isEmpty) ifTrue: [ Error signal: 'There is no Card Handler with the card to be removed' ].
-	handlersWithCardToBeRemoved	do: [ :cardHandler | cardHandler removeEffectOf: (cardPlay target) ].
-	game updateLastCardPlayed: (cardPlay card).
-	(game cardHandlerOf: (cardPlay playedBy)) removeFromHand: (cardPlay card)
+	self validate: playedBy has: card.
+	filteredCardsHandsCollection := (game cardsHands) select: [ :cardsHand | cardsHand affectsSpaceShip: target ].
+	self validateIfIsPossibleToCancellACard: filteredCardsHandsCollection.
+	filteredCardsHandsCollection do: [ :cardsHand | cardsHand removeEffectOf: target ].
+	game updateLastCardPlayed: card.
+	(game cardsHandOf: playedBy) removeFromHand: card
 ]
 
 { #category : #visiting }
 CardPlayResolver >> visitAsAReDoCardPlay [
 
-	| cardPlay1 |
+	| newCardPlay playedBy target card |
+		
+	playedBy := cardPlay playedBy.
+	target := cardPlay target.
+	card := cardPlay card.
 	
 	self validateIfIsPossibleToPlayReDoCard.
-	self validate: (cardPlay playedBy) has: (cardPlay card).
-	cardPlay1 := CardPlay with: (game lastCardPlayed) appliedTo: (cardPlay target) by: (cardPlay playedBy).
-	game apply: cardPlay1.
-	(game cardHandlerOf: (cardPlay playedBy)) removeFromHand: (cardPlay card)
+	self validate: playedBy has: card.
+	newCardPlay := CardPlay with: (game lastCardPlayed) appliedTo: target by: playedBy.
+	game apply: newCardPlay.
+	(game cardsHandOf: playedBy) removeFromHand: card
 	
 ]
 
 { #category : #visiting }
 CardPlayResolver >> visitAsARepeatCardPlay [
 
-	self validate: (cardPlay playedBy) has: (cardPlay card).
-	game lastTilePlayed applyTo: (game turnHandler spaceShips) for: game.
-	game updateLastCardPlayed: (cardPlay card).
-	(game cardHandlerOf: (cardPlay playedBy)) removeFromHand: (cardPlay card)
+	| playedBy card|
+	
+	playedBy := cardPlay playedBy.
+	card := cardPlay card.
+
+	self validate: playedBy has: card.
+	game lastTilePlayed applyTo: (game tunsSequence spaceShips) for: game.
+	game updateLastCardPlayed: card.
+	(game cardsHandOf: playedBy) removeFromHand: card
 ]
 
 { #category : #visiting }
 CardPlayResolver >> visitAsASpeedCardPlay [
 
-	game turnHandler assertSpaceShipTurn: (cardPlay playedBy).
-	self validate: (cardPlay playedBy) has: (cardPlay card).
-	(game cardHandlerOf: cardPlay target) addEffectOf: cardPlay card.
-	game updateLastCardPlayed: (cardPlay card).
-	(game cardHandlerOf: (cardPlay playedBy)) removeFromHand: (cardPlay card).
+	| playedBy target card|
+	
+	playedBy := cardPlay playedBy.
+	target := cardPlay target.
+	card := cardPlay card.
+
+	game tunsSequence assertSpaceShipTurn: playedBy.
+	self validate: playedBy has: card.
+	(game cardsHandOf: target) addEffectOf: card.
+	game updateLastCardPlayed: card.
+	(game cardsHandOf: playedBy) removeFromHand: card.
 ]
 
 { #category : #visiting }
 CardPlayResolver >> visitAsAnAccelerationCardPlay [
 
-	game turnHandler assertSpaceShipTurn: cardPlay playedBy.
-	self validate: cardPlay playedBy has: cardPlay card.
-	game turnHandler spaceShips do: [ :aSpaceship | (game cardHandlerOf: aSpaceship) addEffectOf: cardPlay card ].
-	game updateLastCardPlayed: cardPlay card.
-	(game cardHandlerOf: (cardPlay playedBy)) removeFromHand: (cardPlay card)
+	| playedBy card|
+	
+	playedBy := cardPlay playedBy.
+	card := cardPlay card.
+
+	game tunsSequence assertSpaceShipTurn:  playedBy.
+	self validate: playedBy has: card.
+	game tunsSequence spaceShips do: [ :aSpaceship | (game cardsHandOf: aSpaceship) addEffectOf: card ].
+	game updateLastCardPlayed: card.
+	(game cardsHandOf: playedBy) removeFromHand: card
 ]
 
 { #category : #visiting }
 CardPlayResolver >> visitAsAnOverloadCardPlay [
 
-	game turnHandler assertSpaceShipTurn: (cardPlay playedBy).
-	self validate: (cardPlay playedBy) has: (cardPlay card).
-	(game cardHandlerOf: cardPlay target) addEffectOf: cardPlay card.
-	game updateLastCardPlayed: (cardPlay card).
-	(game cardHandlerOf: (cardPlay playedBy)) removeFromHand: (cardPlay card)
+	| playedBy target card|
+	
+	playedBy := cardPlay playedBy.
+	target := cardPlay target.
+	card := cardPlay card.
+
+	game tunsSequence assertSpaceShipTurn: playedBy.
+	self validate: playedBy has: card.
+	(game cardsHandOf: target) addEffectOf: cardPlay card.
+	game updateLastCardPlayed: card.
+	(game cardsHandOf: playedBy) removeFromHand: card
 ]
