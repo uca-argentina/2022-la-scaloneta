@@ -59,7 +59,7 @@ LaScalonetaGame >> addToAllEffectOf: aCard from: spaceShip [
 LaScalonetaGame >> affect: aTarget using: aCard by: aSpaceShip [
 
 	aCard applyTo: aTarget in: self from: aSpaceShip.
-	(self cardHandlerOf: aSpaceShip) removeFromHand: aCard.
+	(self cardHandlerOf: aSpaceShip) removeFromHand: aCard
 ]
 
 { #category : #action }
@@ -67,6 +67,16 @@ LaScalonetaGame >> apply: aCard by: aSpaceShip [
 
 	aCard applyIn: self from: aSpaceShip.
 	(self cardHandlerOf: aSpaceShip) removeFromHand: aCard.
+]
+
+{ #category : #private }
+LaScalonetaGame >> applyEffectDependingOnWhetherTheSpaceShipWonOrNot: aSpaceShip [
+
+	(board spaceShipPositionIsTheLastOne: (self positionOf: aSpaceShip))
+		ifTrue: [ hasEnded := true ]
+		ifFalse: [ 
+			self applyEffectTo: (turnHandler spaceShips).
+			turnHandler next ]
 ]
 
 { #category : #action }
@@ -80,7 +90,7 @@ LaScalonetaGame >> applyEffectOfTheLastPlayedTileUsing: aCard from: aSpaceShip [
 { #category : #private }
 LaScalonetaGame >> applyEffectTo: aSpaceShips [
 
-	lastTilePlayed := (self board effectAt: (self positionOf: turnHandler currentTurn)).
+	lastTilePlayed := (board effectAt: (self positionOf: turnHandler spaceShipPlaying)).
 	lastTilePlayed applyTo: aSpaceShips for: self.
 ]
 
@@ -89,12 +99,6 @@ LaScalonetaGame >> assertGameHasNotEnded [
 
 	self hasEnded ifTrue: [ 
 		Error signal: 'La Scaloneta Game has already ended!' ]
-]
-
-{ #category : #accessing }
-LaScalonetaGame >> board [ 
-
-	^ board
 ]
 
 { #category : #accessing }
@@ -162,7 +166,7 @@ LaScalonetaGame >> moveToFirstPositionOnSameLap: aSpaceShip [
 { #category : #playing }
 LaScalonetaGame >> playNextTurn [
 
-	self playTurnFor: turnHandler currentTurn.
+	self playTurnFor: turnHandler spaceShipPlaying.
 ]
 
 { #category : #private }
@@ -173,7 +177,7 @@ LaScalonetaGame >> playTurnFor: aSpaceShip [
 	self assertGameHasNotEnded.
 	rollingResult := diceCollection roll.
 	self move: aSpaceShip during: (DistanceInTiles with: (rollingResult + (self cardHandlerOf: aSpaceShip) totalEffectsOnSpaceShip)).
-	self selfContinuesDependingOnWhetherTheSpaceShipWonOrNot: aSpaceShip
+	self applyEffectDependingOnWhetherTheSpaceShipWonOrNot: aSpaceShip
 ]
 
 { #category : #accessing }
@@ -197,17 +201,7 @@ LaScalonetaGame >> removeToAllSpaceShipsPermanent: card from: aSpaceShip using: 
 	
 	handlersWithCardToBeRemoved
 		do: [ :cardHandler | cardHandler removeEffectOf: card ].
-		lastCardPlayed := CancellationCard  new.
-]
-
-{ #category : #private }
-LaScalonetaGame >> selfContinuesDependingOnWhetherTheSpaceShipWonOrNot: aSpaceShip [
-
-	(board spaceShipPositionIsTheLastOne: (self positionOf: aSpaceShip))
-		ifTrue: [ hasEnded := true ]
-		ifFalse: [ 
-			self applyEffectTo: (turnHandler spaceShips).
-			turnHandler nextSpaceShipTurn: aSpaceShip ]
+		lastCardPlayed := aCard.
 ]
 
 { #category : #classification }

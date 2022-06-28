@@ -13,6 +13,12 @@ DistanceInTiles class >> with: distanceAmountInTiles [
 	^ self new initializeWith: distanceAmountInTiles
 ]
 
+{ #category : #visiting }
+DistanceInTiles >> accept: aVisitor [
+
+	^ aVisitor visitAsDistanceInTiles: self.
+]
+
 { #category : #accessing }
 DistanceInTiles >> amount [
 

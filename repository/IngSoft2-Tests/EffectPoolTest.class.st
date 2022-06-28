@@ -92,7 +92,7 @@ EffectPoolTest >> testThatIfMoonWalkEffectHasPointOneProbabilityWhenCreatingEffe
 			        (ProbabilisticEvent with: hyperJumpEffect and: 0.08).
 			        (ProbabilisticEvent with: atomicBombEffect and: 0.02).
 			        (ProbabilisticEvent with: wormHoleEffect and: 0.2).
-			        (ProbabilisticEvent with: speedUpEffect and: 0.2) }..
+			        (ProbabilisticEvent with: speedUpEffect and: 0.2) }.
 
 	effectCollection := pool randomCollectionOfEffectsWith: 100.
 

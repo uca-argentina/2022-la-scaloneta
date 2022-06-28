@@ -27,6 +27,12 @@ DistanceInParsecs >> <= aParsec [
 	^ self valueAsParsec <= aParsec valueAsParsec
 ]
 
+{ #category : #visiting }
+DistanceInParsecs >> accept: aVisitor [ 
+	
+	^ aVisitor visitAsDistanceInParsecs: self.
+]
+
 { #category : #accessing }
 DistanceInParsecs >> amount [
 

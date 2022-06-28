@@ -2,7 +2,7 @@ Class {
 	#name : #TurnHandler,
 	#superclass : #Object,
 	#instVars : [
-		'currentTurn',
+		'spaceShipPlaying',
 		'spaceShips'
 	],
 	#category : #'IngSoft2-Model'
@@ -17,27 +17,27 @@ TurnHandler class >> with: aSpaceShips [
 { #category : #asserting }
 TurnHandler >> assertSpaceShipTurn: aSpaceShip [
 
-	currentTurn = aSpaceShip ifFalse: [ Error signal: 'Its not your turn!' ]
-]
-
-{ #category : #accessing }
-TurnHandler >> currentTurn [
-
-	^ currentTurn.
+	spaceShipPlaying = aSpaceShip ifFalse: [ Error signal: 'Its not your turn!' ]
 ]
 
 { #category : #playing }
 TurnHandler >> initializeWith: aSpaceShips [
 
 	spaceShips := aSpaceShips.
-	currentTurn := aSpaceShips first.
+	spaceShipPlaying := aSpaceShips first
 ]
 
 { #category : #playing }
-TurnHandler >> nextSpaceShipTurn: aSpaceShip [
+TurnHandler >> next [
 
-	spaceShips := (spaceShips reject: [ :each | each = aSpaceShip ]), { aSpaceShip }.
-	currentTurn := spaceShips first.
+	spaceShips := (spaceShips reject: [ :each | each = spaceShipPlaying ]), { spaceShipPlaying }.
+	spaceShipPlaying := spaceShips first.
+]
+
+{ #category : #accessing }
+TurnHandler >> spaceShipPlaying [
+
+	^ spaceShipPlaying
 ]
 
 { #category : #accessing }
