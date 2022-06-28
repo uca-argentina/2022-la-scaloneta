@@ -46,15 +46,16 @@ LaScalonetaGame >> applyEffectDependingOnWhetherTheSpaceShipWonOrNot: aSpaceShip
 	(board spaceShipPositionIsTheLastOne: (self positionOf: aSpaceShip))
 		ifTrue: [ hasEnded := true ]
 		ifFalse: [ 
-			self applyTileEffectTo: (turnsSequence spaceShips).
+			self applyTileEffectTo: turnsSequence spaceShips.
 			turnsSequence next ]
 ]
 
 { #category : #private }
 LaScalonetaGame >> applyTileEffectTo: aSpaceShips [
 
-	lastTilePlayed := (board effectAt: (self positionOf: turnsSequence spaceShipPlaying)).
-	lastTilePlayed applyTo: aSpaceShips for: self.
+	lastTilePlayed := board effectAt:
+		                  (self positionOf: turnsSequence spaceShipPlaying).
+	lastTilePlayed applyTo: aSpaceShips for: self
 ]
 
 { #category : #asserting }
@@ -102,10 +103,10 @@ LaScalonetaGame >> initializeWith: aBoard rolling: aDiceCollection playedBy: aSp
 	spaceShipPositions := board startingPositionsForAll: aSpaceShips.
 	turnsSequence := TurnsSequence with: aSpaceShips.
 	deck := aDeck.
-	cardHands := aSpaceShips
-		collect: [ :spaceShip | CardsHand with: spaceShip using: aDeck].
-	lastCardPlayed := nil.
-	lastTilePlayed := NoEffect new.
+	cardHands := aSpaceShips collect: [ :spaceShip | 
+		             CardsHand with: spaceShip using: aDeck ].
+	lastCardPlayed := ErrorThrowerCard new.
+	lastTilePlayed := NoEffect new
 ]
 
 { #category : #accessing }
@@ -141,7 +142,7 @@ LaScalonetaGame >> moveToFirstPositionOnSameLap: aSpaceShip [
 { #category : #playing }
 LaScalonetaGame >> playNextTurn [
 
-	self playTurnFor: turnsSequence spaceShipPlaying.
+	self playTurnFor: turnsSequence spaceShipPlaying
 ]
 
 { #category : #private }
@@ -174,7 +175,7 @@ LaScalonetaGame >> spaceShipsPositionsRanking [
 ]
 
 { #category : #accessing }
-LaScalonetaGame >> tunsSequence [
+LaScalonetaGame >> turnsSequence [
 
 	^ turnsSequence
 ]

@@ -49,8 +49,5 @@ HyperJumpEffect >> applyTo: aSpaceShips for: aGame [
 { #category : #initialization }
 HyperJumpEffect >> initializeWith: aDistanceSequence [
 
-	distancies := aDistanceSequence sorted reverse.
-	
-	
-	
+	distancies := aDistanceSequence sorted reverse
 ]
