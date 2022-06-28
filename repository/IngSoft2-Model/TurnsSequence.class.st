@@ -17,7 +17,8 @@ TurnsSequence class >> with: aSpaceShips [
 { #category : #asserting }
 TurnsSequence >> assertSpaceShipTurn: aSpaceShip [
 
-	spaceShipPlaying = aSpaceShip ifFalse: [ Error signal: 'Its not your turn!' ]
+	spaceShipPlaying = aSpaceShip ifFalse: [ 
+		Error signal: 'Its not your turn!' ]
 ]
 
 { #category : #playing }
@@ -30,8 +31,9 @@ TurnsSequence >> initializeWith: aSpaceShips [
 { #category : #playing }
 TurnsSequence >> next [
 
-	spaceShips := (spaceShips reject: [ :each | each = spaceShipPlaying ]), { spaceShipPlaying }.
-	spaceShipPlaying := spaceShips first.
+	spaceShips := (spaceShips reject: [ :each | each = spaceShipPlaying ])
+	              , { spaceShipPlaying }.
+	spaceShipPlaying := spaceShips first
 ]
 
 { #category : #accessing }

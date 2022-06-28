@@ -24,7 +24,7 @@ DistanceInLightYears class >> with: amount [
 { #category : #comparing }
 DistanceInLightYears >> <= aLightYear [
 
-	^ self valueAsParsec <= aLightYear valueAsParsec.
+	^ self valueAsParsec <= aLightYear valueAsParsec
 ]
 
 { #category : #accessing }

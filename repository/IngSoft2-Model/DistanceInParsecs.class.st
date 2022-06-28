@@ -30,7 +30,7 @@ DistanceInParsecs >> <= aParsec [
 { #category : #visiting }
 DistanceInParsecs >> accept: aVisitor [ 
 	
-	^ aVisitor visitAsDistanceInParsecs: self.
+	^ aVisitor visitAsDistanceInParsecs: self
 ]
 
 { #category : #accessing }

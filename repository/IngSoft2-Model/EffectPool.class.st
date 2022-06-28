@@ -47,5 +47,5 @@ EffectPool >> randomCollectionOfEffectsWith: length [
 { #category : #accessing }
 EffectPool >> randomEffect [
 
-	^ effectPoolCollection atRandom.
+	^ effectPoolCollection atRandom
 ]

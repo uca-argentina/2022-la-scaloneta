@@ -30,5 +30,5 @@ DiceCup >> initializeWithAll: aDice [
 { #category : #rolling }
 DiceCup >> roll [
 
-	^ dice sum: [ :die | die roll ].
+	^ dice sum: [ :die | die roll ]
 ]

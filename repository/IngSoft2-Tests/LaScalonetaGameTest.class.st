@@ -209,7 +209,7 @@ LaScalonetaGameTest >> testGameHasEndedAsOneSpaceShipReachedTheEnd [
 ]
 
 { #category : #tests }
-LaScalonetaGameTest >> testHyperJumpEffecDistanciesCanNotContainsNegativeValues [
+LaScalonetaGameTest >> testHyperJumpEffecDistancesCanNotContainsNegativeValues [
 
 	self
 		should: [ HyperJumpEffect with: {DistanceInParsecs with: 2. DistanceInParsecs with: -3. DistanceInParsecs with: 3.} ]
@@ -218,7 +218,7 @@ LaScalonetaGameTest >> testHyperJumpEffecDistanciesCanNotContainsNegativeValues 
 ]
 
 { #category : #tests }
-LaScalonetaGameTest >> testHyperJumpEffectDistanciesCanNotBeEmpty [
+LaScalonetaGameTest >> testHyperJumpEffectDistancesCanNotBeEmpty [
 
 	self
 		should: [ HyperJumpEffect with: #(  ) ]
@@ -412,7 +412,7 @@ LaScalonetaGameTest >> testJorgeDoesNotMoveFowardAsTheNumberOfParsecsIsNotEnough
 ]
 
 { #category : #tests }
-LaScalonetaGameTest >> testJorgeGetsARepeatCardAndPlaysItWithSpeedUpCard [
+LaScalonetaGameTest >> testJorgeGetsARepeatCardAndWhenHeThrowsItHeIsApplyingSpeedUpEffect [
 
 	| aGame aBoard aDie1 aDie2 aDiceCup aRepeatCard aDeck cardPlay |
 	
@@ -792,7 +792,7 @@ LaScalonetaGameTest >> testJorgeMovesBackTwoPositionsAndBacksALapWhenJorgeLandsO
 ]
 
 { #category : #tests }
-LaScalonetaGameTest >> testJorgeMovesForwardFourParsecsWhenLandingOnAHyperJumpEffectWithDistanciesEqualsToOneLightYear [
+LaScalonetaGameTest >> testJorgeMovesForwardFourParsecsWhenLandingOnAHyperJumpEffectWithDistancesEqualsToOneLightYear [
 
 	| aGame aBoard aDie1 aDeck anAccelerationCard |
 	
@@ -859,7 +859,7 @@ LaScalonetaGameTest >> testJorgeMovesForwardFourTilesWhenLandingOnASpeedUpEffect
 ]
 
 { #category : #tests }
-LaScalonetaGameTest >> testJorgeMovesForwardThreeParsecsWhenLandingOnAHyperJumpEffectDistanciesEqualsToThreeParsecs [
+LaScalonetaGameTest >> testJorgeMovesForwardThreeParsecsWhenLandingOnAHyperJumpEffectDistancesEqualsToThreeParsecs [
 
 	| aGame aBoard aDie1 aDeck anAccelerationCard |
 	
@@ -892,7 +892,7 @@ LaScalonetaGameTest >> testJorgeMovesForwardThreeParsecsWhenLandingOnAHyperJumpE
 ]
 
 { #category : #tests }
-LaScalonetaGameTest >> testJorgeMovesFowardThreeParsecsAndThenJulianMovesFowardTwoParsecsSinceTheyBothLandedOnAHyperJumpEffectAndThreeAndTwoWhereTheFirstDistanciesValues [
+LaScalonetaGameTest >> testJorgeMovesFowardThreeParsecsAndThenJulianMovesFowardTwoParsecsSinceTheyBothLandedOnAHyperJumpEffectAndThreeAndTwoWhereTheFirstDistancesValues [
 
 	| aGame aBoard aDie1 aDeck anAccelerationCard |
 	
@@ -929,7 +929,7 @@ LaScalonetaGameTest >> testJorgeMovesFowardThreeParsecsAndThenJulianMovesFowardT
 ]
 
 { #category : #tests }
-LaScalonetaGameTest >> testJorgeMovesFowardThreeParsecsThenJulianMovesFowardTwoParsecsAndFinallyHernanMovesFowardThreeParsecsAgainWhenLadingOnAHyperJumpEffectInitializeWithTwoDistanciesValues [
+LaScalonetaGameTest >> testJorgeMovesFowardThreeParsecsThenJulianMovesFowardTwoParsecsAndFinallyHernanMovesFowardThreeParsecsAgainWhenLadingOnAHyperJumpEffectInitializeWithTwoDistancesValues [
 
 	| aGame aBoard aDie1 aDeck anAccelerationCard |
 	aBoard := Board

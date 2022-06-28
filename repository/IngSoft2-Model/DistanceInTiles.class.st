@@ -16,7 +16,7 @@ DistanceInTiles class >> with: distanceAmountInTiles [
 { #category : #visiting }
 DistanceInTiles >> accept: aVisitor [
 
-	^ aVisitor visitAsDistanceInTiles: self.
+	^ aVisitor visitAsDistanceInTiles: self
 ]
 
 { #category : #accessing }

@@ -24,11 +24,11 @@ Deck class >> with: cards [
 { #category : #initialization }
 Deck >> initializeWith: aGroupOfCards [
 
-	cards := aGroupOfCards.
+	cards := aGroupOfCards
 ]
 
 { #category : #actions }
 Deck >> pick [ 
 
-	^ cards atRandom.
+	^ cards atRandom
 ]
