@@ -30,9 +30,9 @@ CardPlayResolver >> resolve [
 { #category : #asserting }
 CardPlayResolver >> validate: aSpaceShip has: aCard [
 
-	| spaceShipCardHandler |
-	spaceShipCardHandler := game cardsHandOf: aSpaceShip.
-	(spaceShipCardHandler hasInHand: aCard) ifFalse: [ 
+	| cardsHand |
+	cardsHand := game cardsHandOf: aSpaceShip.
+	(cardsHand hasInHand: aCard) ifFalse: [ 
 		Error signal:
 			'The SpaceShip cannot throw this card because he does not have it' ]
 ]
@@ -123,13 +123,6 @@ CardPlayResolver >> visitAsAnAccelerationCardPlay [
 ]
 
 { #category : #visiting }
-CardPlayResolver >> visitAsAnErrorThrowerCardPlay [
-
-	Error signal:
-		'This card cannot be played because there was no card played before'
-]
-
-{ #category : #visiting }
 CardPlayResolver >> visitAsAnOverloadCardPlay [
 
 	| playedBy target card |
@@ -142,4 +135,11 @@ CardPlayResolver >> visitAsAnOverloadCardPlay [
 	(game cardsHandOf: target) addEffectOf: cardPlay card.
 	game updateLastCardPlayed: card.
 	(game cardsHandOf: playedBy) removeFromHand: card
+]
+
+{ #category : #visiting }
+CardPlayResolver >> visitAsAnvisitAsAnNoCardPlayedYetToApplyReDoCardErrorThrowerCardPlay [
+
+	Error signal:
+		'This card cannot be played because there was no card played before'
 ]

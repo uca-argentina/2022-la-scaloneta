@@ -68,10 +68,10 @@ LaScalonetaGame >> assertGameHasNotEnded [
 { #category : #accessing }
 LaScalonetaGame >> cardsHandOf: aSpaceShip [
 
-	| spaceShipCardHandler |
-	spaceShipCardHandler := cardHands
+	| spaceShipCardsHand |
+	spaceShipCardsHand := cardHands
 		detect: [ :handler | handler spaceShip = aSpaceShip ].
-	^ spaceShipCardHandler
+	^ spaceShipCardsHand
 ]
 
 { #category : #accessing }
@@ -105,7 +105,7 @@ LaScalonetaGame >> initializeWith: aBoard rolling: aDiceCollection playedBy: aSp
 	deck := aDeck.
 	cardHands := aSpaceShips collect: [ :spaceShip | 
 		             CardsHand with: spaceShip using: aDeck ].
-	lastCardPlayed := ErrorThrowerCard new.
+	lastCardPlayed := NoCardPlayedYetToApplyReDoCardErrorThrowerCard new.
 	lastTilePlayed := NoEffect new
 ]
 
@@ -122,7 +122,7 @@ LaScalonetaGame >> lastTilePlayed [
 ]
 
 { #category : #private }
-LaScalonetaGame >> move: aSpaceShip during: aDistance [
+LaScalonetaGame >> move: aSpaceShip by: aDistance [
 
 	| oldPosition newPosition |
 	oldPosition := self positionOf: aSpaceShip.
@@ -148,11 +148,13 @@ LaScalonetaGame >> playNextTurn [
 { #category : #private }
 LaScalonetaGame >> playTurnFor: aSpaceShip [
 
-	| rollingResult |
+	| rollingResult distance rollModifier |
 	turnsSequence assertSpaceShipTurn: aSpaceShip.
 	self assertGameHasNotEnded.
 	rollingResult := diceCollection roll.
-	self move: aSpaceShip during: (DistanceInTiles with: (rollingResult + (self cardsHandOf: aSpaceShip) totalEffectsOnSpaceShip)).
+	rollModifier := self rollModifierFor: aSpaceShip.
+	distance := DistanceInTiles with: rollingResult + rollModifier.
+	self move: aSpaceShip by: distance.
 	self applyEffectDependingOnWhetherTheSpaceShipWonOrNot: aSpaceShip
 ]
 
@@ -161,6 +163,12 @@ LaScalonetaGame >> positionOf: aSpaceShip [
 
 	^ (spaceShipPositions select: [ :position | 
 		   position spaceShip = aSpaceShip ]) last
+]
+
+{ #category : #private }
+LaScalonetaGame >> rollModifierFor: aSpaceShip [
+
+	^ (self cardsHandOf: aSpaceShip) totalEffectsOnSpaceShip
 ]
 
 { #category : #classification }

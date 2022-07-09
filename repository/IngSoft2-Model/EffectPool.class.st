@@ -38,8 +38,7 @@ EffectPool >> randomCollectionOfEffectsWith: length [
 	| randomEffectsCollection |
 	randomEffectsCollection := OrderedCollection new.
 
-	1 to: length do: [ :i | 
-	randomEffectsCollection add: self randomEffect ].
+	length timesRepeat: [ randomEffectsCollection add: self randomEffect ].
 
 	^ randomEffectsCollection
 ]
