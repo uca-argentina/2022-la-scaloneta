@@ -6,11 +6,12 @@ Class {
 		'diceCollection',
 		'hasEnded',
 		'spaceShipPositions',
-		'deck',
-		'lastCardPlayed',
-		'lastTilePlayed',
 		'cardHands',
-		'turnsSequence'
+		'turnsSequence',
+		'lastTilePlayed',
+		'cardPlayResolver',
+		'mainDeck',
+		'discardDeck'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -37,7 +38,7 @@ LaScalonetaGame class >> playedBy: spaceShips on: board rolling: dice usingCards
 { #category : #'target resize' }
 LaScalonetaGame >> apply: aCardPlay [
 
-	^ (CardPlayResolver from: aCardPlay in: self) resolve
+	^ cardPlayResolver resolve: aCardPlay
 ]
 
 { #category : #private }
@@ -46,15 +47,14 @@ LaScalonetaGame >> applyEffectDependingOnWhetherTheSpaceShipWonOrNot: aSpaceShip
 	(board spaceShipPositionIsTheLastOne: (self positionOf: aSpaceShip))
 		ifTrue: [ hasEnded := true ]
 		ifFalse: [ 
-			self applyTileEffectTo: turnsSequence spaceShips.
+			self applyTileEffectTo: self spaceShips.
 			turnsSequence next ]
 ]
 
 { #category : #private }
 LaScalonetaGame >> applyTileEffectTo: aSpaceShips [
 
-	lastTilePlayed := board effectAt:
-		                  (self positionOf: turnsSequence spaceShipPlaying).
+	lastTilePlayed := board effectAt: (self positionOf: turnsSequence spaceShipPlaying).
 	lastTilePlayed applyTo: aSpaceShips for: self
 ]
 
@@ -63,6 +63,12 @@ LaScalonetaGame >> assertGameHasNotEnded [
 
 	self hasEnded ifTrue: [ 
 		Error signal: 'La Scaloneta Game has already ended!' ]
+]
+
+{ #category : #asserting }
+LaScalonetaGame >> assertIsTurnOf: aSpaceShip [
+
+	^ turnsSequence assertSpaceShipTurn: aSpaceShip.
 ]
 
 { #category : #accessing }
@@ -80,12 +86,20 @@ LaScalonetaGame >> cardsHands [
 	^ cardHands
 ]
 
+{ #category : #asserting }
+LaScalonetaGame >> decksHasToBeRedistributed [
+	
+	^ mainDeck isEmpty
+]
+
 { #category : #action }
 LaScalonetaGame >> giveCardFromDeckTo: aSpaceShip [
 
-	| card |
-	card := deck pick.
-	(self cardsHandOf: aSpaceShip) addToHand: card
+	discardDeck
+		ifNotEmpty: [ (self cardsHandOf: aSpaceShip) addToHand: mainDeck pick]
+		ifEmpty: [ Error signal: 'It is not possible to pick a card until DiscardDeck it is not empty!' ].
+		
+	self redistributeDecks
 ]
 
 { #category : #testing }
@@ -102,17 +116,12 @@ LaScalonetaGame >> initializeWith: aBoard rolling: aDiceCollection playedBy: aSp
 	hasEnded := false.
 	spaceShipPositions := board startingPositionsForAll: aSpaceShips.
 	turnsSequence := TurnsSequence with: aSpaceShips.
-	deck := aDeck.
+	discardDeck := OrderedCollection new.
+	mainDeck := aDeck.
 	cardHands := aSpaceShips collect: [ :spaceShip | 
 		             CardsHand with: spaceShip using: aDeck ].
-	lastCardPlayed := NoCardPlayedYetToApplyReDoCardErrorThrowerCard new.
-	lastTilePlayed := NoEffect new
-]
-
-{ #category : #accessing }
-LaScalonetaGame >> lastCardPlayed [
-
-	^ lastCardPlayed
+	lastTilePlayed := NoEffect new.
+	cardPlayResolver := CardPlayResolver with: self.
 ]
 
 { #category : #accessing }
@@ -165,33 +174,46 @@ LaScalonetaGame >> positionOf: aSpaceShip [
 		   position spaceShip = aSpaceShip ]) last
 ]
 
+{ #category : #action }
+LaScalonetaGame >> redistributeDecks [
+
+	self decksHasToBeRedistributed
+		ifFalse: [ ^ self ].
+	
+	mainDeck := Deck with: discardDeck.
+	discardDeck := OrderedCollection new
+]
+
+{ #category : #removing }
+LaScalonetaGame >> removeFromHand: aCard to: aSpaceShip [
+
+	(self cardsHandOf: aSpaceShip) removeFromHand: aCard.
+	discardDeck add: aCard.
+	self redistributeDecks
+	
+]
+
 { #category : #private }
 LaScalonetaGame >> rollModifierFor: aSpaceShip [
 
 	^ (self cardsHandOf: aSpaceShip) totalEffectsOnSpaceShip
 ]
 
+{ #category : #accessing }
+LaScalonetaGame >> spaceShips [
+
+	^ turnsSequence spaceShips
+]
+
 { #category : #classification }
 LaScalonetaGame >> spaceShipsPositionsRanking [
 
 	| spaceShipsPositions |
-	spaceShipsPositions := (turnsSequence spaceShips) collect: [ :aSpaceShip | 
+	spaceShipsPositions := (self spaceShips) collect: [ :aSpaceShip | 
 		                       self positionOf: aSpaceShip ].
 
 	^ spaceShipsPositions asSortedCollection: [ :spaceShipA :spaceShipB | 
 		  spaceShipA >= spaceShipB ]
-]
-
-{ #category : #accessing }
-LaScalonetaGame >> turnsSequence [
-
-	^ turnsSequence
-]
-
-{ #category : #updating }
-LaScalonetaGame >> updateLastCardPlayed: aCard [
-
-	lastCardPlayed := aCard
 ]
 
 { #category : #accessing }

@@ -1,11 +1,11 @@
 Class {
-	#name : #NoCardPlayedYetToApplyReDoCardErrorThrowerCard,
+	#name : #NoCardPlayedYetErrorCard,
 	#superclass : #Card,
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #visiting }
-NoCardPlayedYetToApplyReDoCardErrorThrowerCard >> accept: aVisitor [ 
+NoCardPlayedYetErrorCard >> accept: aVisitor [ 
 	
 	^ aVisitor visitAsAnvisitAsAnNoCardPlayedYetToApplyReDoCardErrorThrowerCardPlay.
 ]
