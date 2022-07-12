@@ -7,5 +7,5 @@ Class {
 { #category : #private }
 WormHoleEffect >> applyTo: aSpaceShips for: aGame [
 
-	^ aGame move: aSpaceShips first by: (DistanceInTiles with: -4)
+	^ aGame move: aSpaceShips first during: (DistanceInTiles with: -4)
 ]
