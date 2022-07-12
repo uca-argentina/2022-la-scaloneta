@@ -2,37 +2,40 @@ Class {
 	#name : #CardPlayResolver,
 	#superclass : #Object,
 	#instVars : [
-		'cardPlay',
-		'game'
+		'game',
+		'lastCardPlayed',
+		'cardPlay'
 	],
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #'instance creation' }
-CardPlayResolver class >> from: aCardPlay in: aGame [
+CardPlayResolver class >> with: aGame [
 	
-	^ self new initializeFrom: aCardPlay in: aGame.
+	^ self new initializeWith: aGame.
 ]
 
 { #category : #initialization }
-CardPlayResolver >> initializeFrom: aCardPlay in: aGame [
+CardPlayResolver >> initializeWith: aGame [
 
-	cardPlay := aCardPlay.
-	game := aGame
+	game := aGame.
+	lastCardPlayed := NoCardPlayedYetErrorCard new
 ]
 
 { #category : #resolving }
-CardPlayResolver >> resolve [
+CardPlayResolver >> resolve: aCardPlay [
+	
+	cardPlay := aCardPlay.
 
-	^ cardPlay card accept: self
+	^ aCardPlay card accept: self
 ]
 
 { #category : #asserting }
 CardPlayResolver >> validate: aSpaceShip has: aCard [
 
-	| spaceShipCardHandler |
-	spaceShipCardHandler := game cardsHandOf: aSpaceShip.
-	(spaceShipCardHandler hasInHand: aCard) ifFalse: [ 
+	| cardsHand |
+	cardsHand := game cardsHandOf: aSpaceShip.
+	(cardsHand hasInHand: aCard) ifFalse: [ 
 		Error signal:
 			'The SpaceShip cannot throw this card because he does not have it' ]
 ]
@@ -58,8 +61,9 @@ CardPlayResolver >> visitAsACancellationCardPlay [
 	self validateIfIsPossibleToCancellACard: filteredCardsHandsCollection.
 	filteredCardsHandsCollection do: [ :cardsHand | 
 		cardsHand removeEffectOf: target ].
-	game updateLastCardPlayed: card.
-	(game cardsHandOf: playedBy) removeFromHand: card
+	lastCardPlayed := card.
+	game removeFromHand: card to: playedBy
+
 ]
 
 { #category : #visiting }
@@ -71,12 +75,9 @@ CardPlayResolver >> visitAsAReDoCardPlay [
 	card := cardPlay card.
 
 	self validate: playedBy has: card.
-	newCardPlay := CardPlay
-		               with: game lastCardPlayed
-		               appliedTo: target
-		               by: playedBy.
+	newCardPlay := CardPlay with: lastCardPlayed appliedTo: target by: playedBy.
 	game apply: newCardPlay.
-	(game cardsHandOf: playedBy) removeFromHand: card
+	game removeFromHand: card to: playedBy
 ]
 
 { #category : #visiting }
@@ -87,9 +88,9 @@ CardPlayResolver >> visitAsARepeatCardPlay [
 	card := cardPlay card.
 
 	self validate: playedBy has: card.
-	game lastTilePlayed applyTo: game turnsSequence spaceShips for: game.
-	game updateLastCardPlayed: card.
-	(game cardsHandOf: playedBy) removeFromHand: card
+	game lastTilePlayed applyTo: game spaceShips for: game.
+	lastCardPlayed := card.
+	game removeFromHand: card to: playedBy
 ]
 
 { #category : #visiting }
@@ -100,11 +101,11 @@ CardPlayResolver >> visitAsASpeedCardPlay [
 	target := cardPlay target.
 	card := cardPlay card.
 
-	game turnsSequence assertSpaceShipTurn: playedBy.
+	game assertIsTurnOf: playedBy.
 	self validate: playedBy has: card.
 	(game cardsHandOf: target) addEffectOf: card.
-	game updateLastCardPlayed: card.
-	(game cardsHandOf: playedBy) removeFromHand: card
+	lastCardPlayed := card.
+	game removeFromHand: card to: playedBy
 ]
 
 { #category : #visiting }
@@ -114,19 +115,11 @@ CardPlayResolver >> visitAsAnAccelerationCardPlay [
 	playedBy := cardPlay playedBy.
 	card := cardPlay card.
 
-	game turnsSequence assertSpaceShipTurn: playedBy.
+	game assertIsTurnOf: playedBy.
 	self validate: playedBy has: card.
-	game turnsSequence spaceShips do: [ :aSpaceship | 
-		(game cardsHandOf: aSpaceship) addEffectOf: card ].
-	game updateLastCardPlayed: card.
-	(game cardsHandOf: playedBy) removeFromHand: card
-]
-
-{ #category : #visiting }
-CardPlayResolver >> visitAsAnErrorThrowerCardPlay [
-
-	Error signal:
-		'This card cannot be played because there was no card played before'
+	game spaceShips do: [ :aSpaceship | (game cardsHandOf: aSpaceship) addEffectOf: card ].
+	lastCardPlayed := card.
+	game removeFromHand: card to: playedBy
 ]
 
 { #category : #visiting }
@@ -137,9 +130,16 @@ CardPlayResolver >> visitAsAnOverloadCardPlay [
 	target := cardPlay target.
 	card := cardPlay card.
 
-	game turnsSequence assertSpaceShipTurn: playedBy.
+	game assertIsTurnOf: playedBy.
 	self validate: playedBy has: card.
 	(game cardsHandOf: target) addEffectOf: cardPlay card.
-	game updateLastCardPlayed: card.
-	(game cardsHandOf: playedBy) removeFromHand: card
+	lastCardPlayed := card.
+	game removeFromHand: card to: playedBy
+]
+
+{ #category : #visiting }
+CardPlayResolver >> visitAsAnvisitAsAnNoCardPlayedYetToApplyReDoCardErrorThrowerCardPlay [
+
+	Error signal:
+		'No card played yet!'
 ]

@@ -24,11 +24,21 @@ Deck class >> with: cards [
 { #category : #initialization }
 Deck >> initializeWith: aGroupOfCards [
 
-	cards := aGroupOfCards
+	cards := aGroupOfCards asOrderedCollection shuffled
+]
+
+{ #category : #testing }
+Deck >> isEmpty [
+
+	^ cards isEmpty
 ]
 
 { #category : #actions }
-Deck >> pick [ 
+Deck >> pick [
 
-	^ cards atRandom
+	| cardToPick |
+	cardToPick := cards at: 1 ifAbsent: [Error signal: 'No cards to pick'].
+	cards remove: cardToPick.
+
+	^ cardToPick
 ]
