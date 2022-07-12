@@ -2,7 +2,8 @@ Class {
 	#name : #LoadedDeck,
 	#superclass : #Object,
 	#instVars : [
-		'cards'
+		'cards',
+		'nextCard'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -16,20 +17,15 @@ LoadedDeck class >> with: cards [
 { #category : #actions }
 LoadedDeck >> initializeWith: aGroupOfCards [
 
-	cards := aGroupOfCards asOrderedCollection
-]
-
-{ #category : #testing }
-LoadedDeck >> isEmpty [
-
-	^ cards isEmpty
+	nextCard := 1.
+	cards := aGroupOfCards
 ]
 
 { #category : #actions }
 LoadedDeck >> pick [
 
-	| cardToPick |
-	cardToPick := cards at: 1 ifAbsent: [Error signal: 'No cards to pick']..
-	cards remove: cardToPick.
-	^ cardToPick
+	| card |
+	card := cards at: nextCard.
+	nextCard := (nextCard rem: cards size) + 1.
+	^ card
 ]
